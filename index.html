@@ -445,6 +445,9 @@
     div[style*="font-size:36px"] { font-size: 22px !important; }
     div[style*="font-size:42px"] { font-size: 26px !important; }
 
+    /* Closer profile grids */
+    .closer-kpi-grid { grid-template-columns: 1fr 1fr !important; }
+
     /* Insights grid — 1 columna */
     #insights-grid {
       grid-template-columns: 1fr !important;
@@ -816,6 +819,11 @@
 
 </div>
 
+<!-- ========== CLOSER PROFILE PAGE ========== -->
+<div class="page" id="page-closer">
+  <div id="closer-content"></div>
+</div>
+
 <!-- Scripts -->
 <script>
 // ---- DATA ABRIL ----
@@ -915,7 +923,10 @@ function buildRankingTable() {
     tbody.innerHTML += `
       <tr style="background:${rowBg}; border-left: 3px solid ${rowBorder};">
         <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
-        <td style="font-weight:600">${c.name}</td>
+        <td style="font-weight:600">
+          <span onclick="showCloserProfile('${c.name}')" style="cursor:pointer; color:var(--text); text-decoration:none; border-bottom:1px dashed rgba(240,180,41,0.4); padding-bottom:1px; transition:color .15s;"
+            onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${c.name}</span>
+        </td>
         <td class="right" style="color:var(--muted)">$${c.revAbr.toLocaleString('es-CO')}</td>
         <td class="right" style="color:var(--muted)">$${c.revMay.toLocaleString('es-CO')}</td>
         <td class="right" style="font-weight:700; color:var(--gold)">$${c.totalRev.toLocaleString('es-CO')}</td>
@@ -1064,6 +1075,262 @@ function showPage(id) {
   document.getElementById('page-'+id).classList.add('active');
   event.currentTarget.classList.add('active');
 }
+
+// ---- CLOSER PROFILE ----
+function showCloserProfile(name) {
+  const a = closers.find(c=>c.name===name);
+  const m = closersMayo.find(c=>c.name===name);
+
+  const totalRev = (a?.revenue||0) + (m?.revenue||0);
+  const totalMeetings = (a?.meetings||0) + (m?.meetings||0);
+  const totalPayments = (a?.payments||0) + (m?.payments||0);
+  const totalRefs = (a?.refs||0) + (m?.refs||0);
+  const ticket = totalPayments > 0 ? Math.round(totalRev / totalPayments) : 0;
+
+  const mA = a?.meetings||0, mM = m?.meetings||0;
+  let convProm = null;
+  if (a?.conv && m?.conv && mA && mM) convProm = +((a.conv*mA + m.conv*mM)/(mA+mM)).toFixed(1);
+  else if (a?.conv) convProm = a.conv;
+  else if (m?.conv) convProm = m.conv;
+
+  const MONTHLY_TARGET = 14000;
+  const NUM_MONTHS = 2;
+  const threshold = MONTHLY_TARGET * NUM_MONTHS;
+  const pctOfTarget = totalRev > 0 ? Math.round((totalRev/threshold)*100) : 0;
+
+  let tierColor = 'var(--red)', tierLabel = 'Necesita apoyo', tierBg = 'rgba(239,68,68,0.1)';
+  if (totalRev > threshold * 1.10) { tierColor='var(--green)'; tierLabel='Top Performer'; tierBg='rgba(34,197,94,0.1)'; }
+  else if (totalRev >= threshold * 0.90) { tierColor='var(--gold)'; tierLabel='En la línea'; tierBg='rgba(240,180,41,0.1)'; }
+
+  const convColor = convProm>=13?'var(--green)':convProm>=10?'var(--gold)':'var(--red)';
+
+  // trend arrow
+  let trendHTML = '—';
+  if (a && m) {
+    const diff = m.revenue - a.revenue;
+    const pctDiff = a.revenue > 0 ? ((diff/a.revenue)*100).toFixed(1) : 0;
+    const col = diff > 0 ? 'var(--green)' : diff < 0 ? 'var(--red)' : 'var(--muted)';
+    const arrow = diff > 0 ? '↑' : diff < 0 ? '↓' : '→';
+    trendHTML = `<span style="color:${col}; font-weight:700;">${arrow} ${pctDiff > 0 ? '+':''}${pctDiff}% vs Abril</span>`;
+  }
+
+  // month bars
+  const maxRev = Math.max(a?.revenue||0, m?.revenue||0, 1);
+  const aBarW = a ? Math.round(((a.revenue||0)/maxRev)*100) : 0;
+  const mBarW = m ? Math.round(((m.revenue||0)/maxRev)*100) : 0;
+  const aConvW = a?.conv ? Math.min(Math.round((a.conv/20)*100),100) : 0;
+  const mConvW = m?.conv ? Math.min(Math.round((m.conv/20)*100),100) : 0;
+  const aConvCol = (a?.conv||0)>=13?'var(--green)':(a?.conv||0)>=10?'var(--gold)':'var(--red)';
+  const mConvCol = (m?.conv||0)>=13?'var(--green)':(m?.conv||0)>=10?'var(--gold)':'var(--red)';
+
+  document.getElementById('closer-content').innerHTML = `
+    <!-- Back button -->
+    <div style="margin-bottom:24px;">
+      <button onclick="goBackToOverview()" style="background:var(--surface); border:1px solid var(--border); color:var(--muted); padding:8px 18px; border-radius:8px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:13px; display:inline-flex; align-items:center; gap:8px; transition:all .2s;"
+        onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+        ← Volver al Overview
+      </button>
+    </div>
+
+    <!-- Header del closer -->
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:16px;">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <div style="width:56px; height:56px; border-radius:14px; background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#0a0c10; flex-shrink:0;">
+          ${name.split(' ').map(w=>w[0]).slice(0,2).join('')}
+        </div>
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:2px; color:var(--text); line-height:1;">${name}</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">Closer · Team Oscar · Abr–May 2026</div>
+        </div>
+      </div>
+      <div style="background:${tierBg}; border:1px solid ${tierColor}; border-radius:10px; padding:10px 20px; text-align:center;">
+        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Estado</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:${tierColor}; letter-spacing:1px;">${tierLabel}</div>
+        <div style="font-size:11px; color:var(--muted);">${pctOfTarget}% de meta acumulada</div>
+      </div>
+    </div>
+
+    <!-- KPIs del closer -->
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px;" class="closer-kpi-grid">
+      <div class="kpi-card highlight">
+        <div class="kpi-label">Revenue Total</div>
+        <div class="kpi-value gold">$${totalRev.toLocaleString('es-CO')}</div>
+        <div class="kpi-sub">Meta acum: $${threshold.toLocaleString('es-CO')}</div>
+        <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${Math.min(pctOfTarget,100)}%; background:${tierColor};"></div></div></div>
+        <span class="kpi-badge" style="background:${tierBg}; color:${tierColor};">${pctOfTarget}% cumplimiento</span>
+      </div>
+      <div class="kpi-card blue-card">
+        <div class="kpi-label">Conversión Promedio</div>
+        <div class="kpi-value blue">${convProm!=null?convProm+'%':'—'}</div>
+        <div class="kpi-sub">Benchmark: 13%</div>
+        ${convProm!=null?`<div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${Math.min((convProm/20)*100,100)}%; background:${convColor};"></div></div></div>`:''}
+        <span class="kpi-badge" style="background:rgba(56,189,248,.1); color:${convColor};">${convProm!=null?(convProm>=13?'✓ Sobre benchmark':'↓ Bajo benchmark'):'Sin datos'}</span>
+      </div>
+      <div class="kpi-card green-card">
+        <div class="kpi-label">Ticket Promedio</div>
+        <div class="kpi-value green">$${ticket.toLocaleString('es-CO')}</div>
+        <div class="kpi-sub">${totalPayments} ventas · ${totalMeetings} meetings</div>
+        <span class="kpi-badge badge-green">${totalPayments} cierres totales</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Referidos Generados</div>
+        <div class="kpi-value">${totalRefs||0}</div>
+        <div class="kpi-sub">En los 2 meses</div>
+        <div style="margin-top:8px;">${trendHTML}</div>
+      </div>
+    </div>
+
+    <!-- Comparativo mes a mes -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
+
+      <!-- Revenue mes a mes -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px;">Revenue por Mes</div>
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted);">Abril 2026</span>
+            <span style="font-size:13px; font-family:'DM Mono',monospace; color:var(--text);">${a?'$'+a.revenue.toLocaleString('es-CO'):'N/A'}</span>
+          </div>
+          <div style="background:var(--border); border-radius:99px; height:8px; overflow:hidden;">
+            <div style="width:${aBarW}%; height:100%; background:rgba(240,180,41,0.7); border-radius:99px;"></div>
+          </div>
+          ${a?`<div style="font-size:10px; color:var(--muted); margin-top:4px;">${a.pct}% de su meta de $${a.meta.toLocaleString('es-CO')}</div>`:''}
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted);">Mayo 2026</span>
+            <span style="font-size:13px; font-family:'DM Mono',monospace; color:var(--text);">${m?'$'+m.revenue.toLocaleString('es-CO'):'N/A'}</span>
+          </div>
+          <div style="background:var(--border); border-radius:99px; height:8px; overflow:hidden;">
+            <div style="width:${mBarW}%; height:100%; background:rgba(56,189,248,0.7); border-radius:99px;"></div>
+          </div>
+          ${m?`<div style="font-size:10px; color:var(--muted); margin-top:4px;">${m.pct}% de su meta de $${m.meta.toLocaleString('es-CO')}</div>`:''}
+        </div>
+        <div style="display:flex; gap:16px; margin-top:14px; padding-top:14px; border-top:1px solid var(--border);">
+          <span style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);"><span style="width:10px;height:10px;border-radius:3px;background:rgba(240,180,41,0.7);display:inline-block;"></span>Abril</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);"><span style="width:10px;height:10px;border-radius:3px;background:rgba(56,189,248,0.7);display:inline-block;"></span>Mayo</span>
+        </div>
+      </div>
+
+      <!-- Conversión mes a mes -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px;">Conversión por Mes <span style="color:var(--gold); margin-left:6px;">— BM 13%</span></div>
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted);">Abril 2026</span>
+            <span style="font-size:13px; font-family:'DM Mono',monospace; color:${aConvCol};">${a?.conv!=null?a.conv+'%':'N/A'}</span>
+          </div>
+          <div style="background:var(--border); border-radius:99px; height:8px; overflow:hidden;">
+            <div style="width:${aConvW}%; height:100%; background:${aConvCol}; border-radius:99px; opacity:.8;"></div>
+          </div>
+          ${a?.meetings!=null?`<div style="font-size:10px; color:var(--muted); margin-top:4px;">${a.meetings} meetings · ${a.payments} ventas</div>`:''}
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--muted);">Mayo 2026</span>
+            <span style="font-size:13px; font-family:'DM Mono',monospace; color:${mConvCol};">${m?.conv!=null?m.conv+'%':'N/A'}</span>
+          </div>
+          <div style="background:var(--border); border-radius:99px; height:8px; overflow:hidden;">
+            <div style="width:${mConvW}%; height:100%; background:${mConvCol}; border-radius:99px; opacity:.8;"></div>
+          </div>
+          ${m?.meetings!=null?`<div style="font-size:10px; color:var(--muted); margin-top:4px;">${m.meetings} meetings · ${m.payments} ventas</div>`:''}
+        </div>
+        <!-- Línea benchmark -->
+        <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border); display:flex; align-items:center; gap:8px;">
+          <div style="width:20px; height:2px; background:var(--gold); border-radius:2px;"></div>
+          <span style="font-size:10px; color:var(--muted);">Benchmark 13%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla detalle mensual -->
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--muted); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:10px;">
+      DETALLE MES A MES
+      <div style="flex:1; height:1px; background:var(--border);"></div>
+    </div>
+    <div class="table-wrap" style="margin-bottom:0;">
+      <table>
+        <thead>
+          <tr>
+            <th>MES</th>
+            <th class="right">META</th>
+            <th class="right">REVENUE</th>
+            <th class="right">% CUMPL.</th>
+            <th class="right">MEETINGS</th>
+            <th class="right">VENTAS</th>
+            <th class="right">CONVERSIÓN</th>
+            <th class="right">vs BM</th>
+            <th class="right">REFERIDOS</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${a ? (() => {
+            const pc = a.pct>=100?'var(--green)':a.pct>=80?'var(--gold)':'var(--red)';
+            const cb = a.conv>=13?'badge-green':a.conv>=10?'badge-gold':'badge-red';
+            const vb = a.conv!=null?(a.conv-13).toFixed(1):null;
+            const vbc = vb>0?'var(--green)':'var(--red)';
+            return `<tr>
+              <td style="font-weight:600; color:var(--gold);">Abril 2026</td>
+              <td class="right" style="color:var(--muted);">$${a.meta.toLocaleString('es-CO')}</td>
+              <td class="right" style="font-weight:700;">$${a.revenue.toLocaleString('es-CO')}</td>
+              <td class="right" style="color:${pc}; font-weight:700;">${a.pct}%</td>
+              <td class="right">${a.meetings??'—'}</td>
+              <td class="right">${a.payments??'—'}</td>
+              <td class="right"><span class="pill ${cb}">${a.conv!=null?a.conv+'%':'—'}</span></td>
+              <td class="right" style="color:${vbc}; font-weight:600;">${vb!=null?(vb>0?'+':'')+vb+'pp':'—'}</td>
+              <td class="right">${a.refs??'—'}</td>
+            </tr>`;
+          })() : `<tr><td colspan="9" style="color:var(--muted); text-align:center; padding:16px;">Sin datos de Abril</td></tr>`}
+          ${m ? (() => {
+            const pc = m.pct>=100?'var(--green)':m.pct>=80?'var(--gold)':'var(--red)';
+            const cb = m.conv>=13?'badge-green':m.conv>=10?'badge-gold':'badge-red';
+            const vb = m.conv!=null?(m.conv-13).toFixed(1):null;
+            const vbc = vb>0?'var(--green)':'var(--red)';
+            return `<tr>
+              <td style="font-weight:600; color:var(--accent2);">Mayo 2026</td>
+              <td class="right" style="color:var(--muted);">$${m.meta.toLocaleString('es-CO')}</td>
+              <td class="right" style="font-weight:700;">$${m.revenue.toLocaleString('es-CO')}</td>
+              <td class="right" style="color:${pc}; font-weight:700;">${m.pct}%</td>
+              <td class="right">${m.meetings??'—'}</td>
+              <td class="right">${m.payments??'—'}</td>
+              <td class="right"><span class="pill ${cb}">${m.conv!=null?m.conv+'%':'—'}</span></td>
+              <td class="right" style="color:${vbc}; font-weight:600;">${vb!=null?(vb>0?'+':'')+vb+'pp':'—'}</td>
+              <td class="right">${m.refs??'—'}</td>
+            </tr>`;
+          })() : `<tr><td colspan="9" style="color:var(--muted); text-align:center; padding:16px;">Sin datos de Mayo</td></tr>`}
+          <!-- Fila total -->
+          <tr style="background:rgba(240,180,41,0.05); border-top:2px solid rgba(240,180,41,0.2);">
+            <td style="font-weight:700; color:var(--gold);">TOTAL</td>
+            <td class="right" style="color:var(--muted);">$${threshold.toLocaleString('es-CO')}</td>
+            <td class="right" style="font-weight:700; color:var(--gold);">$${totalRev.toLocaleString('es-CO')}</td>
+            <td class="right" style="color:${tierColor}; font-weight:700;">${pctOfTarget}%</td>
+            <td class="right">${totalMeetings||'—'}</td>
+            <td class="right">${totalPayments||'—'}</td>
+            <td class="right"><span class="pill" style="background:rgba(240,180,41,.1);color:var(--gold);">${convProm!=null?convProm+'%':'—'}</span></td>
+            <td class="right" style="color:${convProm!=null&&convProm>=13?'var(--green)':'var(--red)'}; font-weight:700;">${convProm!=null?(convProm-13).toFixed(1)+'pp':'—'}</td>
+            <td class="right">${totalRefs||'—'}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  // Mostrar página closer
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-closer').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function goBackToOverview() {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-overview').classList.add('active');
+  document.querySelector('.nav-btn').classList.add('active');
+  window.scrollTo(0,0);
+}
+
 
 // ---- INIT ----
 buildRankingTable();
