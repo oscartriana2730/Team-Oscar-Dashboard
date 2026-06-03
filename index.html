@@ -486,12 +486,15 @@
     </div>
   </div>
   <nav class="nav">
-    <button class="nav-btn" onclick="showPage('calc')" style="background:#16a34a; color:#fff; border-color:#16a34a; font-weight:700;">🧮 Calculadora</button>
+    <button class="nav-btn" onclick="showPage('calc')" style="background:#16a34a; color:#fff; border-color:#16a34a; font-weight:700;">🧮 Calculadora de Comisiones</button>
     <button class="nav-btn active" onclick="showPage('overview')">📊 Overview</button>
     <button class="nav-btn" onclick="showPage('abril')">📅 Abril 2026</button>
     <button class="nav-btn" onclick="showPage('mayo')">📅 Mayo 2026</button>
   </nav>
-  <div class="header-right">Benchmark conversión: 13%</div>
+  <div class="header-right" style="text-align:right; max-width:280px;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2px; color:var(--gold);">Bienvenido(a) al mejor equipo de TripleTen</div>
+    <div style="font-size:10px; color:var(--muted); line-height:1.5; margin-top:3px;">Si estás aquí, haces parte de un equipo que mes a mes hace historia.<br>Un equipo de élite — por ende, <span style="color:var(--gold); font-weight:700; letter-spacing:.5px;">ERES UN CLOSER DE ÉLITE</span> ✦</div>
+  </div>
 </header>
 
 <!-- ========== OVERVIEW PAGE ========== -->
@@ -1251,7 +1254,10 @@ function getColombiaToday() {
   return new Date(now.toLocaleString('en-US', { timeZone: 'America/Bogota' }));
 }
 function toDateOnly(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
-function diasRestantes(hoy, fin) { return Math.max(0, Math.ceil((fin - hoy) / (1000*60*60*24))); }
+function diasRestantes(hoy, fin) {
+  // Incluimos el día de hoy porque se trabaja hasta las 10pm
+  return Math.max(0, Math.ceil((fin - hoy) / (1000*60*60*24)) + 1);
+}
 
 function fmt(n) { return '$' + Math.round(n).toLocaleString('es-CO'); }
 
@@ -1300,9 +1306,9 @@ function initCalc() {
   document.getElementById('calc-week-meta').textContent = fmt(semana.meta100);
   document.getElementById('calc-week-meta').style.color = '#16a34a';
   document.getElementById('calc-week-end').textContent =
-    diasLeft === 0 ? '⚡ Hoy es el último día!' :
-    diasLeft === 1 ? '⏰ Mañana cierra la semana' :
-    `${diasLeft} días restantes`;
+    diasLeft === 1 ? '⚡ Hoy es el último día (hasta 10pm)' :
+    diasLeft === 2 ? '⏰ Quedan 2 días incluyendo hoy' :
+    `${diasLeft} días incluyendo hoy`;
 }
 
 function calcComision() {
@@ -1459,9 +1465,9 @@ function calcComision() {
         <div style="font-size:10px; color:var(--muted);">${comProyPct>0?(comProyPct*100).toFixed(1)+'% del NR':'Sin comisión aún'}</div>
       </div>
     </div>
-    ${diasLeft3 > 0 ? `<div style="margin-top:12px; padding:9px 12px; background:var(--bg); border-radius:8px; font-size:12px; color:var(--muted);">
-      Si mantienes ${fmt(nrDiario3)}/día cerrarías en <strong style="color:${proyColor};">${proyPct}%</strong> · ${diasLeft3} día${diasLeft3>1?'s':''} restante${diasLeft3>1?'s':''}
-    </div>` : '<div style="margin-top:10px; font-size:12px; color:var(--muted);">⚡ Hoy cierra la semana — lo que tienes es tu resultado final.</div>'}`;
+    ${diasLeft3 > 1 ? `<div style="margin-top:12px; padding:9px 12px; background:var(--bg); border-radius:8px; font-size:12px; color:var(--muted);">
+      Si mantienes ${fmt(nrDiario3)}/día cerrarías en <strong style="color:${proyColor};">${proyPct}%</strong> · ${diasLeft3} día${diasLeft3>1?'s':''} restantes incluyendo hoy
+    </div>` : '<div style="margin-top:10px; font-size:12px; color:var(--muted);">⚡ Hoy cierra la semana (hasta las 10pm) — dale con todo.</div>'}`;
 
   // ---- COMISIÓN ACTUAL ----
   let comActualPct = 0, comTier = '', comColor2 = '#ef4444', comBg = '#fff1f2', comBorder = '#fca5a5';
