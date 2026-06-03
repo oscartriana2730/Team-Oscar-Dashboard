@@ -487,18 +487,6 @@
   <div class="section-title">INSIGHTS DEL PERÍODO</div>
   <div id="insights-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-bottom:28px;"></div>
 
-  <!-- Charts side by side compact -->
-  <div class="section-title">MÉTRICAS VISUALES</div>
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;">
-    <div class="bar-chart-wrap" style="padding:16px; margin-bottom:0;">
-      <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">Conversión por Closer <span style="color:var(--gold); margin-left:6px;">— benchmark 13%</span></div>
-      <canvas id="convChart" height="140"></canvas>
-    </div>
-    <div class="bar-chart-wrap" style="padding:16px; margin-bottom:0;">
-      <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">Revenue por Closer <span style="color:var(--accent2); margin-left:6px;">— vs meta</span></div>
-      <canvas id="revChart" height="140"></canvas>
-    </div>
-  </div>
 
 </div>
 
@@ -716,8 +704,7 @@
 
 </div>
 
-<!-- Chart.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<!-- Scripts -->
 <script>
 // ---- DATA ABRIL ----
 const closers = [
@@ -922,81 +909,6 @@ function buildMayoTable() {
   });
 }
 
-// ---- CHARTS ----
-Chart.defaults.color = '#6b7280';
-Chart.defaults.borderColor = '#1e2430';
-Chart.defaults.font.family = "'DM Sans', sans-serif";
-
-function buildCharts() {
-  const active = closers.filter(c=>!c.retired);
-  const names = active.map(c=>c.name.split(' ').slice(0,2).join(' '));
-  const convs = active.map(c=>c.conv);
-  const revs = active.map(c=>c.revenue);
-  const convColors = active.map(c=>c.conv>=13?'rgba(34,197,94,.8)':c.conv>=10?'rgba(240,180,41,.8)':'rgba(239,68,68,.8)');
-
-  // Overview conv chart
-  new Chart(document.getElementById('convChart'), {
-    type: 'bar',
-    data: {
-      labels: names,
-      datasets: [{
-        label: 'Conversión %',
-        data: convs,
-        backgroundColor: convColors,
-        borderRadius: 6,
-      }, {
-        label: 'Benchmark 13%',
-        data: active.map(()=>13),
-        type: 'line',
-        borderColor: 'rgba(240,180,41,.6)',
-        borderDash: [5,5],
-        pointRadius: 0,
-        borderWidth: 2,
-        fill: false,
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'top', labels: { color:'#6b7280', font:{size:11} } } },
-      scales: {
-        y: { ticks:{ color:'#6b7280', callback: v=>v+'%' }, grid:{ color:'#1e2430' } },
-        x: { ticks:{ color:'#6b7280', font:{size:10} }, grid:{ display:false } }
-      }
-    }
-  });
-
-  // Overview revenue chart
-  new Chart(document.getElementById('revChart'), {
-    type: 'bar',
-    data: {
-      labels: names,
-      datasets: [{
-        label: 'Revenue',
-        data: revs,
-        backgroundColor: 'rgba(240,180,41,.75)',
-        borderRadius: 6,
-      }, {
-        label: 'Meta ($21.500)',
-        data: active.map(c=>c.meta),
-        type: 'line',
-        borderColor: 'rgba(56,189,248,.6)',
-        borderDash: [5,5],
-        pointRadius: 0,
-        borderWidth: 2,
-        fill: false,
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position:'top', labels:{ color:'#6b7280', font:{size:11} } } },
-      scales: {
-        y: { ticks:{ color:'#6b7280', callback: v=>'$'+v.toLocaleString('es-CO') }, grid:{ color:'#1e2430' } },
-        x: { ticks:{ color:'#6b7280', font:{size:10} }, grid:{ display:false } }
-      }
-    }
-  });
-}
-
 // ---- NAV ----
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1010,7 +922,6 @@ buildRankingTable();
 buildInsights();
 buildAbrilTable();
 buildMayoTable();
-setTimeout(buildCharts, 100);
 </script>
 </body>
 </html>
