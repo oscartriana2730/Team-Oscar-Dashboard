@@ -823,125 +823,173 @@
 
 <!-- ========== CALCULADORA PAGE ========== -->
 <div class="page" id="page-calc">
-
   <div style="max-width:700px; margin:0 auto;">
 
     <!-- Título -->
-    <div style="margin-bottom:24px;">
+    <div style="margin-bottom:20px;">
       <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--muted); text-transform:uppercase;">TEAM OSCAR · JUNIO 2026</div>
-      <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; color:var(--text); margin-top:4px;">Calculadora de Comisión</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; color:var(--text); margin-top:4px;">Calculadora de Comisiones</div>
       <div style="font-size:13px; color:var(--muted); margin-top:4px;" id="calc-today-label"></div>
     </div>
 
-    <!-- Banner semana activa -->
-    <div id="calc-week-banner" style="border-radius:12px; padding:16px 20px; margin-bottom:24px; border:1px solid; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
-      <div>
-        <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);">Semana activa detectada</div>
-        <div id="calc-week-name" style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px;"></div>
-        <div id="calc-week-range" style="font-size:12px; color:var(--muted);"></div>
-      </div>
-      <div style="text-align:right;">
-        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Meta 100%</div>
-        <div id="calc-week-meta" style="font-family:'Bebas Neue',sans-serif; font-size:28px;"></div>
-        <div id="calc-week-end" style="font-size:11px; color:var(--muted);"></div>
-      </div>
+    <!-- TABS -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px;">
+      <button id="tab-proy-btn" onclick="switchCalcTab('proy')"
+        style="padding:16px; border-radius:12px; border:2px solid #2563eb; background:#eff6ff; color:#2563eb; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px;">
+        📈 PROYECCIÓN
+      </button>
+      <button id="tab-llega-btn" onclick="switchCalcTab('llega')"
+        style="padding:16px; border-radius:12px; border:2px solid var(--border); background:var(--surface); color:var(--muted); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px;">
+        💵 ¿CUÁNTO ME LLEGA?
+      </button>
     </div>
 
-    <!-- INPUTS -->
-    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-      <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">¿Cómo vas esta semana?</div>
+    <!-- ====== TAB PROYECCIÓN ====== -->
+    <div id="tab-proy">
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-        <!-- Ventas -->
+      <!-- Banner semana activa -->
+      <div id="calc-week-banner" style="border-radius:12px; padding:16px 20px; margin-bottom:20px; border:1px solid; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
         <div>
-          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">Ventas cerradas</label>
-          <input id="inp-ventas" type="number" min="0" placeholder="Ej: 3"
-            style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
-            onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
-            oninput="calcComision()">
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);">Semana activa detectada</div>
+          <div id="calc-week-name" style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px;"></div>
+          <div id="calc-week-range" style="font-size:12px; color:var(--muted);"></div>
         </div>
-        <!-- NR con formato -->
-        <div>
-          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">NR recaudado esta semana</label>
+        <div style="text-align:right;">
+          <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Meta 100%</div>
+          <div id="calc-week-meta" style="font-family:'Bebas Neue',sans-serif; font-size:28px;"></div>
+          <div id="calc-week-end" style="font-size:11px; color:var(--muted);"></div>
+        </div>
+      </div>
+
+      <!-- Inputs proyección -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">¿Cómo vas esta semana?</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+          <div>
+            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">Ventas cerradas</label>
+            <input id="inp-ventas" type="number" min="0" placeholder="Ej: 3"
+              style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
+              onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='var(--border)'"
+              oninput="calcComision()">
+          </div>
+          <div>
+            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">NR recaudado esta semana</label>
+            <div style="position:relative;">
+              <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
+              <input id="inp-nr" type="text" inputmode="numeric" placeholder="0"
+                style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+                onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='var(--border)'"
+                oninput="formatNR(this,'inp-nr-raw'); calcComision()">
+            </div>
+            <input type="hidden" id="inp-nr-raw" value="0">
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $3.500</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border); padding-top:16px;">
+          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">
+            🎯 ¿Cuánto quieres meter esta semana? <span style="font-weight:400; text-transform:none; letter-spacing:0;">(opcional)</span>
+          </label>
           <div style="position:relative;">
             <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
-            <input id="inp-nr" type="text" inputmode="numeric" placeholder="0"
-              style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+            <input id="inp-objetivo" type="text" inputmode="numeric" placeholder="Tu meta personal · Ej: 6.000"
+              style="width:100%; padding:12px 14px 12px 28px; border:1.5px dashed var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:#fafbff; color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+              onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='var(--border)'"
+              oninput="formatNR(this,'inp-obj-raw'); calcComision()">
+          </div>
+          <input type="hidden" id="inp-obj-raw" value="0">
+        </div>
+      </div>
+
+      <!-- Resultados proyección -->
+      <div id="calc-results" style="display:none;">
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+            <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px;">Progreso actual</div>
+            <div id="res-pct-label" style="font-family:'Bebas Neue',sans-serif; font-size:26px;"></div>
+          </div>
+          <div style="background:var(--border); border-radius:99px; height:14px; overflow:visible; position:relative; margin-bottom:8px;">
+            <div id="res-bar" style="height:100%; border-radius:99px; transition:width .8s ease; position:relative;">
+              <span id="res-bar-tooltip" style="position:absolute; right:-1px; top:-26px; font-size:10px; font-weight:700; white-space:nowrap;"></span>
+            </div>
+            <div style="position:absolute; left:66.7%; top:-4px; width:2px; height:22px; background:#d97706; border-radius:1px;"></div>
+            <div style="position:absolute; left:83.3%; top:-4px; width:2px; height:22px; background:#2563eb; border-radius:1px;"></div>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--muted);">
+            <span>$0</span><span style="color:#d97706;">▲ 80%</span><span style="color:#2563eb;">▲ 100%</span>
+            <span id="res-bar-meta-label"></span>
+          </div>
+        </div>
+        <div id="calc-plan-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;"></div>
+        <div id="calc-objetivo-box" style="display:none; margin-bottom:16px;"></div>
+        <div id="calc-proyeccion" style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">📈 Proyección si mantienes el ritmo</div>
+          <div id="calc-proy-content"></div>
+        </div>
+        <div id="calc-comision-box" style="border-radius:14px; padding:24px; text-align:center; border:2px solid;">
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px;">Tu comisión ahora mismo</div>
+          <div id="calc-comision-val" style="font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px;"></div>
+          <div id="calc-comision-desc" style="font-size:13px; margin-top:6px;"></div>
+        </div>
+      </div>
+
+      <div id="calc-empty" style="text-align:center; padding:40px 20px; color:var(--muted);">
+        <div style="font-size:44px; margin-bottom:12px;">📈</div>
+        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tu NR para ver tu proyección</div>
+        <div style="font-size:13px;">Te mostramos cuánto te falta para el 100% y 120%</div>
+      </div>
+    </div>
+
+    <!-- ====== TAB ¿CUÁNTO ME LLEGA? ====== -->
+    <div id="tab-llega" style="display:none;">
+
+      <!-- Inputs ¿Cuánto me llega? -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">Tu semana en números</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+          <div>
+            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuántas ventas hiciste?</label>
+            <input id="llega-ventas" type="number" min="0" placeholder="Ej: 4"
+              style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
               onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
-              oninput="formatNR(this,'inp-nr-raw'); calcComision()">
+              oninput="calcLlega()">
           </div>
-          <input type="hidden" id="inp-nr-raw" value="0">
-          <div style="font-size:10px; color:var(--muted); margin-top:4px;">Ingresa el valor en dólares · Ej: $3.500</div>
-        </div>
-      </div>
-
-      <!-- Campo opcional: objetivo -->
-      <div style="border-top:1px solid var(--border); padding-top:16px; margin-top:4px;">
-        <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">
-          🎯 ¿Cuánto quieres meter esta semana? <span style="color:var(--muted); font-weight:400; text-transform:none; letter-spacing:0;">(opcional)</span>
-        </label>
-        <div style="position:relative;">
-          <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
-          <input id="inp-objetivo" type="text" inputmode="numeric" placeholder="Tu meta personal · Ej: 6.000"
-            style="width:100%; padding:12px 14px 12px 28px; border:1.5px dashed var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:#fafbff; color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
-            onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='var(--border)'"
-            oninput="formatNR(this,'inp-obj-raw'); calcComision()">
-        </div>
-        <input type="hidden" id="inp-obj-raw" value="0">
-      </div>
-    </div>
-
-    <!-- RESULTADOS -->
-    <div id="calc-results" style="display:none;">
-
-      <!-- Barra progreso actual -->
-      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-          <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px;">Progreso actual</div>
-          <div id="res-pct-label" style="font-family:'Bebas Neue',sans-serif; font-size:26px;"></div>
-        </div>
-        <div style="background:var(--border); border-radius:99px; height:14px; overflow:visible; position:relative; margin-bottom:8px;">
-          <div id="res-bar" style="height:100%; border-radius:99px; transition:width .8s ease; position:relative;">
-            <span id="res-bar-tooltip" style="position:absolute; right:-1px; top:-26px; font-size:10px; font-weight:700; white-space:nowrap;"></span>
+          <div>
+            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto NR o cash hiciste?</label>
+            <div style="position:relative;">
+              <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
+              <input id="llega-nr" type="text" inputmode="numeric" placeholder="0"
+                style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+                onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
+                oninput="formatNR(this,'llega-nr-raw'); calcLlega()">
+            </div>
+            <input type="hidden" id="llega-nr-raw" value="0">
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $5.500</div>
           </div>
-          <!-- marcadores 80 / 100 / 120 -->
-          <div style="position:absolute; left:66.7%; top:-4px; width:2px; height:22px; background:#d97706; border-radius:1px;" title="80%"></div>
-          <div style="position:absolute; left:83.3%; top:-4px; width:2px; height:22px; background:#2563eb; border-radius:1px;" title="100%"></div>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--muted);">
-          <span>$0</span>
-          <span style="color:#d97706;">▲ 80%</span>
-          <span style="color:#2563eb;">▲ 100%</span>
-          <span id="res-bar-meta-label"></span>
         </div>
       </div>
 
-      <!-- Plan para llegar al 100% y 120% — FOCO PRINCIPAL -->
-      <div id="calc-plan-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;"></div>
+      <!-- Resultados ¿Cuánto me llega? -->
+      <div id="llega-results" style="display:none;">
 
-      <!-- Objetivo personal si lo puso -->
-      <div id="calc-objetivo-box" style="display:none; margin-bottom:16px;"></div>
+        <!-- Comisión ganada -->
+        <div id="llega-comision-box" style="border-radius:14px; padding:24px; text-align:center; border:2px solid; margin-bottom:16px;">
+          <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px;">Comisión ganada esta semana</div>
+          <div id="llega-com-val" style="font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px;"></div>
+          <div id="llega-com-nivel" style="font-size:13px; margin-top:4px; font-weight:600;"></div>
+        </div>
 
-      <!-- Proyección compacta -->
-      <div id="calc-proyeccion" style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-        <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">📈 Proyección si mantienes el ritmo</div>
-        <div id="calc-proy-content"></div>
+        <!-- Resumen detallado -->
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+          <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">📋 Resumen de tu semana</div>
+          <div id="llega-resumen"></div>
+        </div>
       </div>
 
-      <!-- Comisión actual grande -->
-      <div id="calc-comision-box" style="border-radius:14px; padding:24px; text-align:center; border:2px solid;">
-        <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px;">Tu comisión ahora mismo</div>
-        <div id="calc-comision-val" style="font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px;"></div>
-        <div id="calc-comision-desc" style="font-size:13px; margin-top:6px;"></div>
+      <div id="llega-empty" style="text-align:center; padding:40px 20px; color:var(--muted);">
+        <div style="font-size:44px; margin-bottom:12px;">💵</div>
+        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tus ventas y NR</div>
+        <div style="font-size:13px;">Te decimos exactamente cuánto te llega en dólares y en pesos</div>
       </div>
-
-    </div>
-
-    <!-- Estado vacío -->
-    <div id="calc-empty" style="text-align:center; padding:48px 20px; color:var(--muted);">
-      <div style="font-size:48px; margin-bottom:14px;">💰</div>
-      <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tu NR para ver tu comisión</div>
-      <div style="font-size:13px;">Te mostraremos exactamente cuánto te falta para el 100% y 120%</div>
     </div>
 
   </div>
@@ -1241,7 +1289,187 @@ function buildMayoTable() {
   });
 }
 
-// ---- CALCULADORA DE COMISIÓN ----
+// ---- SWITCH CALC TABS ----
+function switchCalcTab(tab) {
+  const isProy = tab === 'proy';
+  document.getElementById('tab-proy').style.display    = isProy ? 'block' : 'none';
+  document.getElementById('tab-llega').style.display   = isProy ? 'none'  : 'block';
+  const btnProy  = document.getElementById('tab-proy-btn');
+  const btnLlega = document.getElementById('tab-llega-btn');
+  if (isProy) {
+    btnProy.style.cssText  += 'border-color:#2563eb; background:#eff6ff; color:#2563eb;';
+    btnLlega.style.cssText += 'border-color:var(--border); background:var(--surface); color:var(--muted);';
+  } else {
+    btnLlega.style.cssText += 'border-color:#16a34a; background:#f0fdf4; color:#16a34a;';
+    btnProy.style.cssText  += 'border-color:var(--border); background:var(--surface); color:var(--muted);';
+    if (!window._trmCargada) fetchTRM();
+  }
+}
+
+// ---- TRM vía Google Finance ----
+let trmActual = null;
+window._trmCargada = false;
+
+async function fetchTRM() {
+  const el = document.getElementById('trm-valor');
+  const elFecha = document.getElementById('trm-fecha');
+  el.textContent = 'Cargando...';
+  el.style.color = '#16a34a';
+
+  try {
+    const gfUrl = `https://www.google.com/finance/quote/USD-COP`;
+    const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(gfUrl)}`;
+    const res = await fetch(proxy);
+    const data = await res.json();
+    const html = data.contents || '';
+
+    // Intentar varios patrones que usa Google Finance
+    let found = null;
+    const patterns = [
+      /data-last-price="([\d.]+)"/,
+      /class="YMlKec fxKbKc"[^>]*>([\d,.]+)/,
+      /"price":\s*"([\d.]+)"/,
+      /USD\s*\/\s*COP[^<]*<[^>]*>([\d,.]+)/,
+    ];
+    for (const p of patterns) {
+      const m = html.match(p);
+      if (m && m[1]) { found = parseFloat(m[1].replace(/,/g,'')); break; }
+    }
+
+    if (found && found > 2000 && found < 8000) { // rango razonable para USD/COP
+      trmActual = found;
+      const hoy = getColombiaToday();
+      const dd = String(hoy.getDate()).padStart(2,'0');
+      const mm = String(hoy.getMonth()+1).padStart(2,'0');
+      const yyyy = hoy.getFullYear();
+      el.textContent = `$${Math.round(trmActual).toLocaleString('es-CO')} COP`;
+      el.style.color = '#16a34a';
+      elFecha.textContent = `Google Finance · USD/COP · ${dd}/${mm}/${yyyy}`;
+      window._trmCargada = true;
+    } else {
+      throw new Error('No se pudo leer Google Finance');
+    }
+
+  } catch(e) {
+    // Fallback: Banco de la República
+    try {
+      const url2 = `https://www.datos.gov.co/resource/mcec-87by.json?$order=vigenciadesde DESC&$limit=1`;
+      const res2 = await fetch(url2);
+      const data2 = await res2.json();
+      if (data2 && data2.length > 0) {
+        trmActual = parseFloat(data2[0].valor);
+        const fechaTRM = data2[0].vigenciadesde?.slice(0,10) || '—';
+        el.textContent = `$${Math.round(trmActual).toLocaleString('es-CO')} COP`;
+        el.style.color = '#d97706';
+        elFecha.textContent = `Banco República · ${fechaTRM}`;
+        window._trmCargada = true;
+      } else throw new Error('Sin datos');
+    } catch(e2) {
+      // Fallback final con valor actualizado
+      trmActual = 3500;
+      el.textContent = `≈ $3.500 COP`;
+      el.style.color = '#d97706';
+      elFecha.textContent = 'TRM estimada · verifica en google.com/finance/quote/USD-COP';
+    }
+  }
+  calcLlega();
+}
+
+// ---- CALC ¿CUÁNTO ME LLEGA? ----
+function calcLlega() {
+  const nr = parseInt(document.getElementById('llega-nr-raw').value) || 0;
+  const ventas = parseInt(document.getElementById('llega-ventas').value) || 0;
+  const results = document.getElementById('llega-results');
+  const empty   = document.getElementById('llega-empty');
+
+  if (nr <= 0) { results.style.display='none'; empty.style.display='block'; return; }
+  results.style.display='block'; empty.style.display='none';
+
+  const det = detectSemana();
+  const meta100 = det ? det.semana.meta100 : 5500;
+  const meta80  = meta100 * 0.80;
+  const meta120 = meta100 * 1.20;
+
+  let comPct = 0, nivel = '', nivelColor = '#ef4444', nivelBg = '#fff1f2', nivelBorder = '#fca5a5';
+  if (nr >= meta120)      { comPct=0.04;  nivel='🏆 ¡Nivel 120%! Máxima comisión'; nivelColor='#16a34a'; nivelBg='#f0fdf4'; nivelBorder='#86efac'; }
+  else if (nr >= meta100) { comPct=0.02;  nivel='✅ Nivel 100%'; nivelColor='#2563eb'; nivelBg='#eff6ff'; nivelBorder='#93c5fd'; }
+  else if (nr >= meta80)  { comPct=0.015; nivel='🟡 Nivel 80%'; nivelColor='#d97706'; nivelBg='#fffbeb'; nivelBorder='#fcd34d'; }
+  else                    { nivel='⏳ No alcanzaste el 80% — sin comisión'; }
+
+  const comUSD = nr * comPct;
+  const comUSDx = comUSD * 1.2; // con multiplicador 1.2x (≥13% conversión)
+  const ticketProm = ventas > 0 ? nr / ventas : 0;
+
+  // Comisión box — muestra el valor base
+  const box = document.getElementById('llega-comision-box');
+  box.style.background = nivelBg; box.style.borderColor = nivelBorder;
+  document.getElementById('llega-com-val').textContent = comPct > 0 ? fmt(comUSD) : '$0';
+  document.getElementById('llega-com-val').style.color = nivelColor;
+  document.getElementById('llega-com-nivel').textContent = nivel;
+  document.getElementById('llega-com-nivel').style.color = nivelColor;
+
+  // Resumen
+  const pctMeta = Math.round((nr / meta100)*100);
+  const pctColor = nr>=meta120?'#16a34a':nr>=meta100?'#2563eb':nr>=meta80?'#d97706':'#ef4444';
+  document.getElementById('llega-resumen').innerHTML = `
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
+      <div style="background:var(--bg); border-radius:8px; padding:12px;">
+        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">NR total</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:${pctColor};">${fmt(nr)}</div>
+        <div style="font-size:11px; color:${pctColor}; font-weight:600;">${pctMeta}% de la meta</div>
+      </div>
+      <div style="background:var(--bg); border-radius:8px; padding:12px;">
+        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Ventas cerradas</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--text);">${ventas}</div>
+        <div style="font-size:11px; color:var(--muted);">${ventas > 0 ? `Ticket prom: ${fmt(ticketProm)}` : '—'}</div>
+      </div>
+    </div>
+
+    ${comPct > 0 ? `
+    <!-- Comparativo con/sin multiplicador -->
+    <div style="margin-bottom:14px;">
+      <div style="font-size:11px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">💰 Tu comisión según conversión</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+
+        <!-- Sin multiplicador -->
+        <div style="background:#f8fafc; border:2px solid #e2e8f0; border-radius:12px; padding:16px; text-align:center;">
+          <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Sin multiplicador</div>
+          <div style="font-size:11px; color:var(--muted); margin-bottom:8px;">Conversión &lt; 13%</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:#64748b; letter-spacing:1px;">${fmt(comUSD)}</div>
+          <div style="font-size:10px; color:var(--muted); margin-top:4px;">${(comPct*100).toFixed(1)}% del NR</div>
+        </div>
+
+        <!-- Con multiplicador -->
+        <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #16a34a; border-radius:12px; padding:16px; text-align:center; position:relative; overflow:hidden;">
+          <div style="position:absolute; top:8px; right:8px; font-size:16px;">⚡</div>
+          <div style="font-size:10px; color:#15803d; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:6px;">Con multiplicador</div>
+          <div style="font-size:11px; color:#15803d; margin-bottom:8px; font-weight:600;">Conversión ≥ 13% · ×1.2</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:#15803d; letter-spacing:1px;">${fmt(comUSDx)}</div>
+          <div style="font-size:10px; color:#15803d; margin-top:4px; font-weight:600;">+${fmt(comUSDx - comUSD)} extra</div>
+        </div>
+
+      </div>
+      <div style="margin-top:10px; padding:10px 14px; background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; line-height:1.6;">
+        🎯 <strong>¿Alcanzaste el 13% de conversión esta semana?</strong> Si sí, tu comisión real es <strong style="color:#16a34a;">${fmt(comUSDx)}</strong>. Si no, es <strong>${fmt(comUSD)}</strong>. ¡Vale la pena cerrar esa venta extra!
+      </div>
+    </div>` : ''}
+
+    ${comPct === 0
+      ? `<div style="padding:10px 14px; background:#fff1f2; border-radius:8px; font-size:12px; color:#991b1b;">
+          ⚠️ Te faltan <strong>${fmt(meta80 - nr)}</strong> para el 80% y ganar comisión (1.5% del NR)
+         </div>`
+      : `<div style="padding:10px 14px; background:${nivelBg}; border:1px solid ${nivelBorder}; border-radius:8px; font-size:12px; color:${nivelColor}; font-weight:600;">
+          ${comPct===0.04
+            ? '🎉 ¡Máxima comisión alcanzada! 4% del NR — lo lograste.'
+            : comPct===0.02
+            ? `💡 Sube ${fmt(meta120 - nr)} más → llegas al 120% y ganas ${fmt(nr*0.04)} (4%)`
+            : `💡 Sube ${fmt(meta100 - nr)} más → llegas al 100% y ganas ${fmt(meta100*0.02)}`}
+         </div>`
+    }
+  `;
+}
+
+
 const JUNIO_SEMANAS = [
   { nombre: "Semana 1", inicio: [2026,6,1],  fin: [2026,6,6],  meta100: 5500 },
   { nombre: "Semana 2", inicio: [2026,6,7],  fin: [2026,6,13], meta100: 5500 },
@@ -1388,17 +1616,16 @@ function calcComision() {
           </div>
         `}
 
-        <div style="font-size:11px; color:#4b5563; line-height:1.8;">
-          ${!alcanzado && diasLeft > 0 ? `<div>📅 Necesitas <strong style="color:${p.color};">${fmt(nrPorDiaNeeded)}/día</strong> en ${diasLeft} día${diasLeft>1?'s':''}</div>` : ''}
-          ${!alcanzado && nrDiario > 0 ? `<div>${nrDiario >= nrPorDiaNeeded ? '✓' : '↑'} Ritmo actual: <strong>${fmt(nrDiario)}/día</strong>${nrDiario >= nrPorDiaNeeded ? ' — vas a ritmo ✓' : ` — necesitas <strong style="color:${p.color};">+${fmt(nrPorDiaNeeded - nrDiario)}/día</strong> más`}</div>` : ''}
-          <div>💰 Comisión si llegas: <strong style="color:${p.color};">${fmt(comSiLlegas)}</strong> (${(p.comPct*100).toFixed(1)}%)</div>
-          ${alcanzado && p.nivel==='100%' ? `<div style="margin-top:4px; color:#16a34a; font-weight:600;">🎯 Enfócate ahora en el 120%</div>` : ''}
+        <div style="font-size:13px; color:#374151; line-height:2;">
+          ${!alcanzado && diasLeft > 0 ? `<div>📅 Necesitas <strong style="color:${p.color}; font-size:15px;">${fmt(nrPorDiaNeeded)}/día</strong> en ${diasLeft} día${diasLeft>1?'s':''}</div>` : ''}
+          ${!alcanzado && nrDiario > 0 ? `<div>${nrDiario >= nrPorDiaNeeded ? '✓' : '↑'} Ritmo actual: <strong style="font-size:15px;">${fmt(nrDiario)}/día</strong>${nrDiario >= nrPorDiaNeeded ? ' — <strong style="color:#16a34a;">vas a ritmo ✓</strong>' : ` — sube <strong style="color:${p.color}; font-size:15px;">+${fmt(nrPorDiaNeeded - nrDiario)}/día</strong>`}</div>` : ''}
+          <div>💰 Comisión si llegas: <strong style="color:${p.color}; font-size:15px;">${fmt(comSiLlegas)}</strong> (${(p.comPct*100).toFixed(1)}%)</div>
+          ${alcanzado && p.nivel==='100%' ? `<div style="margin-top:6px; color:#16a34a; font-weight:700; font-size:14px;">🎯 ¡Bien! Ahora enfócate en el 120%</div>` : ''}
         </div>
       </div>`;
   });
 
-  // ---- OBJETIVO PERSONAL ----
-  const objBox = document.getElementById('calc-objetivo-box');
+    const objBox = document.getElementById('calc-objetivo-box');
   if (objetivo > 0) {
     objBox.style.display = 'block';
     const faltaObj = Math.max(0, objetivo - nr);
@@ -1413,26 +1640,32 @@ function calcComision() {
     const objColor = '#7c3aed';
 
     objBox.innerHTML = `
-      <div style="background:#faf5ff; border:2px solid #c4b5fd; border-radius:14px; padding:20px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:${objColor}; letter-spacing:1px; margin-bottom:12px;">🎯 Tu objetivo personal — ${fmt(objetivo)}</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
-          <div style="text-align:center; background:rgba(124,58,237,.07); border-radius:8px; padding:10px;">
-            <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Progreso</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:${objColor};">${pctObj}%</div>
+      <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe); border:2px solid #a78bfa; border-radius:16px; padding:24px;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:26px; color:${objColor}; letter-spacing:2px; margin-bottom:18px;">🎯 TU OBJETIVO PERSONAL — ${fmt(objetivo)}</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:18px;">
+          <div style="text-align:center; background:rgba(124,58,237,.1); border-radius:10px; padding:16px;">
+            <div style="font-size:11px; color:${objColor}; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Progreso</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:${objColor};">${pctObj}%</div>
           </div>
-          <div style="text-align:center; background:rgba(124,58,237,.07); border-radius:8px; padding:10px;">
-            <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">${alcObj?'Logrado 🎉':'Te falta'}</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:${objColor};">${alcObj?'✓':fmt(faltaObj)}</div>
+          <div style="text-align:center; background:rgba(124,58,237,.1); border-radius:10px; padding:16px;">
+            <div style="font-size:11px; color:${objColor}; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">${alcObj?'¡Logrado! 🎉':'Te falta'}</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:${objColor};">${alcObj?'✓':fmt(faltaObj)}</div>
           </div>
-          <div style="text-align:center; background:rgba(124,58,237,.07); border-radius:8px; padding:10px;">
-            <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Comisión si llegas</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:${objColor};">${comObjPct>0?fmt(comObj):'—'}</div>
+          <div style="text-align:center; background:rgba(124,58,237,.1); border-radius:10px; padding:16px;">
+            <div style="font-size:11px; color:${objColor}; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Comisión si llegas</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:${objColor};">${comObjPct>0?fmt(comObj):'—'}</div>
           </div>
         </div>
-        ${!alcObj && diasLeft2 > 0 ? `<div style="font-size:12px; color:#4b5563; background:rgba(124,58,237,.05); border-radius:8px; padding:10px 12px; line-height:1.7;">
-          📅 Para llegar a tu objetivo necesitas <strong style="color:${objColor};">${fmt(nrPorDia2)}/día</strong> en los ${diasLeft2} días restantes.
-          Tu ritmo actual es <strong>${fmt(nrDiario2)}/día</strong> — ${nrDiario2>=nrPorDia2 ? '¡vas bien! ✓' : `necesitas subir <strong style="color:${objColor};">+${fmt(nrPorDia2-nrDiario2)}/día</strong>`}
-        </div>` : alcObj ? `<div style="text-align:center; color:${objColor}; font-weight:700; font-size:13px;">🎉 ¡Superaste tu objetivo personal!</div>` : ''}
+        ${!alcObj && diasLeft2 > 0 ? `
+          <div style="background:rgba(124,58,237,.08); border-radius:10px; padding:14px 16px; font-size:14px; color:#4c1d95; line-height:1.7;">
+            📅 Para llegar a tu objetivo necesitas <strong style="color:${objColor}; font-size:15px;">${fmt(nrPorDia2)}/día</strong> en los ${diasLeft2} día${diasLeft2>1?'s':''} restantes.
+            Tu ritmo actual es <strong style="font-size:15px;">${fmt(nrDiario2)}/día</strong> —
+            ${nrDiario2 >= nrPorDia2
+              ? `<strong style="color:#16a34a;">¡vas a buen ritmo! ✓</strong>`
+              : `necesitas subir <strong style="color:${objColor}; font-size:15px;">+${fmt(nrPorDia2-nrDiario2)}/día</strong>`}
+          </div>` : alcObj ? `
+          <div style="text-align:center; color:${objColor}; font-weight:700; font-size:16px; padding:10px;">🎉 ¡Superaste tu objetivo personal!</div>` : ''
+        }
       </div>`;
   } else {
     objBox.style.display = 'none';
