@@ -486,10 +486,37 @@
     </div>
   </div>
   <nav class="nav">
-    <button class="nav-btn" onclick="showPage('calc')" style="background:#16a34a; color:#fff; border-color:#16a34a; font-weight:700;">🧮 Calculadora de Comisiones</button>
     <button class="nav-btn active" onclick="showPage('overview')">📊 Overview</button>
     <button class="nav-btn" onclick="showPage('abril')">📅 Abril 2026</button>
     <button class="nav-btn" onclick="showPage('mayo')">📅 Mayo 2026</button>
+    <button class="nav-btn" onclick="showPage('junio')" style="border-color:#2563eb; color:#2563eb; font-weight:600;">📅 Junio 2026 🔴</button>
+    <!-- Dropdown -->
+    <div style="position:relative;" id="tools-dropdown-wrap">
+      <button class="nav-btn" id="tools-btn" onclick="toggleDropdown(event)"
+        style="display:flex; align-items:center; gap:6px;">
+        🛠️ Herramientas <span id="tools-arrow" style="font-size:10px; transition:transform .2s;">▼</span>
+      </button>
+      <div id="tools-menu" style="display:none; position:absolute; top:calc(100% + 8px); left:0; background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.12); padding:6px; min-width:220px; z-index:999;">
+        <button onclick="showPage('calc'); closeDropdown();"
+          style="width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text); cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s;"
+          onmouseover="this.style.background='#f0fdf4'; this.style.color='#16a34a';"
+          onmouseout="this.style.background='transparent'; this.style.color='var(--text)';">
+          🧮 Calculadora de Comisiones
+        </button>
+        <button onclick="showPage('info'); closeDropdown();"
+          style="width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text); cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s;"
+          onmouseover="this.style.background='#fffbeb'; this.style.color='#d97706';"
+          onmouseout="this.style.background='transparent'; this.style.color='var(--text)';">
+          📌 Información Importante
+        </button>
+        <button onclick="showPage('training'); closeDropdown();"
+          style="width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text); cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s;"
+          onmouseover="this.style.background='#eff6ff'; this.style.color='#2563eb';"
+          onmouseout="this.style.background='transparent'; this.style.color='var(--text)';">
+          🎓 Training
+        </button>
+      </div>
+    </div>
   </nav>
   <div class="header-right" style="text-align:right; max-width:280px;">
     <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2px; color:var(--gold);">Bienvenido(a) al mejor equipo de TripleTen</div>
@@ -516,7 +543,7 @@
           <div class="progress-bar-fill" style="width:99%; background:var(--gold);"></div>
         </div>
       </div>
-      <span class="kpi-badge badge-gold">Acumulado 2025</span>
+      <span class="kpi-badge badge-gold">Acumulado 2026</span>
     </div>
     <div class="kpi-card green-card">
       <div class="kpi-label">Ticket Promedio Consolidado</div>
@@ -947,13 +974,6 @@
         <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">Tu semana en números</div>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
           <div>
-            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuántas ventas hiciste?</label>
-            <input id="llega-ventas" type="number" min="0" placeholder="Ej: 4"
-              style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
-              onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
-              oninput="calcLlega()">
-          </div>
-          <div>
             <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto NR o cash hiciste?</label>
             <div style="position:relative;">
               <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
@@ -964,6 +984,14 @@
             </div>
             <input type="hidden" id="llega-nr-raw" value="0">
             <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $5.500</div>
+          </div>
+          <div>
+            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuántos referidos tuviste? <span style="font-weight:400; text-transform:none;">(opcional)</span></label>
+            <input id="llega-referidos" type="number" min="0" placeholder="Ej: 2"
+              style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
+              onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
+              oninput="calcLlega()">
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">1er referido: $50 · 2do en adelante: $100 c/u</div>
           </div>
         </div>
       </div>
@@ -998,6 +1026,139 @@
 <!-- ========== CLOSER PROFILE PAGE ========== -->
 <div class="page" id="page-closer">
   <div id="closer-content"></div>
+</div>
+
+<!-- ========== INFORMACIÓN IMPORTANTE PAGE ========== -->
+<div class="page" id="page-info">
+  <div style="max-width:800px; margin:0 auto;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--muted); text-transform:uppercase;">TEAM OSCAR</div>
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; color:var(--text); margin-top:4px; margin-bottom:32px;">📌 Información Importante</div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:48px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <div style="font-size:48px; margin-bottom:16px;">📌</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; color:var(--muted);">Próximamente</div>
+      <div style="font-size:14px; color:var(--muted); margin-top:8px;">Esta sección será alimentada con información importante del equipo.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== TRAINING PAGE ========== -->
+<div class="page" id="page-training">
+  <div style="max-width:800px; margin:0 auto;">
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--muted); text-transform:uppercase;">TEAM OSCAR</div>
+    <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; color:var(--text); margin-top:4px; margin-bottom:32px;">🎓 Training</div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:48px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <div style="font-size:48px; margin-bottom:16px;">🎓</div>
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; color:var(--muted);">Próximamente</div>
+      <div style="font-size:14px; color:var(--muted); margin-top:8px;">Esta sección será alimentada con recursos de entrenamiento para el equipo.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== JUNIO PAGE ========== -->
+<div class="page" id="page-junio">
+
+  <div class="month-header">
+    <div>
+      <div class="month-title">JUNIO 2026</div>
+      <div class="month-sub">En curso — 4 semanas · Meetings y conversión disponibles a fin de mes</div>
+    </div>
+    <div class="goal-status missed">
+      <div class="gs-label">Cumplimiento</div>
+      <div class="gs-val" style="color:var(--red);">8,30%</div>
+      <div style="font-size:11px; color:var(--muted);">$19.064 / $229.680 · En curso</div>
+    </div>
+  </div>
+
+  <!-- KPIs Junio -->
+  <div class="section-title">MÉTRICAS DEL MES</div>
+  <div class="kpi-grid" style="grid-template-columns: repeat(5,1fr);">
+    <div class="kpi-card highlight">
+      <div class="kpi-label">Recaudado</div>
+      <div class="kpi-value gold">$19.064</div>
+      <div class="kpi-sub">Meta: $229.680</div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:8.3%; background:var(--red);"></div></div></div>
+    </div>
+    <div class="kpi-card red-card">
+      <div class="kpi-label">Faltante</div>
+      <div class="kpi-value red">$210.616</div>
+      <div class="kpi-sub">Para llegar al 100%</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Semana Activa</div>
+      <div class="kpi-value">SEM 1</div>
+      <div class="kpi-sub">1 al 6 de junio</div>
+      <span class="kpi-badge badge-gold">🔴 En curso</span>
+    </div>
+    <div class="kpi-card green-card">
+      <div class="kpi-label">Referidos</div>
+      <div class="kpi-value green">1</div>
+      <div class="kpi-sub">Meta: 14</div>
+    </div>
+    <div class="kpi-card blue-card">
+      <div class="kpi-label">Ticket Promedio</div>
+      <div class="kpi-value blue">—</div>
+      <div class="kpi-sub">Disponible al cerrar mes</div>
+    </div>
+  </div>
+
+  <!-- Semanas Junio -->
+  <div class="section-title">DESEMPEÑO POR SEMANA</div>
+  <div class="weekly-grid" style="grid-template-columns: repeat(4,1fr);">
+    <div class="week-card" style="border-left-color:var(--orange);">
+      <div class="week-title">SEM 1 · 1–6</div>
+      <div class="week-goal">Meta: $55.440</div>
+      <div class="week-actual" style="color:var(--orange);">$19.064</div>
+      <div class="week-pct" style="color:var(--orange);">34,39% · En curso</div>
+    </div>
+    <div class="week-card" style="border-left-color:#cbd5e1;">
+      <div class="week-title">SEM 2 · 7–13</div>
+      <div class="week-goal">Meta: $56.320</div>
+      <div class="week-actual" style="color:var(--muted);">$0</div>
+      <div class="week-pct" style="color:var(--muted);">Pendiente</div>
+    </div>
+    <div class="week-card" style="border-left-color:#cbd5e1;">
+      <div class="week-title">SEM 3 · 14–20</div>
+      <div class="week-goal">Meta: $61.600</div>
+      <div class="week-actual" style="color:var(--muted);">$0</div>
+      <div class="week-pct" style="color:var(--muted);">Pendiente</div>
+    </div>
+    <div class="week-card" style="border-left-color:#cbd5e1;">
+      <div class="week-title">SEM 4 · 21–30</div>
+      <div class="week-goal">Meta: $81.840</div>
+      <div class="week-actual" style="color:var(--muted);">$0</div>
+      <div class="week-pct" style="color:var(--muted);">Pendiente</div>
+    </div>
+  </div>
+
+  <!-- Tabla Junio -->
+  <div class="section-title">DETALLE POR CLOSER — PARCIAL SEM 1</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>CLOSER</th>
+          <th class="right">META MES</th>
+          <th class="right">REVENUE</th>
+          <th class="right">% CUMPL.</th>
+          <th class="right">MEETINGS</th>
+          <th class="right">VENTAS</th>
+          <th class="right">CONVERSIÓN</th>
+          <th class="right">vs BENCHMARK</th>
+          <th class="right">REFERIDOS</th>
+        </tr>
+      </thead>
+      <tbody id="junio-table-body"></tbody>
+    </table>
+  </div>
+
+  <div style="padding:10px 4px 8px; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+    <span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#86efac;border:1px solid #16a34a;display:inline-block;"></span>Sobre $14k/mes</span>
+    <span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#fcd34d;border:1px solid #d97706;display:inline-block;"></span>En la línea</span>
+    <span style="display:inline-flex;align-items:center;gap:5px;"><span style="width:12px;height:12px;border-radius:3px;background:#fca5a5;border:1px solid #dc2626;display:inline-block;"></span>Por debajo</span>
+    <span style="color:var(--muted);">· Colores basados en proyección al ritmo actual</span>
+  </div>
+
 </div>
 
 <!-- Scripts -->
@@ -1035,8 +1196,56 @@ const closersMayo = [
   { name: "Leydi Hernandez",    meta: 9000,  revenue: 1296,  pct: 14.40,  meetings: null,payments: null, conv: null, refs: null },
 ];
 
+// ---- DATA JUNIO ----
+const closersJunio = [
+  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 1973,  refs: null },
+  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     refs: null },
+  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 0,     refs: null },
+  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3182,  refs: 1 },
+  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 1512,  refs: null },
+  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     refs: null },
+  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 0,     refs: null },
+  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1786,  refs: null },
+  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     refs: null },
+  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 465,   refs: null },
+  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 2808,  refs: null },
+  { name: "Julian Robles",    meta: 20900, s1meta: 3300, s1real: 0,     refs: null },
+  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 954,   refs: null },
+  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 6384,  refs: null },
+];
+
+// ---- DATA ABRIL ----
 const sortedRevenue = [...closers].filter(c=>!c.retired).sort((a,b)=>b.revenue-a.revenue);
 const sortedMayo = [...closersMayo].sort((a,b)=>b.revenue-a.revenue);
+function buildJunioTable() {
+  const tbody = document.getElementById('junio-table-body');
+  const MONTHLY_TARGET = 14000;
+  const sorted = [...closersJunio].sort((a,b) => b.s1real - a.s1real);
+  sorted.forEach((c, i) => {
+    const pctMes = Math.round((c.s1real / c.meta)*100);
+    const pctColor = pctMes>=100?'var(--green)':pctMes>=80?'var(--gold)':'var(--red)';
+    const rankClass = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-n';
+    // Proyección al mes completo
+    const proyMes = c.s1meta > 0 ? c.s1real * (c.meta / c.s1meta) : 0;
+    let rowBg, rowBorder;
+    if (proyMes > MONTHLY_TARGET * 1.10)       { rowBg='#f0fdf4'; rowBorder='#86efac'; }
+    else if (proyMes >= MONTHLY_TARGET * 0.90)  { rowBg='#fffbeb'; rowBorder='#fcd34d'; }
+    else                                         { rowBg='#fff1f2'; rowBorder='#fca5a5'; }
+    tbody.innerHTML += `
+      <tr style="background:${rowBg}; border-left:3px solid ${rowBorder};">
+        <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
+        <td style="font-weight:600;">${c.name}</td>
+        <td class="right" style="color:var(--muted);">$${c.meta.toLocaleString('es-CO')}</td>
+        <td class="right" style="font-weight:700;">$${c.s1real.toLocaleString('es-CO')}</td>
+        <td class="right" style="color:${pctColor}; font-weight:700;">${pctMes}%</td>
+        <td class="right" style="color:var(--muted);">—</td>
+        <td class="right" style="color:var(--muted);">—</td>
+        <td class="right"><span class="pill badge-gold" style="opacity:.5;">Pendiente</span></td>
+        <td class="right" style="color:var(--muted);">—</td>
+        <td class="right">${c.refs!=null?c.refs:'—'}</td>
+      </tr>`;
+  });
+}
 
 // ---- DATOS SEMANALES POR CLOSER ----
 const weeklyAbril = {
@@ -1128,7 +1337,7 @@ function buildRankingTable() {
       <tr style="background:${rowBg}; border-left: 3px solid ${rowBorder};">
         <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
         <td style="font-weight:600">
-          <span onclick="showCloserProfile('${c.name}')" style="cursor:pointer; color:var(--text); text-decoration:none; border-bottom:1px dashed rgba(240,180,41,0.4); padding-bottom:1px; transition:color .15s;"
+          <span onclick="showCloserProfile('${c.name}')" style="cursor:pointer; color:var(--text); border-bottom:1px dashed rgba(212,144,10,0.4); padding-bottom:1px; transition:color .15s;"
             onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${c.name}</span>
         </td>
         <td class="right" style="color:var(--muted)">$${c.revAbr.toLocaleString('es-CO')}</td>
@@ -1378,7 +1587,7 @@ async function fetchTRM() {
 // ---- CALC ¿CUÁNTO ME LLEGA? ----
 function calcLlega() {
   const nr = parseInt(document.getElementById('llega-nr-raw').value) || 0;
-  const ventas = parseInt(document.getElementById('llega-ventas').value) || 0;
+  const refs = parseInt(document.getElementById('llega-referidos').value) || 0;
   const results = document.getElementById('llega-results');
   const empty   = document.getElementById('llega-empty');
 
@@ -1396,11 +1605,15 @@ function calcLlega() {
   else if (nr >= meta80)  { comPct=0.015; nivel='🟡 Nivel 80%'; nivelColor='#d97706'; nivelBg='#fffbeb'; nivelBorder='#fcd34d'; }
   else                    { nivel='⏳ No alcanzaste el 80% — sin comisión'; }
 
-  const comUSD = nr * comPct;
-  const comUSDx = comUSD * 1.2; // con multiplicador 1.2x (≥13% conversión)
-  const ticketProm = ventas > 0 ? nr / ventas : 0;
+  const comUSD   = nr * comPct;
+  const comUSDx  = comUSD * 1.2;
 
-  // Comisión box — muestra el valor base
+  // Referidos: $50 el primero, $100 del 2do en adelante
+  const refsBonus = refs > 0 ? 50 + Math.max(0, refs - 1) * 100 : 0;
+  const totalSinMult = comUSD + refsBonus;
+  const totalConMult = comUSDx + refsBonus;
+
+  // Comisión box — muestra total base
   const box = document.getElementById('llega-comision-box');
   box.style.background = nivelBg; box.style.borderColor = nivelBorder;
   document.getElementById('llega-com-val').textContent = comPct > 0 ? fmt(comUSD) : '$0';
@@ -1408,9 +1621,9 @@ function calcLlega() {
   document.getElementById('llega-com-nivel').textContent = nivel;
   document.getElementById('llega-com-nivel').style.color = nivelColor;
 
-  // Resumen
   const pctMeta = Math.round((nr / meta100)*100);
   const pctColor = nr>=meta120?'#16a34a':nr>=meta100?'#2563eb':nr>=meta80?'#d97706':'#ef4444';
+
   document.getElementById('llega-resumen').innerHTML = `
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
       <div style="background:var(--bg); border-radius:8px; padding:12px;">
@@ -1418,39 +1631,44 @@ function calcLlega() {
         <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:${pctColor};">${fmt(nr)}</div>
         <div style="font-size:11px; color:${pctColor}; font-weight:600;">${pctMeta}% de la meta</div>
       </div>
+      ${refs > 0 ? `
+      <div style="background:#faf5ff; border:1px solid #c4b5fd; border-radius:8px; padding:12px;">
+        <div style="font-size:10px; color:#7c3aed; text-transform:uppercase; letter-spacing:1px;">Bono referidos</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:#7c3aed;">${fmt(refsBonus)}</div>
+        <div style="font-size:11px; color:#7c3aed;">${refs} referido${refs>1?'s':''} · ${refs===1?'$50':('$50 + '+(refs-1)+' × $100')}</div>
+      </div>` : `
       <div style="background:var(--bg); border-radius:8px; padding:12px;">
-        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Ventas cerradas</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--text);">${ventas}</div>
-        <div style="font-size:11px; color:var(--muted);">${ventas > 0 ? `Ticket prom: ${fmt(ticketProm)}` : '—'}</div>
-      </div>
+        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Bono referidos</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--muted);">$0</div>
+        <div style="font-size:11px; color:var(--muted);">Sin referidos esta semana</div>
+      </div>`}
     </div>
 
     ${comPct > 0 ? `
-    <!-- Comparativo con/sin multiplicador -->
+    <!-- Comparativo con/sin multiplicador incluyendo referidos -->
     <div style="margin-bottom:14px;">
-      <div style="font-size:11px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">💰 Tu comisión según conversión</div>
+      <div style="font-size:11px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">💰 Total que te llega según conversión</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
 
-        <!-- Sin multiplicador -->
         <div style="background:#f8fafc; border:2px solid #e2e8f0; border-radius:12px; padding:16px; text-align:center;">
-          <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Sin multiplicador</div>
+          <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Sin multiplicador</div>
           <div style="font-size:11px; color:var(--muted); margin-bottom:8px;">Conversión &lt; 13%</div>
-          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:#64748b; letter-spacing:1px;">${fmt(comUSD)}</div>
-          <div style="font-size:10px; color:var(--muted); margin-top:4px;">${(comPct*100).toFixed(1)}% del NR</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:#64748b;">${fmt(totalSinMult)}</div>
+          <div style="font-size:10px; color:var(--muted); margin-top:4px;">${fmt(comUSD)} comisión${refs>0?' + '+fmt(refsBonus)+' referidos':''}</div>
         </div>
 
-        <!-- Con multiplicador -->
         <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7); border:2px solid #16a34a; border-radius:12px; padding:16px; text-align:center; position:relative; overflow:hidden;">
           <div style="position:absolute; top:8px; right:8px; font-size:16px;">⚡</div>
-          <div style="font-size:10px; color:#15803d; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:6px;">Con multiplicador</div>
+          <div style="font-size:10px; color:#15803d; text-transform:uppercase; letter-spacing:1px; font-weight:700; margin-bottom:4px;">Con multiplicador</div>
           <div style="font-size:11px; color:#15803d; margin-bottom:8px; font-weight:600;">Conversión ≥ 13% · ×1.2</div>
-          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:#15803d; letter-spacing:1px;">${fmt(comUSDx)}</div>
-          <div style="font-size:10px; color:#15803d; margin-top:4px; font-weight:600;">+${fmt(comUSDx - comUSD)} extra</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; color:#15803d;">${fmt(totalConMult)}</div>
+          <div style="font-size:10px; color:#15803d; margin-top:4px; font-weight:600;">${fmt(comUSDx)} comisión${refs>0?' + '+fmt(refsBonus)+' referidos':''}</div>
         </div>
 
       </div>
       <div style="margin-top:10px; padding:10px 14px; background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; font-size:12px; color:#92400e; line-height:1.6;">
-        🎯 <strong>¿Alcanzaste el 13% de conversión esta semana?</strong> Si sí, tu comisión real es <strong style="color:#16a34a;">${fmt(comUSDx)}</strong>. Si no, es <strong>${fmt(comUSD)}</strong>. ¡Vale la pena cerrar esa venta extra!
+        🎯 <strong>¿Alcanzaste el 13% de conversión?</strong> Si sí, te llega <strong style="color:#16a34a;">${fmt(totalConMult)}</strong>. Si no, te llega <strong>${fmt(totalSinMult)}</strong>.
+        ${refs > 0 ? `Los referidos (<strong style="color:#7c3aed;">${fmt(refsBonus)}</strong>) se pagan con la comisión de la última semana del mes.` : ''}
       </div>
     </div>` : ''}
 
@@ -1719,6 +1937,22 @@ function calcComision() {
     : `<span style="color:#ef4444; font-weight:700;">${comTier}</span> · Te faltan <strong>${fmt(meta80-nr)}</strong> para el primer nivel`;
 }
 
+// ---- DROPDOWN ----
+function toggleDropdown(e) {
+  e.stopPropagation();
+  const menu = document.getElementById('tools-menu');
+  const arrow = document.getElementById('tools-arrow');
+  const isOpen = menu.style.display === 'block';
+  menu.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+}
+function closeDropdown() {
+  document.getElementById('tools-menu').style.display = 'none';
+  document.getElementById('tools-arrow').style.transform = 'rotate(0deg)';
+}
+// Cerrar al hacer click fuera
+document.addEventListener('click', () => closeDropdown());
+
 // ---- NAV ----
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -1787,7 +2021,7 @@ function showCloserProfile(name) {
     <!-- Header del closer -->
     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:16px;">
       <div style="display:flex; align-items:center; gap:16px;">
-        <div style="width:56px; height:56px; border-radius:14px; background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#0a0c10; flex-shrink:0;">
+        <div style="width:56px; height:56px; border-radius:14px; background:var(--gold); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:24px; color:#fff; flex-shrink:0;">
           ${name.split(' ').map(w=>w[0]).slice(0,2).join('')}
         </div>
         <div>
@@ -2063,6 +2297,7 @@ buildRankingTable();
 buildInsights();
 buildAbrilTable();
 buildMayoTable();
+buildJunioTable();
 initCalc();
 </script>
 </body>
