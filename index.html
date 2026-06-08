@@ -446,6 +446,9 @@
     #calc-thresholds-grid { grid-template-columns: 1fr !important; }
     #calc-proy-content .grid { grid-template-columns: 1fr !important; }
 
+    /* Insights grids mes a mes */
+    #abril-insights, #mayo-insights, #junio-insights { grid-template-columns: 1fr !important; }
+
     /* Insights grid — 1 columna */
     #insights-grid {
       grid-template-columns: 1fr !important;
@@ -719,7 +722,10 @@
     </div>
   </div>
 
-  <!-- Tabla detallada -->
+
+  <!-- Insights Abril -->
+  <div id="abril-insights" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;"></div>
+
   <div class="section-title">DETALLE POR CLOSER</div>
   <div class="table-wrap">
     <table>
@@ -740,8 +746,6 @@
       <tbody id="abril-table-body"></tbody>
     </table>
   </div>
-
-
 
 </div>
 
@@ -824,6 +828,9 @@
     </div>
   </div>
 
+  <!-- Insights Mayo -->
+  <div id="mayo-insights" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;"></div>
+
   <!-- Tabla Mayo -->
   <div class="section-title">DETALLE POR CLOSER</div>
   <div class="table-wrap">
@@ -891,14 +898,7 @@
       <!-- Inputs proyección -->
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
         <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">¿Cómo vas esta semana?</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-          <div>
-            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">Ventas cerradas</label>
-            <input id="inp-ventas" type="number" min="0" placeholder="Ej: 3"
-              style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
-              onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='var(--border)'"
-              oninput="calcComision()">
-          </div>
+        <div style="display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:16px;">
           <div>
             <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">NR recaudado esta semana</label>
             <div style="position:relative;">
@@ -1064,8 +1064,8 @@
     </div>
     <div class="goal-status missed">
       <div class="gs-label">Cumplimiento</div>
-      <div class="gs-val" style="color:var(--red);">8,30%</div>
-      <div style="font-size:11px; color:var(--muted);">$19.064 / $229.680 · En curso</div>
+      <div class="gs-val" style="color:var(--red);">12,76%</div>
+      <div style="font-size:11px; color:var(--muted);">$29.313 / $229.680 · En curso</div>
     </div>
   </div>
 
@@ -1074,24 +1074,24 @@
   <div class="kpi-grid" style="grid-template-columns: repeat(5,1fr);">
     <div class="kpi-card highlight">
       <div class="kpi-label">Recaudado</div>
-      <div class="kpi-value gold">$19.064</div>
+      <div class="kpi-value gold">$29.313</div>
       <div class="kpi-sub">Meta: $229.680</div>
-      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:8.3%; background:var(--red);"></div></div></div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:12.76%; background:var(--red);"></div></div></div>
     </div>
     <div class="kpi-card red-card">
       <div class="kpi-label">Faltante</div>
-      <div class="kpi-value red">$210.616</div>
+      <div class="kpi-value red">$200.367</div>
       <div class="kpi-sub">Para llegar al 100%</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Semana Activa</div>
-      <div class="kpi-value">SEM 1</div>
-      <div class="kpi-sub">1 al 6 de junio</div>
+      <div class="kpi-value">SEM 2</div>
+      <div class="kpi-sub">7 al 13 de junio</div>
       <span class="kpi-badge badge-gold">🔴 En curso</span>
     </div>
     <div class="kpi-card green-card">
       <div class="kpi-label">Referidos</div>
-      <div class="kpi-value green">1</div>
+      <div class="kpi-value green">3</div>
       <div class="kpi-sub">Meta: 14</div>
     </div>
     <div class="kpi-card blue-card">
@@ -1107,14 +1107,14 @@
     <div class="week-card" style="border-left-color:var(--orange);">
       <div class="week-title">SEM 1 · 1–6</div>
       <div class="week-goal">Meta: $55.440</div>
-      <div class="week-actual" style="color:var(--orange);">$19.064</div>
-      <div class="week-pct" style="color:var(--orange);">34,39% · En curso</div>
+      <div class="week-actual" style="color:var(--orange);">$28.176</div>
+      <div class="week-pct" style="color:var(--orange);">50,82% ↓</div>
     </div>
-    <div class="week-card" style="border-left-color:#cbd5e1;">
+    <div class="week-card" style="border-left-color:var(--red);">
       <div class="week-title">SEM 2 · 7–13</div>
       <div class="week-goal">Meta: $56.320</div>
-      <div class="week-actual" style="color:var(--muted);">$0</div>
-      <div class="week-pct" style="color:var(--muted);">Pendiente</div>
+      <div class="week-actual" style="color:var(--red);">$1.137</div>
+      <div class="week-pct" style="color:var(--red);">2,02% · En curso</div>
     </div>
     <div class="week-card" style="border-left-color:#cbd5e1;">
       <div class="week-title">SEM 3 · 14–20</div>
@@ -1131,6 +1131,9 @@
   </div>
 
   <!-- Tabla Junio -->
+  <!-- Insights Junio -->
+  <div id="junio-insights" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;"></div>
+
   <div class="section-title">DETALLE POR CLOSER — PARCIAL SEM 1</div>
   <div class="table-wrap">
     <table>
@@ -1198,20 +1201,20 @@ const closersMayo = [
 
 // ---- DATA JUNIO ----
 const closersJunio = [
-  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 1973,  refs: null },
-  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     refs: null },
-  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 0,     refs: null },
-  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3182,  refs: 1 },
-  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 1512,  refs: null },
-  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     refs: null },
-  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 0,     refs: null },
-  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1786,  refs: null },
-  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     refs: null },
-  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 465,   refs: null },
-  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 2808,  refs: null },
-  { name: "Julian Robles",    meta: 20900, s1meta: 3300, s1real: 0,     refs: null },
-  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 954,   refs: null },
-  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 6384,  refs: null },
+  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 1973,  s2real: 0,    refs: null },
+  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2real: 0,    refs: null },
+  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 2902,  s2real: 0,    refs: 1 },
+  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3182,  s2real: 0,    refs: 1 },
+  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 3012,  s2real: 0,    refs: 1 },
+  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     s2real: 0,    refs: null },
+  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2114,  s2real: 0,    refs: null },
+  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1786,  s2real: 0,    refs: null },
+  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     s2real: 0,    refs: null },
+  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 2503,  s2real: 0,    refs: null },
+  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 2808,  s2real: 0,    refs: null },
+  { name: "Julian Robles",    meta: 20900, s1meta: 3300, s1real: 0,     s2real: 0,    refs: null },
+  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 954,   s2real: 0,    refs: null },
+  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 6942,  s2real: 1137, refs: null },
 ];
 
 // ---- DATA ABRIL ----
@@ -1220,23 +1223,23 @@ const sortedMayo = [...closersMayo].sort((a,b)=>b.revenue-a.revenue);
 function buildJunioTable() {
   const tbody = document.getElementById('junio-table-body');
   const MONTHLY_TARGET = 14000;
-  const sorted = [...closersJunio].sort((a,b) => b.s1real - a.s1real);
+  const sorted = [...closersJunio].sort((a,b) => (b.s1real+(b.s2real||0)) - (a.s1real+(a.s2real||0)));
   sorted.forEach((c, i) => {
-    const pctMes = Math.round((c.s1real / c.meta)*100);
+    const total = c.s1real + (c.s2real || 0);
+    const pctMes = Math.round((total / c.meta)*100);
     const pctColor = pctMes>=100?'var(--green)':pctMes>=80?'var(--gold)':'var(--red)';
     const rankClass = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-n';
-    // Proyección al mes completo
-    const proyMes = c.s1meta > 0 ? c.s1real * (c.meta / c.s1meta) : 0;
+    const proyMes = c.s1meta > 0 ? total * (c.meta / (c.s1meta * 2)) : 0;
     let rowBg, rowBorder;
     if (proyMes > MONTHLY_TARGET * 1.10)       { rowBg='#f0fdf4'; rowBorder='#86efac'; }
     else if (proyMes >= MONTHLY_TARGET * 0.90)  { rowBg='#fffbeb'; rowBorder='#fcd34d'; }
     else                                         { rowBg='#fff1f2'; rowBorder='#fca5a5'; }
     tbody.innerHTML += `
-      <tr style="background:${rowBg}; border-left:3px solid ${rowBorder};">
+      <tr style="background:${c.name==='Julian Robles'?'#f8fafc':rowBg}; border-left:3px solid ${c.name==='Julian Robles'?'#94a3b8':rowBorder}; opacity:${c.name==='Julian Robles'?'0.7':'1'};">
         <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
-        <td style="font-weight:600;">${c.name}</td>
+        <td style="font-weight:600;">${c.name} ${c.name==='Julian Robles'?'<span style="display:inline-block;margin-left:6px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;font-size:9px;font-weight:600;color:#64748b;letter-spacing:.5px;vertical-align:middle;">DESVINCULADO · BAJO PERFORMANCE</span>':''}</td>
         <td class="right" style="color:var(--muted);">$${c.meta.toLocaleString('es-CO')}</td>
-        <td class="right" style="font-weight:700;">$${c.s1real.toLocaleString('es-CO')}</td>
+        <td class="right" style="font-weight:700;">$${total.toLocaleString('es-CO')}</td>
         <td class="right" style="color:${pctColor}; font-weight:700;">${pctMes}%</td>
         <td class="right" style="color:var(--muted);">—</td>
         <td class="right" style="color:var(--muted);">—</td>
@@ -1950,8 +1953,6 @@ function closeDropdown() {
   document.getElementById('tools-menu').style.display = 'none';
   document.getElementById('tools-arrow').style.transform = 'rotate(0deg)';
 }
-// Cerrar al hacer click fuera
-document.addEventListener('click', () => closeDropdown());
 
 // ---- NAV ----
 function showPage(id) {
@@ -2292,13 +2293,116 @@ function goBackToOverview() {
 }
 
 
+// ---- INSIGHTS POR MES ----
+function insightCard(icon, title, body, color, bg, border) {
+  return `<div style="background:${bg}; border:1px solid ${border}; border-radius:12px; padding:16px; position:relative; overflow:hidden;">
+    <div style="position:absolute; top:10px; right:12px; font-size:20px; opacity:.2;">${icon}</div>
+    <div style="font-size:16px; margin-bottom:6px;">${icon}</div>
+    <div style="font-size:12px; font-weight:700; color:${color}; margin-bottom:5px; letter-spacing:.3px;">${title}</div>
+    <div style="font-size:12px; color:#4b5563; line-height:1.6;">${body}</div>
+  </div>`;
+}
+
+function buildMonthInsights(data, containerId, monthName) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const active = data.filter(c => !c.retired);
+  if (!active.length) return;
+
+  const sorted = [...active].sort((a,b) => b.revenue - a.revenue);
+  const top = sorted[0];
+  const bottom = sorted[sorted.length - 1];
+
+  const totalRev = active.reduce((s,c) => s + c.revenue, 0);
+  const avgRev = Math.round(totalRev / active.length);
+
+  const withConv = active.filter(c => c.conv != null);
+  const avgConv = withConv.length ? +(withConv.reduce((s,c)=>s+c.conv,0)/withConv.length).toFixed(1) : null;
+  const overBench = withConv.filter(c => c.conv >= 13).length;
+  const topConv = withConv.length ? [...withConv].sort((a,b)=>b.conv-a.conv)[0] : null;
+
+  const over100 = active.filter(c => c.pct >= 100).length;
+  const under50  = active.filter(c => c.pct < 50).length;
+  const totalRefs = active.reduce((s,c) => s + (c.refs||0), 0);
+  const withPayments = active.filter(c => c.payments && c.payments > 0);
+  const totalPayments = withPayments.reduce((s,c)=>s+c.payments,0);
+  const ticket = totalPayments > 0 ? Math.round(totalRev / totalPayments) : 0;
+
+  const cards = [];
+
+  cards.push(insightCard('🏆',
+    `Top performer — ${top.name}`,
+    `Lideró ${monthName} con <strong>$${top.revenue.toLocaleString('es-CO')}</strong> (${top.pct}% de su meta).${top.conv ? ` Conversión: ${top.conv}%.` : ''}`,
+    '#92400e', '#fffbeb', '#fcd34d'));
+
+  cards.push(insightCard(over100 >= Math.ceil(active.length/2) ? '✅' : '⚠️',
+    `${over100} de ${active.length} closers sobre el 100%`,
+    `${over100 > 0 ? `<strong>${over100} closer${over100>1?'s':''}</strong> superaron su meta.` : 'Ningún closer alcanzó el 100%.'} ${under50 > 0 ? ` <strong style="color:#dc2626;">${under50} closer${under50>1?'s':''}</strong> no llegaron al 50%.` : ''}`,
+    over100 >= Math.ceil(active.length/2) ? '#166534' : '#991b1b',
+    over100 >= Math.ceil(active.length/2) ? '#f0fdf4' : '#fff1f2',
+    over100 >= Math.ceil(active.length/2) ? '#86efac' : '#fca5a5'));
+
+  if (avgConv != null) {
+    cards.push(insightCard(avgConv >= 13 ? '🎯' : '📉',
+      `Conversión promedio: ${avgConv}%`,
+      `${overBench} de ${withConv.length} closers sobre el 13%.${topConv ? ` Mejor: <strong>${topConv.name}</strong> (${topConv.conv}%).` : ''} ${avgConv < 13 ? 'El equipo debe mejorar el cierre.' : '¡Por encima del benchmark!'}`,
+      avgConv >= 13 ? '#166534' : '#0369a1',
+      avgConv >= 13 ? '#f0fdf4' : '#eff6ff',
+      avgConv >= 13 ? '#86efac' : '#93c5fd'));
+  } else if (ticket > 0) {
+    cards.push(insightCard('💵',
+      `Ticket promedio: $${ticket.toLocaleString('es-CO')}`,
+      `Sobre <strong>${totalPayments} ventas</strong> y <strong>$${totalRev.toLocaleString('es-CO')}</strong> en revenue. Promedio por closer: <strong>$${avgRev.toLocaleString('es-CO')}</strong>.`,
+      '#1d4ed8', '#eff6ff', '#93c5fd'));
+  }
+
+  el.innerHTML = cards.slice(0, 3).join('');
+}
+
+function buildJunioInsights() {
+  const el = document.getElementById('junio-insights');
+  if (!el) return;
+  const sorted = [...closersJunio].sort((a,b) => (b.s1real+(b.s2real||0)) - (a.s1real+(a.s2real||0)));
+  const totals = closersJunio.map(c => c.s1real + (c.s2real||0));
+  const totalRev = totals.reduce((s,v)=>s+v,0);
+  const top = sorted[0];
+  const topTotal = top.s1real + (top.s2real||0);
+  const topPct = Math.round((topTotal/top.meta)*100);
+  const zeros = closersJunio.filter(c => c.s1real+(c.s2real||0) === 0).length;
+  const totalRefs = closersJunio.reduce((s,c)=>s+(c.refs||0),0);
+  const avgRev = Math.round(totalRev / closersJunio.length);
+
+  el.innerHTML = [
+    insightCard('🏆',
+      `Líder en curso — ${top.name}`,
+      `Va primero con <strong>$${topTotal.toLocaleString('es-CO')}</strong> (${topPct}% de su meta). Única closer con recaudo en SEM 2.`,
+      '#92400e', '#fffbeb', '#fcd34d'),
+    insightCard('⚠️',
+      `${zeros} closers sin recaudo aún`,
+      `${zeros} miembros del equipo tienen $0 acumulado. Con 3 semanas restantes (SEM 2, 3 y 4), es urgente que arranquen. Las SEMS 3 y 4 concentran el mayor peso de la meta.`,
+      '#991b1b', '#fff1f2', '#fca5a5'),
+    insightCard('📊',
+      `Total acumulado: $${totalRev.toLocaleString('es-CO')} (${Math.round((totalRev/229680)*100)}%)`,
+      `El equipo promedia <strong>$${avgRev.toLocaleString('es-CO')}</strong> por closer. Quedan SEM 3 y SEM 4 con metas de <strong>$61.600</strong> y <strong>$81.840</strong> respectivamente.`,
+      '#0369a1', '#eff6ff', '#93c5fd'),
+  ].join('');
+}
+
 // ---- INIT ----
-buildRankingTable();
-buildInsights();
-buildAbrilTable();
-buildMayoTable();
-buildJunioTable();
-initCalc();
+document.addEventListener('DOMContentLoaded', function() {
+  // Cerrar dropdown al hacer click fuera
+  document.addEventListener('click', () => closeDropdown());
+
+  buildRankingTable();
+  buildInsights();
+  buildAbrilTable();
+  buildMonthInsights(sortedRevenue, 'abril-insights', 'Abril');
+  buildMayoTable();
+  buildMonthInsights(sortedMayo, 'mayo-insights', 'Mayo');
+  buildJunioTable();
+  buildJunioInsights();
+  initCalc();
+});
 </script>
 </body>
 </html>
