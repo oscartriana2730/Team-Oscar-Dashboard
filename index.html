@@ -351,8 +351,29 @@
     gap: 20px;
     margin-bottom: 32px;
   }
+  .overview-kpi-chart-layout .kpi-card {
+    padding: 16px 16px;
+  }
+  .overview-kpi-chart-layout .kpi-value {
+    font-size: 28px;
+  }
+  .overview-kpi-chart-layout .kpi-label {
+    font-size: 10px;
+  }
+  .overview-kpi-chart-layout .kpi-sub {
+    font-size: 11px;
+  }
+
   /* ======== RESPONSIVE MOBILE ======== */
   @media (max-width: 768px) {
+
+    /* KPI + chart layout — apilar en móvil */
+    .overview-kpi-chart-layout {
+      grid-template-columns: 1fr !important;
+    }
+    #overview-kpis-main, #overview-kpis-secondary {
+      grid-template-columns: 1fr 1fr !important;
+    }
 
     /* Header */
     .header {
@@ -442,6 +463,7 @@
 
     /* Closer profile grids */
     .closer-kpi-grid { grid-template-columns: 1fr 1fr !important; }
+    .profile-charts-layout { grid-template-columns: 1fr !important; }
     /* Calculator grids */
     #calc-thresholds-grid { grid-template-columns: 1fr !important; }
     #calc-proy-content .grid { grid-template-columns: 1fr !important; }
@@ -535,80 +557,29 @@
     <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; color:var(--text); margin-top:4px;">Consolidado del Equipo</div>
   </div>
 
-  <div class="section-title">KPIs PRINCIPALES — CONSOLIDADO ABR + MAY</div>
-  <div class="kpi-grid" style="grid-template-columns: repeat(5, 1fr);">
-    <div class="kpi-card highlight">
-      <div class="kpi-label">Total Recaudado (2 meses)</div>
-      <div class="kpi-value gold">$365.078</div>
-      <div class="kpi-sub">Abr $197.931 · May $167.147</div>
-      <div class="progress-wrap">
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width:99%; background:var(--gold);"></div>
-        </div>
+  <div class="section-title" id="overview-kpi-title">KPIs PRINCIPALES — CONSOLIDADO</div>
+  <div style="display:grid; grid-template-columns: 0.8fr 1.4fr; gap:20px; margin-bottom:16px; align-items:stretch;" class="overview-kpi-chart-layout">
+    <div id="overview-kpis-main" class="kpi-grid" style="grid-template-columns: repeat(2, 1fr); align-content:start; margin-bottom:0; gap:12px;"></div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Revenue Mes a Mes — Todos los Closers</div>
+        <div id="overview-chart-motivation" style="display:none; font-size:12px; font-weight:600; padding:5px 12px; border-radius:99px; background:#f8fafc;"></div>
       </div>
-      <span class="kpi-badge badge-gold">Acumulado 2026</span>
-    </div>
-    <div class="kpi-card green-card">
-      <div class="kpi-label">Ticket Promedio Consolidado</div>
-      <div class="kpi-value green">$1.802</div>
-      <div class="kpi-sub">$365.078 / 203 ventas totales</div>
-      <span class="kpi-badge badge-green">Abr $1.546 · May $2.076</span>
-    </div>
-    <div class="kpi-card blue-card">
-      <div class="kpi-label">Conversión Promedio</div>
-      <div class="kpi-value blue">10,6%</div>
-      <div class="kpi-sub">Benchmark: 13% · May bajó</div>
-      <div class="progress-wrap">
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" style="width:81.5%; background:var(--accent2);"></div>
-        </div>
+      <div style="position:relative; height:340px;">
+        <canvas id="overviewLineChart"></canvas>
       </div>
-      <span class="kpi-badge badge-red">-2.4pp del benchmark</span>
-    </div>
-    <div class="kpi-card green-card">
-      <div class="kpi-label">Total Closers Activos</div>
-      <div class="kpi-value green">13</div>
-      <div class="kpi-sub">+2 nuevos en Mayo</div>
-      <span class="kpi-badge badge-green">Sergio · Leydi</span>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Referidos (2 meses)</div>
-      <div class="kpi-value">26</div>
-      <div class="kpi-sub">Abr 12 · May 14</div>
-      <span class="kpi-badge badge-green">Metas superadas ✓</span>
+      <div id="overview-chart-hint" style="display:flex; align-items:center; gap:8px; margin-top:12px; padding:8px 12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; font-size:11px; color:#1d4ed8;">
+        <span style="font-size:14px;">👆</span>
+        <span>Haz clic en el nombre de un closer abajo para ver solo su línea, sus valores y un análisis personalizado.</span>
+        <button onclick="this.parentElement.style.display='none'" style="margin-left:auto; background:none; border:none; color:#1d4ed8; cursor:pointer; font-size:14px; padding:0 4px;">✕</button>
+      </div>
+      <div id="overview-chart-legend" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; max-height:90px; overflow-y:auto;"></div>
     </div>
   </div>
-
-  <!-- Segunda fila KPIs -->
-  <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
-    <div class="kpi-card highlight">
-      <div class="kpi-label">Top Revenue Acumulado</div>
-      <div class="kpi-value gold" style="font-size:28px;">Duvan Libreros</div>
-      <div class="kpi-sub" style="margin-top:8px;">$47.418 · Abr $21.482 + May $25.936</div>
-      <span class="kpi-badge badge-gold">Consistente 2 meses 💰</span>
-    </div>
-    <div class="kpi-card blue-card">
-      <div class="kpi-label">Top Conversión Acumulada</div>
-      <div class="kpi-value blue" style="font-size:28px;">Diana Caicedo</div>
-      <div class="kpi-sub" style="margin-top:8px;">13.7% prom · Abr 17.9% → May 8.9%</div>
-      <span class="kpi-badge badge-blue">Mayor caída a vigilar 🎯</span>
-    </div>
-    <div class="kpi-card red-card">
-      <div class="kpi-label">Mayor Caída entre meses</div>
-      <div class="kpi-value red" style="font-size:28px;">Diana Caicedo</div>
-      <div class="kpi-sub" style="margin-top:8px;">-$13.665 vs Abril · -59.6pp cumplimiento</div>
-      <span class="kpi-badge badge-red">Requiere atención urgente</span>
-    </div>
-    <div class="kpi-card green-card">
-      <div class="kpi-label">Mayor Crecimiento</div>
-      <div class="kpi-value green" style="font-size:28px;">Ingrid Arias</div>
-      <div class="kpi-sub" style="margin-top:8px;">Abr $12.292 → May $20.919 (+70%)</div>
-      <span class="kpi-badge badge-green">Mejor evolución del equipo 📈</span>
-    </div>
-  </div>
+  <div id="overview-kpis-secondary" class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:8px;"></div>
 
   <!-- Overview table closers CONSOLIDADO -->
-  <div class="section-title">RANKING CONSOLIDADO — ABR + MAY 2026</div>
+  <div class="section-title" id="overview-ranking-title">RANKING CONSOLIDADO</div>
   <div class="table-wrap">
     <table>
       <thead>
@@ -617,7 +588,8 @@
           <th>CLOSER</th>
           <th class="right">REV ABR</th>
           <th class="right">REV MAY</th>
-          <th class="right">TOTAL 2 MESES</th>
+          <th class="right">REV JUN</th>
+          <th class="right">TOTAL ACUM.</th>
           <th class="right">MEETINGS</th>
           <th class="right">VENTAS</th>
           <th class="right">CONV. PROM.</th>
@@ -1064,40 +1036,57 @@
     </div>
     <div class="goal-status missed">
       <div class="gs-label">Cumplimiento</div>
-      <div class="gs-val" style="color:var(--red);">12,76%</div>
-      <div style="font-size:11px; color:var(--muted);">$29.313 / $229.680 · En curso</div>
+      <div class="gs-val" style="color:var(--gold);">55,48%</div>
+      <div style="font-size:11px; color:var(--muted);">$122.147 / $220.176 · En curso</div>
     </div>
   </div>
 
   <!-- KPIs Junio -->
   <div class="section-title">MÉTRICAS DEL MES</div>
-  <div class="kpi-grid" style="grid-template-columns: repeat(5,1fr);">
-    <div class="kpi-card highlight">
-      <div class="kpi-label">Recaudado</div>
-      <div class="kpi-value gold">$29.313</div>
-      <div class="kpi-sub">Meta: $229.680</div>
-      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:12.76%; background:var(--red);"></div></div></div>
+  <div style="display:grid; grid-template-columns: 0.8fr 1.4fr; gap:20px; margin-bottom:8px; align-items:start;" class="overview-kpi-chart-layout">
+    <div class="kpi-grid" style="grid-template-columns: repeat(2,1fr); margin-bottom:0;">
+      <div class="kpi-card highlight">
+        <div class="kpi-label">Recaudado</div>
+        <div class="kpi-value gold">$122.147</div>
+        <div class="kpi-sub">Meta: $220.176</div>
+        <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:55.48%; background:var(--gold);"></div></div></div>
+      </div>
+      <div class="kpi-card red-card">
+        <div class="kpi-label">Faltante</div>
+        <div class="kpi-value red">$98.029</div>
+        <div class="kpi-sub">Para llegar al 100%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Semana Activa</div>
+        <div class="kpi-value">SEM 4</div>
+        <div class="kpi-sub">21 al 30 de junio</div>
+        <span class="kpi-badge badge-gold">🔴 En curso · más larga</span>
+      </div>
+      <div class="kpi-card green-card">
+        <div class="kpi-label">Referidos</div>
+        <div class="kpi-value green">7</div>
+        <div class="kpi-sub">Meta: 14</div>
+      </div>
+      <div class="kpi-card blue-card" style="grid-column: span 2;">
+        <div class="kpi-label">Ticket Promedio</div>
+        <div class="kpi-value blue">—</div>
+        <div class="kpi-sub">Disponible al cerrar mes</div>
+      </div>
     </div>
-    <div class="kpi-card red-card">
-      <div class="kpi-label">Faltante</div>
-      <div class="kpi-value red">$200.367</div>
-      <div class="kpi-sub">Para llegar al 100%</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Semana Activa</div>
-      <div class="kpi-value">SEM 2</div>
-      <div class="kpi-sub">7 al 13 de junio</div>
-      <span class="kpi-badge badge-gold">🔴 En curso</span>
-    </div>
-    <div class="kpi-card green-card">
-      <div class="kpi-label">Referidos</div>
-      <div class="kpi-value green">3</div>
-      <div class="kpi-sub">Meta: 14</div>
-    </div>
-    <div class="kpi-card blue-card">
-      <div class="kpi-label">Ticket Promedio</div>
-      <div class="kpi-value blue">—</div>
-      <div class="kpi-sub">Disponible al cerrar mes</div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Revenue Semana a Semana — Junio</div>
+        <div id="junio-chart-motivation" style="display:none; font-size:12px; font-weight:600; padding:5px 12px; border-radius:99px; background:#f8fafc;"></div>
+      </div>
+      <div style="position:relative; height:340px;">
+        <canvas id="junioLineChart"></canvas>
+      </div>
+      <div id="junio-chart-hint" style="display:flex; align-items:center; gap:8px; margin-top:12px; padding:8px 12px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; font-size:11px; color:#1d4ed8;">
+        <span style="font-size:14px;">👆</span>
+        <span>Haz clic en el nombre de un closer abajo para ver solo su línea, sus valores y un análisis personalizado.</span>
+        <button onclick="this.parentElement.style.display='none'" style="margin-left:auto; background:none; border:none; color:#1d4ed8; cursor:pointer; font-size:14px; padding:0 4px;">✕</button>
+      </div>
+      <div id="junio-chart-legend" style="display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; max-height:90px; overflow-y:auto;"></div>
     </div>
   </div>
 
@@ -1106,27 +1095,27 @@
   <div class="weekly-grid" style="grid-template-columns: repeat(4,1fr);">
     <div class="week-card" style="border-left-color:var(--orange);">
       <div class="week-title">SEM 1 · 1–6</div>
-      <div class="week-goal">Meta: $55.440</div>
-      <div class="week-actual" style="color:var(--orange);">$28.176</div>
-      <div class="week-pct" style="color:var(--orange);">50,82% ↓</div>
+      <div class="week-goal">Meta: $52.800</div>
+      <div class="week-actual" style="color:var(--orange);">$32.001</div>
+      <div class="week-pct" style="color:var(--orange);">60,61% ↓</div>
+    </div>
+    <div class="week-card" style="border-left-color:var(--orange);">
+      <div class="week-title">SEM 2 · 7–13</div>
+      <div class="week-goal">Meta: $52.800</div>
+      <div class="week-actual" style="color:var(--orange);">$31.267</div>
+      <div class="week-pct" style="color:var(--orange);">59,22% ↓</div>
+    </div>
+    <div class="week-card" style="border-left-color:var(--green);">
+      <div class="week-title">SEM 3 · 14–20</div>
+      <div class="week-goal">Meta: $57.200</div>
+      <div class="week-actual" style="color:var(--green);">$43.433</div>
+      <div class="week-pct" style="color:var(--green);">75,93% ↑</div>
     </div>
     <div class="week-card" style="border-left-color:var(--red);">
-      <div class="week-title">SEM 2 · 7–13</div>
-      <div class="week-goal">Meta: $56.320</div>
-      <div class="week-actual" style="color:var(--red);">$1.137</div>
-      <div class="week-pct" style="color:var(--red);">2,02% · En curso</div>
-    </div>
-    <div class="week-card" style="border-left-color:#cbd5e1;">
-      <div class="week-title">SEM 3 · 14–20</div>
-      <div class="week-goal">Meta: $61.600</div>
-      <div class="week-actual" style="color:var(--muted);">$0</div>
-      <div class="week-pct" style="color:var(--muted);">Pendiente</div>
-    </div>
-    <div class="week-card" style="border-left-color:#cbd5e1;">
       <div class="week-title">SEM 4 · 21–30</div>
       <div class="week-goal">Meta: $81.840</div>
-      <div class="week-actual" style="color:var(--muted);">$0</div>
-      <div class="week-pct" style="color:var(--muted);">Pendiente</div>
+      <div class="week-actual" style="color:var(--red);">$15.446</div>
+      <div class="week-pct" style="color:var(--red);">18,87% · En curso</div>
     </div>
   </div>
 
@@ -1134,7 +1123,7 @@
   <!-- Insights Junio -->
   <div id="junio-insights" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px;"></div>
 
-  <div class="section-title">DETALLE POR CLOSER — PARCIAL SEM 1</div>
+  <div class="section-title">DETALLE POR CLOSER — ACUMULADO SEM 1, 2, 3 Y 4 (en curso)</div>
   <div class="table-wrap">
     <table>
       <thead>
@@ -1165,6 +1154,7 @@
 </div>
 
 <!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <script>
 // ---- DATA ABRIL ----
 const closers = [
@@ -1201,20 +1191,20 @@ const closersMayo = [
 
 // ---- DATA JUNIO ----
 const closersJunio = [
-  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 1973,  s2real: 0,    refs: null },
-  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2real: 0,    refs: null },
-  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 2902,  s2real: 0,    refs: 1 },
-  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3182,  s2real: 0,    refs: 1 },
-  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 3012,  s2real: 0,    refs: 1 },
-  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     s2real: 0,    refs: null },
-  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2114,  s2real: 0,    refs: null },
-  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1786,  s2real: 0,    refs: null },
-  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     s2real: 0,    refs: null },
-  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 2503,  s2real: 0,    refs: null },
-  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 2808,  s2real: 0,    refs: null },
-  { name: "Julian Robles",    meta: 20900, s1meta: 3300, s1real: 0,     s2real: 0,    refs: null },
-  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 954,   s2real: 0,    refs: null },
-  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 6942,  s2real: 1137, refs: null },
+  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 2240,  s2meta: 5500, s2real: 867,   s3meta: 5500, s3real: 5236, s4meta: 7700, s4real: 3721, refs: 1 },
+  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 6721,  s3meta: 5500, s3real: 6150, s4meta: 7700, s4real: 582,  refs: 1 },
+  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 3182,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 2144, s4meta: 7700, s4real: 390,  refs: 1 },
+  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3020,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4240, s4meta: 7700, s4real: 1500, refs: 1 },
+  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 4428,  s2meta: 5500, s2real: 857,   s3meta: 5500, s3real: 0,    s4meta: 2200, s4real: 0,    refs: 1 },
+  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 3918, s4meta: 7700, s4real: 1824, refs: null },
+  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2192,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4940, s4meta: 7700, s4real: 0,    refs: 1 },
+  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1846,  s2meta: 5500, s2real: 7894,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 3279, refs: 1 },
+  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 694,   s3meta: 5500, s3real: 4266, s4meta: 7700, s4real: 0,    refs: null },
+  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 2542,  s2meta: 5500, s2real: 2235,  s3meta: 5500, s3real: 547,  s4meta: 7700, s4real: 465,  refs: null },
+  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 4311,  s2meta: 5500, s2real: 1056,  s3meta: 5500, s3real: 1275, s4meta: 7700, s4real: 1537, refs: null },
+  { name: "Katrin Muñoz",     meta: 7700,  s1meta: 0,    s1real: null,  s2meta: 0,    s2real: 3126,  s3meta: 0,    s3real: 8161, s4meta: 7700, s4real: 2148, refs: null, nuevo: true },
+  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 1154,  s2meta: 5500, s2real: 6642,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 0,    refs: null },
+  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 7086,  s2meta: 5500, s2real: 1175,  s3meta: 5500, s3real: 2556, s4meta: 7700, s4real: 0,    refs: null },
 ];
 
 // ---- DATA ABRIL ----
@@ -1223,21 +1213,26 @@ const sortedMayo = [...closersMayo].sort((a,b)=>b.revenue-a.revenue);
 function buildJunioTable() {
   const tbody = document.getElementById('junio-table-body');
   const MONTHLY_TARGET = 14000;
-  const sorted = [...closersJunio].sort((a,b) => (b.s1real+(b.s2real||0)) - (a.s1real+(a.s2real||0)));
+  const getTotal = c => (c.s1real||0) + (c.s2real||0) + (c.s3real||0) + (c.s4real||0);
+  const sorted = [...closersJunio].sort((a,b) => getTotal(b) - getTotal(a));
   sorted.forEach((c, i) => {
-    const total = c.s1real + (c.s2real || 0);
+    const total = getTotal(c);
     const pctMes = Math.round((total / c.meta)*100);
     const pctColor = pctMes>=100?'var(--green)':pctMes>=80?'var(--gold)':'var(--red)';
     const rankClass = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'rank-n';
-    const proyMes = c.s1meta > 0 ? total * (c.meta / (c.s1meta * 2)) : 0;
+    // Proyección: 3 semanas transcurridas, sin contar SEM 4 todavía (proyectamos sobre 3 semanas activas vs meta total)
+    const semanasActivas = c.nuevo ? 2 : 3; // Katrin solo activa desde SEM 2
+    const metaSemanal = c.s1meta > 0 ? c.s1meta : (c.meta / 4);
+    const proyMes = metaSemanal > 0 ? (total / semanasActivas) * 4 : 0;
     let rowBg, rowBorder;
     if (proyMes > MONTHLY_TARGET * 1.10)       { rowBg='#f0fdf4'; rowBorder='#86efac'; }
     else if (proyMes >= MONTHLY_TARGET * 0.90)  { rowBg='#fffbeb'; rowBorder='#fcd34d'; }
     else                                         { rowBg='#fff1f2'; rowBorder='#fca5a5'; }
+    const nuevoBadge = c.nuevo ? '<span style="display:inline-block;margin-left:6px;padding:2px 8px;background:#eff6ff;border:1px solid #93c5fd;border-radius:4px;font-size:9px;font-weight:600;color:#1d4ed8;letter-spacing:.5px;vertical-align:middle;">🆕 NUEVO INGRESO</span>' : '';
     tbody.innerHTML += `
-      <tr style="background:${c.name==='Julian Robles'?'#f8fafc':rowBg}; border-left:3px solid ${c.name==='Julian Robles'?'#94a3b8':rowBorder}; opacity:${c.name==='Julian Robles'?'0.7':'1'};">
+      <tr style="background:${rowBg}; border-left:3px solid ${rowBorder};">
         <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
-        <td style="font-weight:600;">${c.name} ${c.name==='Julian Robles'?'<span style="display:inline-block;margin-left:6px;padding:2px 8px;background:#f1f5f9;border:1px solid #cbd5e1;border-radius:4px;font-size:9px;font-weight:600;color:#64748b;letter-spacing:.5px;vertical-align:middle;">DESVINCULADO · BAJO PERFORMANCE</span>':''}</td>
+        <td style="font-weight:600;">${c.name} ${nuevoBadge}</td>
         <td class="right" style="color:var(--muted);">$${c.meta.toLocaleString('es-CO')}</td>
         <td class="right" style="font-weight:700;">$${total.toLocaleString('es-CO')}</td>
         <td class="right" style="color:${pctColor}; font-weight:700;">${pctMes}%</td>
@@ -1285,19 +1280,22 @@ const weeklyMayo = {
 };
 const weekLabelsMayo = ["SEM 1 (1-9)", "SEM 2 (10-16)", "SEM 3 (17-23)", "SEM 4 (24-31)"];
 
-// ---- RANKING TABLE CONSOLIDADO (ABR + MAY) ----
+// ---- RANKING TABLE CONSOLIDADO (ABR + MAY + JUN) ----
 function buildRankingTable() {
   const allNames = [...new Set([
     ...closers.filter(c=>!c.retired).map(c=>c.name),
-    ...closersMayo.map(c=>c.name)
+    ...closersMayo.map(c=>c.name),
+    ...closersJunio.map(c=>c.name)
   ])];
 
   const consolidated = allNames.map(name => {
     const a = closers.find(c=>c.name===name);
     const m = closersMayo.find(c=>c.name===name);
+    const j = closersJunio.find(c=>c.name===name);
     const revAbr = a ? a.revenue : 0;
     const revMay = m ? m.revenue : 0;
-    const totalRev = revAbr + revMay;
+    const revJun = j ? j.s1real+(j.s2real||0)+(j.s3real||0)+(j.s4real||0) : 0;
+    const totalRev = revAbr + revMay + revJun;
     const meetings = (a?.meetings||0) + (m?.meetings||0);
     const payments = (a?.payments||0) + (m?.payments||0);
     const mA = a?.meetings, mM = m?.meetings;
@@ -1306,20 +1304,23 @@ function buildRankingTable() {
       convProm = ((a.conv * mA) + (m.conv * mM)) / (mA + mM);
     } else if (a?.conv && mA) { convProm = a.conv; }
     else if (m?.conv && mM) { convProm = m.conv; }
-    const refs = (a?.refs||0) + (m?.refs||0);
+    const refs = (a?.refs||0) + (m?.refs||0) + (j?.refs||0);
     let trend = '—';
-    if (a && m) {
-      const diff = m.revenue - a.revenue;
+    if (m && j) {
+      const diff = revJun - revMay;
       trend = diff > 2000 ? '📈 Subió' : diff < -2000 ? '📉 Bajó' : '➡️ Estable';
-    } else if (!a) { trend = '🆕 Nuevo'; }
-    return { name, revAbr, revMay, totalRev, meetings, payments, convProm: convProm ? +convProm.toFixed(1) : null, refs, trend };
+    } else if (a && m) {
+      const diff = revMay - revAbr;
+      trend = diff > 2000 ? '📈 Subió' : diff < -2000 ? '📉 Bajó' : '➡️ Estable';
+    } else if (j && !a && !m) { trend = '🆕 Nuevo'; }
+    return { name, revAbr, revMay, revJun, totalRev, meetings, payments, convProm: convProm ? +convProm.toFixed(1) : null, refs, trend };
   }).sort((a,b) => b.totalRev - a.totalRev);
 
   // Umbral: $14.000 por mes × número de meses
   const MONTHLY_TARGET = 14000;
-  const NUM_MONTHS = 2;
-  const threshold = MONTHLY_TARGET * NUM_MONTHS; // $28.000
-  const yellowZone = threshold * 0.10; // ±10% = zona amarilla ($25.200 - $30.800)
+  const NUM_MONTHS = 3;
+  const threshold = MONTHLY_TARGET * NUM_MONTHS; // $42.000
+  const yellowZone = threshold * 0.10;
 
   const tbody = document.getElementById('ranking-table-body');
   consolidated.forEach((c, i) => {
@@ -1345,6 +1346,7 @@ function buildRankingTable() {
         </td>
         <td class="right" style="color:var(--muted)">$${c.revAbr.toLocaleString('es-CO')}</td>
         <td class="right" style="color:var(--muted)">$${c.revMay.toLocaleString('es-CO')}</td>
+        <td class="right" style="color:var(--accent2); font-weight:600">$${c.revJun.toLocaleString('es-CO')}</td>
         <td class="right" style="font-weight:700; color:var(--gold)">$${c.totalRev.toLocaleString('es-CO')}</td>
         <td class="right">${c.meetings||'—'}</td>
         <td class="right">${c.payments||'—'}</td>
@@ -1966,11 +1968,13 @@ function showPage(id) {
 function showCloserProfile(name) {
   const a = closers.find(c=>c.name===name);
   const m = closersMayo.find(c=>c.name===name);
+  const j = closersJunio.find(c=>c.name===name);
+  const jRev = j ? (j.s1real||0)+(j.s2real||0)+(j.s3real||0)+(j.s4real||0) : 0;
 
-  const totalRev = (a?.revenue||0) + (m?.revenue||0);
+  const totalRev = (a?.revenue||0) + (m?.revenue||0) + jRev;
   const totalMeetings = (a?.meetings||0) + (m?.meetings||0);
   const totalPayments = (a?.payments||0) + (m?.payments||0);
-  const totalRefs = (a?.refs||0) + (m?.refs||0);
+  const totalRefs = (a?.refs||0) + (m?.refs||0) + (j?.refs||0);
   const ticket = totalPayments > 0 ? Math.round(totalRev / totalPayments) : 0;
 
   const mA = a?.meetings||0, mM = m?.meetings||0;
@@ -1980,7 +1984,7 @@ function showCloserProfile(name) {
   else if (m?.conv) convProm = m.conv;
 
   const MONTHLY_TARGET = 14000;
-  const NUM_MONTHS = 2;
+  const NUM_MONTHS = j ? 3 : 2;
   const threshold = MONTHLY_TARGET * NUM_MONTHS;
   const pctOfTarget = totalRev > 0 ? Math.round((totalRev/threshold)*100) : 0;
 
@@ -2027,13 +2031,32 @@ function showCloserProfile(name) {
         </div>
         <div>
           <div style="font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:2px; color:var(--text); line-height:1;">${name}</div>
-          <div style="font-size:12px; color:var(--muted); margin-top:4px;">Closer · Team Oscar · Abr–May 2026</div>
+          <div style="font-size:12px; color:var(--muted); margin-top:4px;">Closer · Team Oscar · Abr–Jun 2026</div>
         </div>
       </div>
       <div style="background:${tierBg}; border:1px solid ${tierColor}; border-radius:10px; padding:10px 20px; text-align:center;">
         <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Estado</div>
         <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:${tierColor}; letter-spacing:1px;">${tierLabel}</div>
         <div style="font-size:11px; color:var(--muted);">${pctOfTarget}% de meta acumulada</div>
+      </div>
+    </div>
+
+    <!-- Gráficas personalizadas: evolución + acumulado mensual -->
+    <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:14px; margin-bottom:24px;" class="profile-charts-layout">
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+          <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px;">Evolución de Revenue — ${name.split(' ')[0]}</div>
+          <div id="profile-chart-motivation" style="font-size:12px; font-weight:600; padding:5px 12px; border-radius:99px;"></div>
+        </div>
+        <div style="position:relative; height:260px;">
+          <canvas id="profileLineChart"></canvas>
+        </div>
+      </div>
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:14px;">Acumulado Mes a Mes</div>
+        <div style="position:relative; height:260px;">
+          <canvas id="profileBarChart"></canvas>
+        </div>
       </div>
     </div>
 
@@ -2277,6 +2300,115 @@ function showCloserProfile(name) {
     </div>
   `;
 
+  // ---- GRÁFICA PERSONALIZADA DE EVOLUCIÓN ----
+  const profileLabels = ['Abril', 'Mayo', 'SEM 1', 'SEM 2', 'SEM 3', 'SEM 4'];
+  const profileValues = [
+    a ? a.revenue : null,
+    m ? m.revenue : null,
+    j ? (j.s1real ?? null) : null,
+    j ? (j.s2real ?? null) : null,
+    j ? (j.s3real ?? null) : null,
+    j ? (j.s4real ?? null) : null,
+  ];
+  const profileColor = '#d4900a';
+
+  const profileCanvas = document.getElementById('profileLineChart');
+  if (profileCanvas && typeof Chart !== 'undefined') {
+    if (profileCanvas._chartInstance) profileCanvas._chartInstance.destroy();
+    profileCanvas._chartInstance = new Chart(profileCanvas, {
+      type: 'line',
+      data: {
+        labels: profileLabels,
+        datasets: [{
+          label: name,
+          data: profileValues,
+          borderColor: profileColor,
+          backgroundColor: profileColor,
+          pointBackgroundColor: profileColor,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 3,
+          tension: 0.3,
+          spanGaps: false,
+          fill: false,
+        }]
+      },
+      plugins: [valueLabelPlugin],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 30 } },
+        interaction: { mode: 'nearest', intersect: false },
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { ticks: { color:'#6b7280', font:{size:10}, callback: v => '$'+v.toLocaleString('es-CO') }, grid: { color:'#e2e6ed' } },
+          x: { ticks: { color:'#6b7280', font:{size:10, weight:'600'} }, grid: { display:false } }
+        }
+      }
+    });
+    profileCanvas._chartInstance._activeLineIdx = 0; // siempre mostrar valores
+
+    const profMotivEl = document.getElementById('profile-chart-motivation');
+    if (profMotivEl) {
+      const msg = getMotivationalMessage(profileValues, name, true);
+      profMotivEl.style.color = msg.color;
+      profMotivEl.style.background = msg.color + '15';
+      profMotivEl.textContent = msg.text;
+    }
+  }
+
+  // ---- GRÁFICA DE BARRAS: ACUMULADO MES A MES ----
+  const barCanvas = document.getElementById('profileBarChart');
+  if (barCanvas && typeof Chart !== 'undefined') {
+    if (barCanvas._chartInstance) barCanvas._chartInstance.destroy();
+    const barLabels = ['Abril', 'Mayo', 'Junio', 'TOTAL'];
+    const abrVal = a ? a.revenue : 0;
+    const mayVal = m ? m.revenue : 0;
+    const junVal = jRev;
+    const totalVal = abrVal + mayVal + junVal;
+    const barColors = ['#fbbf24', '#60a5fa', '#34d399', '#d4900a'];
+    barCanvas._chartInstance = new Chart(barCanvas, {
+      type: 'bar',
+      data: {
+        labels: barLabels,
+        datasets: [{
+          label: name,
+          data: [abrVal, mayVal, junVal, totalVal],
+          backgroundColor: barColors,
+          borderRadius: 6,
+          borderWidth: 0,
+        }]
+      },
+      plugins: [{
+        id: 'barValueLabels',
+        afterDatasetsDraw(chart) {
+          const { ctx } = chart;
+          const meta = chart.getDatasetMeta(0);
+          ctx.save();
+          ctx.font = '700 11px DM Mono, monospace';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'bottom';
+          meta.data.forEach((bar, i) => {
+            const val = chart.data.datasets[0].data[i];
+            ctx.fillStyle = barColors[i];
+            ctx.fillText('$'+val.toLocaleString('es-CO'), bar.x, bar.y - 6);
+          });
+          ctx.restore();
+        }
+      }],
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: { padding: { top: 24 } },
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { ticks: { color:'#6b7280', font:{size:10}, callback: v => '$'+v.toLocaleString('es-CO') }, grid: { color:'#e2e6ed' } },
+          x: { ticks: { color:'#6b7280', font:{size:11, weight:'600'} }, grid: { display:false } }
+        }
+      }
+    });
+  }
+
   // Mostrar página closer
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
@@ -2292,6 +2424,509 @@ function goBackToOverview() {
   window.scrollTo(0,0);
 }
 
+
+// ---- OVERVIEW KPIs DINÁMICOS ----
+// ---- PALETA DE COLORES PARA GRÁFICAS ----
+const CHART_COLORS = [
+  '#f59e0b','#3b82f6','#10b981','#ef4444','#8b5cf6','#ec4899',
+  '#14b8a6','#f97316','#6366f1','#84cc16','#06b6d4','#d946ef',
+  '#0ea5e9','#eab308','#22c55e'
+];
+
+// ---- PLUGIN: ETIQUETAS AL FINAL DE CADA LÍNEA ----
+const endLabelPlugin = {
+  id: 'endLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    ctx.save();
+    chart.data.datasets.forEach((dataset, i) => {
+      const meta = chart.getDatasetMeta(i);
+      if (meta.hidden) return;
+      let lastIdx = -1;
+      for (let p = dataset.data.length - 1; p >= 0; p--) {
+        if (dataset.data[p] !== null && dataset.data[p] !== undefined) { lastIdx = p; break; }
+      }
+      if (lastIdx === -1) return;
+      const point = meta.data[lastIdx];
+      if (!point) return;
+      const isDimmed = typeof dataset.borderColor === 'string' && dataset.borderColor.includes('203,213,225');
+      ctx.font = isDimmed ? '500 9px DM Sans, sans-serif' : '700 10px DM Sans, sans-serif';
+      ctx.fillStyle = isDimmed ? 'rgba(148,163,184,0.5)' : dataset.borderColor;
+      ctx.textBaseline = 'middle';
+      const shortName = dataset.label.split(' ')[0];
+      ctx.fillText(shortName, point.x + 6, point.y);
+    });
+    ctx.restore();
+  }
+};
+
+// ---- PLUGIN: VALORES SOBRE LOS PUNTOS DE LA LÍNEA ACTIVA ----
+const valueLabelPlugin = {
+  id: 'valueLabels',
+  afterDatasetsDraw(chart) {
+    const { ctx } = chart;
+    const activeIdx = chart._activeLineIdx;
+    if (activeIdx === null || activeIdx === undefined) return;
+    const dataset = chart.data.datasets[activeIdx];
+    const meta = chart.getDatasetMeta(activeIdx);
+    if (!dataset || meta.hidden) return;
+    ctx.save();
+    ctx.font = '700 11px DM Mono, monospace';
+    ctx.fillStyle = dataset.borderColor;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    dataset.data.forEach((val, idx) => {
+      if (val === null || val === undefined) return;
+      const point = meta.data[idx];
+      if (!point) return;
+      const label = '$' + val.toLocaleString('es-CO');
+      // Fondo blanco detrás del texto para legibilidad
+      const textWidth = ctx.measureText(label).width;
+      ctx.save();
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.fillRect(point.x - textWidth/2 - 3, point.y - 24, textWidth + 6, 16);
+      ctx.restore();
+      ctx.fillStyle = dataset.borderColor;
+      ctx.fillText(label, point.x, point.y - 10);
+    });
+    ctx.restore();
+  }
+};
+
+// ---- MENSAJE MOTIVADOR SEGÚN LA CURVA ----
+function getMotivationalMessage(values, name, isLastInProgress) {
+  const valid = values.filter(v => v !== null && v !== undefined);
+  const firstWord = name.split(' ')[0];
+  if (valid.length < 2) return { text: `🚀 ${firstWord} está arrancando — ¡el primer paso ya está dado!`, color: '#2563eb' };
+
+  // Si la última semana está en curso y aún no tiene ventas, usar el punto anterior como referencia
+  let analyzeValues = valid;
+  let usingPrevious = false;
+  if (isLastInProgress && valid[valid.length - 1] === 0 && valid.length > 1) {
+    analyzeValues = valid.slice(0, -1);
+    usingPrevious = true;
+  }
+
+  const first = analyzeValues[0];
+  const last = analyzeValues[analyzeValues.length - 1];
+  const max = Math.max(...analyzeValues);
+  const maxIdx = analyzeValues.indexOf(max);
+  const isLastMax = maxIdx === analyzeValues.length - 1 && max > 0;
+  const diff = last - first;
+  const pctChange = first > 0 ? (diff / first) * 100 : (last > 0 ? 100 : 0);
+  const prevToLast = analyzeValues.length >= 2 ? analyzeValues[analyzeValues.length - 2] : first;
+  const lastTrendUp = last > prevToLast;
+
+  // Nivel de referencia: $14.000/mes ÷ 4 semanas ≈ $3.500/semana esperado
+  const WEEKLY_TARGET = 3500;
+  const lastIsLow = last < WEEKLY_TARGET * 0.7;   // < $2.450 → alerta
+  const lastIsMid = last >= WEEKLY_TARGET * 0.7 && last < WEEKLY_TARGET * 1.1; // zona estable
+
+  // --- Si la semana actual está en curso y en $0, mensaje motivador especial ---
+  if (usingPrevious) {
+    if (last >= WEEKLY_TARGET * 1.1) {
+      return { text: `⏳ Semana en curso — ${firstWord} viene de un gran cierre ($${last.toLocaleString('es-CO')}). ¡A mantener el ritmo!`, color: '#2563eb' };
+    }
+    if (last === 0) {
+      return { text: `⏳ Semana en curso — ${firstWord} aún no registra ventas esta semana. ¡Tiempo de cerrar!`, color: '#d97706' };
+    }
+    return { text: `⏳ Semana en curso — ${firstWord} viene con $${last.toLocaleString('es-CO')} en la semana anterior. ¡A sumar!`, color: '#d97706' };
+  }
+
+  // --- Casos críticos primero (nivel absoluto manda sobre tendencia) ---
+  if (last === 0 && first === 0) {
+    return { text: `⚡ ${firstWord} todavía no ha arrancado — ¡este es el momento de despegar!`, color: '#ef4444' };
+  }
+  if (last === 0) {
+    return { text: `⚠️ ${firstWord} se quedó en $0 esa semana — toca reactivar el ritmo cuanto antes.`, color: '#ef4444' };
+  }
+  if (lastIsLow) {
+    return { text: `⚠️ Atención — ${firstWord} está en zona baja ($${last.toLocaleString('es-CO')}). Necesita un empujón.`, color: '#ef4444' };
+  }
+
+  // --- Zona alta: top performer real ---
+  if (isLastMax && last >= WEEKLY_TARGET * 1.1) {
+    return { text: `🔥 ${firstWord} está en su mejor momento — ¡racha ascendente total!`, color: '#16a34a' };
+  }
+  if (lastTrendUp && diff > 0 && last >= WEEKLY_TARGET * 1.1) {
+    return { text: `📈 ${firstWord} viene subiendo con fuerza — ¡el impulso está de su lado!`, color: '#16a34a' };
+  }
+
+  // --- Zona media: estable, ni top ni en alerta ---
+  if (lastIsMid) {
+    return { text: `🟡 Estable — ${firstWord} se mantiene en zona media ($${last.toLocaleString('es-CO')}). Hay margen para subir.`, color: '#d97706' };
+  }
+  if (!lastTrendUp && prevToLast === max) {
+    return { text: `💪 ${firstWord} bajó tras su mejor semana — ¡a recuperar ese ritmo!`, color: '#d97706' };
+  }
+  if (pctChange < -30) {
+    return { text: `🎯 ${firstWord} tuvo una caída — ¡es momento de redoblar esfuerzos!`, color: '#d97706' };
+  }
+
+  return { text: `✨ ${firstWord} mantiene un ritmo constante — ¡consistencia que suma!`, color: '#2563eb' };
+}
+
+// ---- GRÁFICO LÍNEAS: REVENUE MES A MES (OVERVIEW) ----
+function buildOverviewLineChart() {
+  const canvas = document.getElementById('overviewLineChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  const allNames = [...new Set([
+    ...closers.filter(c=>!c.retired).map(c=>c.name),
+    ...closersMayo.map(c=>c.name),
+    ...closersJunio.map(c=>c.name)
+  ])];
+
+  const labels = ['Abril', 'Mayo', 'Junio'];
+  const datasets = allNames.map((name, idx) => {
+    const a = closers.find(c=>c.name===name);
+    const m = closersMayo.find(c=>c.name===name);
+    const j = closersJunio.find(c=>c.name===name);
+    const revAbr = a ? a.revenue : null;
+    const revMay = m ? m.revenue : null;
+    const revJun = j ? j.s1real+(j.s2real||0)+(j.s3real||0)+(j.s4real||0) : null;
+    const color = CHART_COLORS[idx % CHART_COLORS.length];
+    return {
+      label: name,
+      data: [revAbr, revMay, revJun],
+      borderColor: color,
+      backgroundColor: color,
+      pointBackgroundColor: color,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      borderWidth: 2,
+      tension: 0.3,
+      spanGaps: true,
+      fill: false,
+    };
+  });
+
+  new Chart(canvas, {
+    type: 'line',
+    data: { labels, datasets },
+    plugins: [endLabelPlugin, valueLabelPlugin],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 56, top: 30 } },
+      interaction: { mode: 'nearest', intersect: false },
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { ticks: { color:'#6b7280', font:{size:10}, callback: v => '$'+v.toLocaleString('es-CO') }, grid: { color:'#e2e6ed' } },
+        x: { ticks: { color:'#6b7280', font:{size:11, weight:'600'} }, grid: { display:false } }
+      }
+    }
+  });
+  const overviewChartInstance = Chart.getChart(canvas);
+  overviewChartInstance._activeLineIdx = null;
+
+  const motivationEl = document.getElementById('overview-chart-motivation');
+
+  // Leyenda con círculos al final — clickeable para resaltar
+  const legendEl = document.getElementById('overview-chart-legend');
+  if (legendEl) {
+    let activeIdx = null;
+    legendEl.innerHTML = allNames.map((name, idx) => {
+      const color = CHART_COLORS[idx % CHART_COLORS.length];
+      return `<span class="ov-legend-item" data-idx="${idx}" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--muted); background:var(--bg); border-radius:99px; padding:3px 10px; cursor:pointer; transition:all .15s; border:1px solid transparent;">
+        <span style="width:9px; height:9px; border-radius:50%; background:${color}; display:inline-block; flex-shrink:0;"></span>
+        ${name}
+      </span>`;
+    }).join('');
+
+    legendEl.querySelectorAll('.ov-legend-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const hintEl = document.getElementById('overview-chart-hint');
+        if (hintEl) hintEl.style.display = 'none';
+        const idx = parseInt(item.dataset.idx);
+        if (activeIdx === idx) {
+          // Deseleccionar — restaurar todo
+          activeIdx = null;
+          overviewChartInstance._activeLineIdx = null;
+          overviewChartInstance.data.datasets.forEach((ds) => {
+            ds.borderColor = ds._originalColor || ds.borderColor;
+            ds.backgroundColor = ds._originalColor || ds.backgroundColor;
+            ds.pointBackgroundColor = ds._originalColor || ds.pointBackgroundColor;
+            ds.borderWidth = 2;
+            ds.order = 0;
+          });
+          legendEl.querySelectorAll('.ov-legend-item').forEach(el => {
+            el.style.opacity = '1';
+            el.style.borderColor = 'transparent';
+            el.style.fontWeight = '400';
+          });
+          if (motivationEl) motivationEl.style.display = 'none';
+        } else {
+          activeIdx = idx;
+          overviewChartInstance._activeLineIdx = idx;
+          overviewChartInstance.data.datasets.forEach((ds, i) => {
+            if (!ds._originalColor) ds._originalColor = ds.borderColor;
+            if (i === idx) {
+              ds.borderColor = ds._originalColor;
+              ds.backgroundColor = ds._originalColor;
+              ds.pointBackgroundColor = ds._originalColor;
+              ds.borderWidth = 3;
+              ds.order = -1;
+            } else {
+              ds.borderColor = 'rgba(203,213,225,0.25)';
+              ds.backgroundColor = 'rgba(203,213,225,0.25)';
+              ds.pointBackgroundColor = 'rgba(203,213,225,0.25)';
+              ds.borderWidth = 1.5;
+              ds.order = 1;
+            }
+          });
+          legendEl.querySelectorAll('.ov-legend-item').forEach(el => {
+            const elIdx = parseInt(el.dataset.idx);
+            el.style.opacity = elIdx === idx ? '1' : '0.4';
+            el.style.borderColor = elIdx === idx ? CHART_COLORS[idx % CHART_COLORS.length] : 'transparent';
+            el.style.fontWeight = elIdx === idx ? '700' : '400';
+          });
+          // Mensaje motivador
+          if (motivationEl) {
+            const ds = overviewChartInstance.data.datasets[idx];
+            const msg = getMotivationalMessage(ds.data, ds.label, true);
+            motivationEl.style.display = 'inline-block';
+            motivationEl.style.color = msg.color;
+            motivationEl.style.background = msg.color + '15';
+            motivationEl.textContent = msg.text;
+          }
+        }
+        overviewChartInstance.update();
+      });
+    });
+  }
+}
+
+// ---- GRÁFICO LÍNEAS: REVENUE SEMANA A SEMANA (JUNIO) ----
+function buildJunioLineChart() {
+  const canvas = document.getElementById('junioLineChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+
+  const labels = ['SEM 1', 'SEM 2', 'SEM 3', 'SEM 4'];
+  const datasets = closersJunio.map((c, idx) => {
+    const color = CHART_COLORS[idx % CHART_COLORS.length];
+    return {
+      label: c.name,
+      data: [c.s1real, c.s2real, c.s3real, c.s4real].map(v => v === undefined ? null : v),
+      borderColor: color,
+      backgroundColor: color,
+      pointBackgroundColor: color,
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      borderWidth: 2,
+      tension: 0.3,
+      spanGaps: true,
+      fill: false,
+    };
+  });
+
+  new Chart(canvas, {
+    type: 'line',
+    data: { labels, datasets },
+    plugins: [endLabelPlugin, valueLabelPlugin],
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: { padding: { right: 56, top: 30 } },
+      interaction: { mode: 'nearest', intersect: false },
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { ticks: { color:'#6b7280', font:{size:10}, callback: v => '$'+v.toLocaleString('es-CO') }, grid: { color:'#e2e6ed' } },
+        x: { ticks: { color:'#6b7280', font:{size:11, weight:'600'} }, grid: { display:false } }
+      }
+    }
+  });
+  const junioChartInstance = Chart.getChart(canvas);
+  junioChartInstance._activeLineIdx = null;
+
+  const motivationEl = document.getElementById('junio-chart-motivation');
+
+  const legendEl = document.getElementById('junio-chart-legend');
+  if (legendEl) {
+    let activeIdx = null;
+    legendEl.innerHTML = closersJunio.map((c, idx) => {
+      const color = CHART_COLORS[idx % CHART_COLORS.length];
+      return `<span class="jun-legend-item" data-idx="${idx}" style="display:inline-flex; align-items:center; gap:5px; font-size:11px; color:var(--muted); background:var(--bg); border-radius:99px; padding:3px 10px; cursor:pointer; transition:all .15s; border:1px solid transparent;">
+        <span style="width:9px; height:9px; border-radius:50%; background:${color}; display:inline-block; flex-shrink:0;"></span>
+        ${c.name}
+      </span>`;
+    }).join('');
+
+    legendEl.querySelectorAll('.jun-legend-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const hintEl = document.getElementById('junio-chart-hint');
+        if (hintEl) hintEl.style.display = 'none';
+        const idx = parseInt(item.dataset.idx);
+        if (activeIdx === idx) {
+          activeIdx = null;
+          junioChartInstance._activeLineIdx = null;
+          junioChartInstance.data.datasets.forEach((ds) => {
+            ds.borderColor = ds._originalColor || ds.borderColor;
+            ds.backgroundColor = ds._originalColor || ds.backgroundColor;
+            ds.pointBackgroundColor = ds._originalColor || ds.pointBackgroundColor;
+            ds.borderWidth = 2;
+            ds.order = 0;
+          });
+          legendEl.querySelectorAll('.jun-legend-item').forEach(el => {
+            el.style.opacity = '1';
+            el.style.borderColor = 'transparent';
+            el.style.fontWeight = '400';
+          });
+          if (motivationEl) motivationEl.style.display = 'none';
+        } else {
+          activeIdx = idx;
+          junioChartInstance._activeLineIdx = idx;
+          junioChartInstance.data.datasets.forEach((ds, i) => {
+            if (!ds._originalColor) ds._originalColor = ds.borderColor;
+            if (i === idx) {
+              ds.borderColor = ds._originalColor;
+              ds.backgroundColor = ds._originalColor;
+              ds.pointBackgroundColor = ds._originalColor;
+              ds.borderWidth = 3;
+              ds.order = -1;
+            } else {
+              ds.borderColor = 'rgba(203,213,225,0.25)';
+              ds.backgroundColor = 'rgba(203,213,225,0.25)';
+              ds.pointBackgroundColor = 'rgba(203,213,225,0.25)';
+              ds.borderWidth = 1.5;
+              ds.order = 1;
+            }
+          });
+          legendEl.querySelectorAll('.jun-legend-item').forEach(el => {
+            const elIdx = parseInt(el.dataset.idx);
+            el.style.opacity = elIdx === idx ? '1' : '0.4';
+            el.style.borderColor = elIdx === idx ? CHART_COLORS[idx % CHART_COLORS.length] : 'transparent';
+            el.style.fontWeight = elIdx === idx ? '700' : '400';
+          });
+          if (motivationEl) {
+            const ds = junioChartInstance.data.datasets[idx];
+            const msg = getMotivationalMessage(ds.data, ds.label, true);
+            motivationEl.style.display = 'inline-block';
+            motivationEl.style.color = msg.color;
+            motivationEl.style.background = msg.color + '15';
+            motivationEl.textContent = msg.text;
+          }
+        }
+        junioChartInstance.update();
+      });
+    });
+  }
+}
+
+function buildOverviewKPIs() {
+  // Sumar todos los meses disponibles
+  const abrRev  = closers.filter(c=>!c.retired).reduce((s,c)=>s+c.revenue,0);
+  const mayRev  = closersMayo.reduce((s,c)=>s+c.revenue,0);
+  const junRev  = closersJunio.reduce((s,c)=>s+(c.s1real||0)+(c.s2real||0)+(c.s3real||0)+(c.s4real||0),0);
+  const totalRev = abrRev + mayRev + junRev;
+
+  const abrRefs = closers.filter(c=>!c.retired).reduce((s,c)=>s+(c.refs||0),0);
+  const mayRefs = closersMayo.reduce((s,c)=>s+(c.refs||0),0);
+  const junRefs = closersJunio.reduce((s,c)=>s+(c.refs||0),0);
+  const totalRefs = abrRefs + mayRefs + junRefs;
+
+  const abrPay = closers.filter(c=>!c.retired&&c.payments).reduce((s,c)=>s+c.payments,0);
+  const mayPay = closersMayo.filter(c=>c.payments).reduce((s,c)=>s+c.payments,0);
+  const totalPay = abrPay + mayPay; // junio sin pagos aún
+  const ticket = totalPay > 0 ? Math.round(totalRev / totalPay) : 0;
+
+  const withConvAbr = closers.filter(c=>!c.retired&&c.conv!=null);
+  const withConvMay = closersMayo.filter(c=>c.conv!=null);
+  const allConv = [...withConvAbr.map(c=>c.conv), ...withConvMay.map(c=>c.conv)];
+  const avgConv = allConv.length ? +(allConv.reduce((s,v)=>s+v,0)/allConv.length).toFixed(1) : null;
+  const convDiff = avgConv ? (avgConv - 13).toFixed(1) : null;
+
+  const activeClosers = new Set([
+    ...closers.filter(c=>!c.retired).map(c=>c.name),
+    ...closersMayo.map(c=>c.name),
+    ...closersJunio.filter(c=>c.name!=='Julian Robles').map(c=>c.name)
+  ]).size;
+
+  const months = junRev > 0 ? 'Abr + May + Jun' : 'Abr + May';
+  const numMonths = junRev > 0 ? 3 : 2;
+
+  // Update title
+  document.getElementById('overview-kpi-title').textContent = `KPIs PRINCIPALES — CONSOLIDADO ${months.toUpperCase()}`;
+  document.getElementById('overview-ranking-title').textContent = `RANKING CONSOLIDADO — ${months.toUpperCase()} 2026`;
+
+  // Top performers consolidados (calculado antes para usarlo en el combinado)
+  const allNames = [...new Set([
+    ...closers.filter(c=>!c.retired).map(c=>c.name),
+    ...closersMayo.map(c=>c.name),
+    ...closersJunio.map(c=>c.name)
+  ])];
+  const consolidated = allNames.map(name => {
+    const a = closers.find(c=>c.name===name);
+    const m = closersMayo.find(c=>c.name===name);
+    const j = closersJunio.find(c=>c.name===name);
+    const total = (a?.revenue||0) + (m?.revenue||0) + (j ? j.s1real+(j.s2real||0)+(j.s3real||0)+(j.s4real||0) : 0);
+    return { name, total, revAbr: a?.revenue||0, revMay: m?.revenue||0, revJun: j ? j.s1real+(j.s2real||0)+(j.s3real||0)+(j.s4real||0) : 0 };
+  }).sort((a,b)=>b.total-a.total);
+
+  const topCloser = consolidated[0];
+  const junioLeader = [...closersJunio].sort((a,b)=>(b.s1real+(b.s2real||0)+(b.s3real||0)+(b.s4real||0))-(a.s1real+(a.s2real||0)+(a.s3real||0)+(a.s4real||0)))[0];
+  const junioLeaderTotal = junioLeader.s1real+(junioLeader.s2real||0)+(junioLeader.s3real||0)+(junioLeader.s4real||0);
+
+  document.getElementById('overview-kpis-main').innerHTML = `
+    <div class="kpi-card highlight">
+      <div class="kpi-label">Total Recaudado (${numMonths} meses)</div>
+      <div class="kpi-value gold">$${totalRev.toLocaleString('es-CO')}</div>
+      <div class="kpi-sub">Abr $${abrRev.toLocaleString('es-CO')} · May $${mayRev.toLocaleString('es-CO')}${junRev>0?' · Jun $'+junRev.toLocaleString('es-CO'):''}</div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%; background:var(--gold);"></div></div></div>
+      <span class="kpi-badge badge-gold">Acumulado 2026</span>
+    </div>
+    <div class="kpi-card green-card">
+      <div class="kpi-label">Ticket Promedio Consolidado</div>
+      <div class="kpi-value green">$${ticket.toLocaleString('es-CO')}</div>
+      <div class="kpi-sub">$${totalRev.toLocaleString('es-CO')} / ${totalPay} ventas</div>
+      <span class="kpi-badge badge-green">Revenue / pagos totales</span>
+    </div>
+    <div class="kpi-card blue-card">
+      <div class="kpi-label">Conversión Promedio</div>
+      <div class="kpi-value blue">${avgConv!=null?avgConv+'%':'—'}</div>
+      <div class="kpi-sub">Benchmark: 13% · Abr + May</div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${avgConv?Math.min((avgConv/20)*100,100):0}%; background:${avgConv>=13?'var(--green)':'var(--accent2)'};"></div></div></div>
+      <span class="kpi-badge ${avgConv>=13?'badge-green':'badge-red'}">${convDiff!=null?(parseFloat(convDiff)>0?'+':'')+convDiff+'pp del benchmark':'—'}</span>
+    </div>
+    <div class="kpi-card green-card">
+      <div class="kpi-label">Closers Activos</div>
+      <div class="kpi-value green">${activeClosers}</div>
+      <div class="kpi-sub">${junRev>0?'Katrin Muñoz se unió en Jun':'Equipo activo'}</div>
+      <span class="kpi-badge badge-green">Team Oscar 2026</span>
+    </div>
+    <div class="kpi-card" style="grid-column: span 2;">
+      <div class="kpi-label">Referidos (${numMonths} meses)</div>
+      <div class="kpi-value">${totalRefs}</div>
+      <div class="kpi-sub">Abr ${abrRefs} · May ${mayRefs}${junRev>0?' · Jun '+junRefs:''}</div>
+      <span class="kpi-badge badge-green">Acumulado 2026</span>
+    </div>`;
+
+  document.getElementById('overview-kpis-secondary').innerHTML = `
+    <div class="kpi-card highlight">
+      <div class="kpi-label">Top Revenue Acumulado</div>
+      <div class="kpi-value gold" style="font-size:24px;">${topCloser.name}</div>
+      <div class="kpi-sub" style="margin-top:6px;">$${topCloser.total.toLocaleString('es-CO')} total acumulado</div>
+      <span class="kpi-badge badge-gold">Líder del período 💰</span>
+    </div>
+    <div class="kpi-card blue-card">
+      <div class="kpi-label">Junio — Líder actual</div>
+      <div class="kpi-value blue" style="font-size:24px;">${junioLeader.name}</div>
+      <div class="kpi-sub" style="margin-top:6px;">$${junioLeaderTotal.toLocaleString('es-CO')} en curso</div>
+      <span class="kpi-badge badge-blue">🔴 Mes activo</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Junio — Cumplimiento equipo</div>
+      <div class="kpi-value" style="color:var(--gold);">${(junRev/220176*100).toFixed(2)}%</div>
+      <div class="kpi-sub">$${junRev.toLocaleString('es-CO')} / $220.176</div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${Math.min((junRev/220176)*100,100).toFixed(2)}%; background:var(--gold);"></div></div></div>
+    </div>
+    <div class="kpi-card green-card">
+      <div class="kpi-label">Referidos Junio</div>
+      <div class="kpi-value green">${junRefs}</div>
+      <div class="kpi-sub">Meta: 14 · Faltantes: ${Math.max(0,14-junRefs)}</div>
+      <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${Math.min((junRefs/14)*100,100)}%; background:var(--green);"></div></div></div>
+    </div>`;
+}
 
 // ---- INSIGHTS POR MES ----
 function insightCard(icon, title, body, color, bg, border) {
@@ -2362,28 +2997,31 @@ function buildMonthInsights(data, containerId, monthName) {
 function buildJunioInsights() {
   const el = document.getElementById('junio-insights');
   if (!el) return;
-  const sorted = [...closersJunio].sort((a,b) => (b.s1real+(b.s2real||0)) - (a.s1real+(a.s2real||0)));
-  const totals = closersJunio.map(c => c.s1real + (c.s2real||0));
-  const totalRev = totals.reduce((s,v)=>s+v,0);
+  const MONTH_GOAL = 220176;
+  const getTotal = c => (c.s1real||0) + (c.s2real||0) + (c.s3real||0) + (c.s4real||0);
+  const sorted = [...closersJunio].sort((a,b) => getTotal(b) - getTotal(a));
+  const totalRev = closersJunio.reduce((s,c)=>s+getTotal(c),0);
   const top = sorted[0];
-  const topTotal = top.s1real + (top.s2real||0);
+  const topTotal = getTotal(top);
   const topPct = Math.round((topTotal/top.meta)*100);
-  const zeros = closersJunio.filter(c => c.s1real+(c.s2real||0) === 0).length;
-  const totalRefs = closersJunio.reduce((s,c)=>s+(c.refs||0),0);
   const avgRev = Math.round(totalRev / closersJunio.length);
+
+  const katrin = closersJunio.find(c => c.nuevo);
+  const katrinTotal = katrin ? getTotal(katrin) : 0;
+  const katrinPct = katrin ? Math.round((katrinTotal/katrin.meta)*100) : 0;
 
   el.innerHTML = [
     insightCard('🏆',
-      `Líder en curso — ${top.name}`,
-      `Va primero con <strong>$${topTotal.toLocaleString('es-CO')}</strong> (${topPct}% de su meta). Única closer con recaudo en SEM 2.`,
+      `Top performer — ${top.name}`,
+      `Lidera el mes con <strong>$${topTotal.toLocaleString('es-CO')}</strong> (${topPct}% de su meta) tras 4 semanas. ¡El mejor cumplimiento en revenue absoluto del equipo!`,
       '#92400e', '#fffbeb', '#fcd34d'),
-    insightCard('⚠️',
-      `${zeros} closers sin recaudo aún`,
-      `${zeros} miembros del equipo tienen $0 acumulado. Con 3 semanas restantes (SEM 2, 3 y 4), es urgente que arranquen. Las SEMS 3 y 4 concentran el mayor peso de la meta.`,
-      '#991b1b', '#fff1f2', '#fca5a5'),
+    insightCard('🚀',
+      `Katrin Muñoz — récord del mes`,
+      `${katrin ? `Se unió a mitad de mes y ya tiene <strong>$${katrinTotal.toLocaleString('es-CO')}</strong> — <strong style="color:#16a34a;">${katrinPct}%</strong> de su meta de $${katrin.meta.toLocaleString('es-CO')}. El cumplimiento más alto de todo el equipo.` : ''}`,
+      '#166534', '#f0fdf4', '#86efac'),
     insightCard('📊',
-      `Total acumulado: $${totalRev.toLocaleString('es-CO')} (${Math.round((totalRev/229680)*100)}%)`,
-      `El equipo promedia <strong>$${avgRev.toLocaleString('es-CO')}</strong> por closer. Quedan SEM 3 y SEM 4 con metas de <strong>$61.600</strong> y <strong>$81.840</strong> respectivamente.`,
+      `Total acumulado: $${totalRev.toLocaleString('es-CO')} (${Math.round((totalRev/MONTH_GOAL)*100)}%)`,
+      `El equipo promedia <strong>$${avgRev.toLocaleString('es-CO')}</strong> por closer. SEM 4 es la más larga y con mayor meta ($81.840) — está en curso y define el cierre del mes.`,
       '#0369a1', '#eff6ff', '#93c5fd'),
   ].join('');
 }
@@ -2393,6 +3031,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Cerrar dropdown al hacer click fuera
   document.addEventListener('click', () => closeDropdown());
 
+  buildOverviewKPIs();
+  buildOverviewLineChart();
+  buildJunioLineChart();
   buildRankingTable();
   buildInsights();
   buildAbrilTable();
