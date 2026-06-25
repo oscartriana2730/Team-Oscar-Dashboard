@@ -92,6 +92,30 @@
   .page { display: none; padding: 32px 36px; animation: fadeIn .3s ease; }
   .page.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 0 6px rgba(220,38,38,0.5), 0 0 0px rgba(220,38,38,0.3); }
+    50% { box-shadow: 0 0 18px rgba(220,38,38,0.9), 0 0 30px rgba(220,38,38,0.5); }
+  }
+  @keyframes glowPulseGreen {
+    0%, 100% { box-shadow: 0 0 6px rgba(22,163,74,0.5), 0 0 0px rgba(22,163,74,0.3); }
+    50% { box-shadow: 0 0 18px rgba(22,163,74,0.9), 0 0 30px rgba(22,163,74,0.5); }
+  }
+  @keyframes glowPulseBlue {
+    0%, 100% { box-shadow: 0 0 6px rgba(37,99,235,0.5), 0 0 0px rgba(37,99,235,0.3); }
+    50% { box-shadow: 0 0 18px rgba(37,99,235,0.9), 0 0 30px rgba(37,99,235,0.5); }
+  }
+  @keyframes glowTextLow {
+    0%, 100% { text-shadow: 0 0 2px rgba(124,58,237,0.3); }
+    50% { text-shadow: 0 0 5px rgba(124,58,237,0.6); }
+  }
+  @keyframes glowTextMid {
+    0%, 100% { text-shadow: 0 0 3px rgba(124,58,237,0.4); }
+    50% { text-shadow: 0 0 9px rgba(124,58,237,0.8), 0 0 14px rgba(124,58,237,0.4); }
+  }
+  @keyframes glowTextHigh {
+    0%, 100% { text-shadow: 0 0 4px rgba(124,58,237,0.5); }
+    50% { text-shadow: 0 0 14px rgba(124,58,237,1), 0 0 22px rgba(124,58,237,0.7), 0 0 30px rgba(124,58,237,0.4); }
+  }
 
   /* ---- SECTION TITLES ---- */
   .section-title {
@@ -514,38 +538,13 @@
     <button class="nav-btn active" onclick="showPage('overview')">📊 Overview</button>
     <button class="nav-btn" onclick="showPage('abril')">📅 Abril 2026</button>
     <button class="nav-btn" onclick="showPage('mayo')">📅 Mayo 2026</button>
-    <button class="nav-btn" onclick="showPage('junio')" style="border-color:#2563eb; color:#2563eb; font-weight:600;">📅 Junio 2026 🔴</button>
-    <!-- Dropdown -->
-    <div style="position:relative;" id="tools-dropdown-wrap">
-      <button class="nav-btn" id="tools-btn" onclick="toggleDropdown(event)"
-        style="display:flex; align-items:center; gap:6px;">
-        🛠️ Herramientas <span id="tools-arrow" style="font-size:10px; transition:transform .2s;">▼</span>
-      </button>
-      <div id="tools-menu" style="display:none; position:absolute; top:calc(100% + 8px); left:0; background:var(--surface); border:1px solid var(--border); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.12); padding:6px; min-width:220px; z-index:999;">
-        <button onclick="showPage('calc'); closeDropdown();"
-          style="width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text); cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s;"
-          onmouseover="this.style.background='#f0fdf4'; this.style.color='#16a34a';"
-          onmouseout="this.style.background='transparent'; this.style.color='var(--text)';">
-          🧮 Calculadora de Comisiones
-        </button>
-        <button onclick="showPage('info'); closeDropdown();"
-          style="width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text); cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s;"
-          onmouseover="this.style.background='#fffbeb'; this.style.color='#d97706';"
-          onmouseout="this.style.background='transparent'; this.style.color='var(--text)';">
-          📌 Información Importante
-        </button>
-        <button onclick="showPage('training'); closeDropdown();"
-          style="width:100%; text-align:left; padding:10px 14px; border:none; background:transparent; border-radius:8px; font-family:'DM Sans',sans-serif; font-size:13px; font-weight:500; color:var(--text); cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s;"
-          onmouseover="this.style.background='#eff6ff'; this.style.color='#2563eb';"
-          onmouseout="this.style.background='transparent'; this.style.color='var(--text)';">
-          🎓 Training
-        </button>
-      </div>
-    </div>
+    <button class="nav-btn" onclick="showPage('junio')" style="border-color:#2563eb; color:#2563eb; font-weight:700; animation: glowPulseBlue 1.6s ease-in-out infinite;">📅 Junio 2026</button>
+    <button class="nav-btn" onclick="showPage('semana-actual')" style="background:#dc2626; color:#fff; border-color:#dc2626; font-weight:700; animation: glowPulse 1.6s ease-in-out infinite;">🔴 SEMANA EN CURSO</button>
+    <button class="nav-btn" onclick="showPage('calc')" style="background:#16a34a; color:#fff; border-color:#16a34a; font-weight:700; animation: glowPulseGreen 1.6s ease-in-out infinite;">🧮 Calculadora de Comisiones</button>
   </nav>
   <div class="header-right" style="text-align:right; max-width:280px;">
     <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:2px; color:var(--gold);">Bienvenido(a) al mejor equipo de TripleTen</div>
-    <div style="font-size:10px; color:var(--muted); line-height:1.5; margin-top:3px;">Si estás aquí, haces parte de un equipo que mes a mes hace historia.<br>Un equipo de élite — por ende, <span style="color:var(--gold); font-weight:700; letter-spacing:.5px;">ERES UN CLOSER DE ÉLITE</span> ✦</div>
+    <div style="font-size:10px; color:var(--muted); line-height:1.5; margin-top:3px;">Hay que creernos capaces de todo si no, no vamos a lograr nada.<br><span style="color:var(--gold); font-weight:700; letter-spacing:.5px;">ERES COMERCIAL DE ALTO RENDIMIENTO</span> ✦</div>
   </div>
 </header>
 
@@ -827,6 +826,35 @@
 
 </div>
 
+<!-- ========== SEMANA EN CURSO PAGE ========== -->
+<div class="page" id="page-semana-actual">
+  <div style="max-width:900px; margin:0 auto;">
+
+    <div style="margin-bottom:20px;">
+      <div style="font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:3px; color:var(--muted); text-transform:uppercase;">TEAM OSCAR · JUNIO 2026</div>
+      <div style="display:flex; align-items:center; gap:12px; margin-top:4px; flex-wrap:wrap;">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:34px; letter-spacing:2px; color:var(--text);">🔴 Semana en Curso</div>
+        <span id="sa-week-badge" style="background:#fee2e2; color:#dc2626; font-size:12px; font-weight:700; padding:4px 14px; border-radius:99px;"></span>
+      </div>
+      <div style="font-size:13px; color:var(--muted); margin-top:4px;" id="sa-week-range"></div>
+    </div>
+
+    <div style="background:#fffbeb; border:1px solid #fcd34d; border-radius:10px; padding:10px 16px; font-size:12px; color:#92400e; margin-bottom:20px;">
+      📅 Esta tabla se actualiza a diario con el avance de cada closer en la semana activa.
+    </div>
+
+    <!-- Leyenda -->
+    <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px; font-size:11px; color:var(--muted);">
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#fca5a5;display:inline-block;"></span>80%</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#93c5fd;display:inline-block;"></span>100%</span>
+      <span style="display:inline-flex; align-items:center; gap:5px;"><span style="width:10px;height:10px;border-radius:50%;background:#86efac;display:inline-block;"></span>120%</span>
+    </div>
+
+    <div id="sa-closers-list"></div>
+
+  </div>
+</div>
+
 <!-- ========== CALCULADORA PAGE ========== -->
 <div class="page" id="page-calc">
   <div style="max-width:700px; margin:0 auto;">
@@ -944,7 +972,7 @@
       <!-- Inputs ¿Cuánto me llega? -->
       <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
         <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">Tu semana en números</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
           <div>
             <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto NR o cash hiciste?</label>
             <div style="position:relative;">
@@ -957,6 +985,20 @@
             <input type="hidden" id="llega-nr-raw" value="0">
             <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $5.500</div>
           </div>
+          <div>
+            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto es tu meta esta semana?</label>
+            <div style="position:relative;">
+              <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
+              <input id="llega-meta" type="text" inputmode="numeric" placeholder="Ej: 7.700"
+                style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+                onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
+                oninput="formatNR(this,'llega-meta-raw'); calcLlega()">
+            </div>
+            <input type="hidden" id="llega-meta-raw" value="0">
+            <div style="font-size:10px; color:var(--muted); margin-top:4px;">Tu meta del 100% para esta semana</div>
+          </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr; gap:16px;">
           <div>
             <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuántos referidos tuviste? <span style="font-weight:400; text-transform:none;">(opcional)</span></label>
             <input id="llega-referidos" type="number" min="0" placeholder="Ej: 2"
@@ -987,8 +1029,8 @@
 
       <div id="llega-empty" style="text-align:center; padding:40px 20px; color:var(--muted);">
         <div style="font-size:44px; margin-bottom:12px;">💵</div>
-        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tus ventas y NR</div>
-        <div style="font-size:13px;">Te decimos exactamente cuánto te llega en dólares y en pesos</div>
+        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tu NR y tu meta de la semana</div>
+        <div style="font-size:13px;">Te decimos exactamente cuánto te llega de comisión</div>
       </div>
     </div>
 
@@ -1036,8 +1078,8 @@
     </div>
     <div class="goal-status missed">
       <div class="gs-label">Cumplimiento</div>
-      <div class="gs-val" style="color:var(--gold);">55,48%</div>
-      <div style="font-size:11px; color:var(--muted);">$122.147 / $220.176 · En curso</div>
+      <div class="gs-val" style="color:var(--gold);">58,38%</div>
+      <div style="font-size:11px; color:var(--muted);">$128.528 / $220.176 · En curso</div>
     </div>
   </div>
 
@@ -1047,13 +1089,13 @@
     <div class="kpi-grid" style="grid-template-columns: repeat(2,1fr); margin-bottom:0;">
       <div class="kpi-card highlight">
         <div class="kpi-label">Recaudado</div>
-        <div class="kpi-value gold">$122.147</div>
+        <div class="kpi-value gold">$128.528</div>
         <div class="kpi-sub">Meta: $220.176</div>
-        <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:55.48%; background:var(--gold);"></div></div></div>
+        <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:58.38%; background:var(--gold);"></div></div></div>
       </div>
       <div class="kpi-card red-card">
         <div class="kpi-label">Faltante</div>
-        <div class="kpi-value red">$98.029</div>
+        <div class="kpi-value red">$91.648</div>
         <div class="kpi-sub">Para llegar al 100%</div>
       </div>
       <div class="kpi-card">
@@ -1064,7 +1106,7 @@
       </div>
       <div class="kpi-card green-card">
         <div class="kpi-label">Referidos</div>
-        <div class="kpi-value green">7</div>
+        <div class="kpi-value green">9</div>
         <div class="kpi-sub">Meta: 14</div>
       </div>
       <div class="kpi-card blue-card" style="grid-column: span 2;">
@@ -1114,8 +1156,8 @@
     <div class="week-card" style="border-left-color:var(--red);">
       <div class="week-title">SEM 4 · 21–30</div>
       <div class="week-goal">Meta: $81.840</div>
-      <div class="week-actual" style="color:var(--red);">$15.446</div>
-      <div class="week-pct" style="color:var(--red);">18,87% · En curso</div>
+      <div class="week-actual" style="color:var(--red);">$21.827</div>
+      <div class="week-pct" style="color:var(--red);">26,67% · En curso</div>
     </div>
   </div>
 
@@ -1191,18 +1233,18 @@ const closersMayo = [
 
 // ---- DATA JUNIO ----
 const closersJunio = [
-  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 2240,  s2meta: 5500, s2real: 867,   s3meta: 5500, s3real: 5236, s4meta: 7700, s4real: 3721, refs: 1 },
-  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 6721,  s3meta: 5500, s3real: 6150, s4meta: 7700, s4real: 582,  refs: 1 },
-  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 3182,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 2144, s4meta: 7700, s4real: 390,  refs: 1 },
+  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 2240,  s2meta: 5500, s2real: 867,   s3meta: 5500, s3real: 5236, s4meta: 7700, s4real: 6277, refs: 1 },
+  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 6721,  s3meta: 5500, s3real: 6150, s4meta: 7700, s4real: 1506, refs: 2 },
+  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 3182,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 2144, s4meta: 7700, s4real: 390,  refs: 2 },
   { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3020,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4240, s4meta: 7700, s4real: 1500, refs: 1 },
   { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 4428,  s2meta: 5500, s2real: 857,   s3meta: 5500, s3real: 0,    s4meta: 2200, s4real: 0,    refs: 1 },
   { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 3918, s4meta: 7700, s4real: 1824, refs: null },
-  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2192,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4940, s4meta: 7700, s4real: 0,    refs: 1 },
+  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2192,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4940, s4meta: 7700, s4real: 1947, refs: 1 },
   { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1846,  s2meta: 5500, s2real: 7894,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 3279, refs: 1 },
   { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 694,   s3meta: 5500, s3real: 4266, s4meta: 7700, s4real: 0,    refs: null },
   { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 2542,  s2meta: 5500, s2real: 2235,  s3meta: 5500, s3real: 547,  s4meta: 7700, s4real: 465,  refs: null },
   { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 4311,  s2meta: 5500, s2real: 1056,  s3meta: 5500, s3real: 1275, s4meta: 7700, s4real: 1537, refs: null },
-  { name: "Katrin Muñoz",     meta: 7700,  s1meta: 0,    s1real: null,  s2meta: 0,    s2real: 3126,  s3meta: 0,    s3real: 8161, s4meta: 7700, s4real: 2148, refs: null, nuevo: true },
+  { name: "Katrin Muñoz",     meta: 7700,  s1meta: 0,    s1real: null,  s2meta: 0,    s2real: 3126,  s3meta: 0,    s3real: 8161, s4meta: 7700, s4real: 3102, refs: null, nuevo: true },
   { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 1154,  s2meta: 5500, s2real: 6642,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 0,    refs: null },
   { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 7086,  s2meta: 5500, s2real: 1175,  s3meta: 5500, s3real: 2556, s4meta: 7700, s4real: 0,    refs: null },
 ];
@@ -1593,14 +1635,14 @@ async function fetchTRM() {
 function calcLlega() {
   const nr = parseInt(document.getElementById('llega-nr-raw').value) || 0;
   const refs = parseInt(document.getElementById('llega-referidos').value) || 0;
+  const metaInput = parseInt(document.getElementById('llega-meta-raw').value) || 0;
   const results = document.getElementById('llega-results');
   const empty   = document.getElementById('llega-empty');
 
-  if (nr <= 0) { results.style.display='none'; empty.style.display='block'; return; }
+  if (nr <= 0 || metaInput <= 0) { results.style.display='none'; empty.style.display='block'; return; }
   results.style.display='block'; empty.style.display='none';
 
-  const det = detectSemana();
-  const meta100 = det ? det.semana.meta100 : 5500;
+  const meta100 = metaInput;
   const meta80  = meta100 * 0.80;
   const meta120 = meta100 * 1.20;
 
@@ -1902,9 +1944,11 @@ function calcComision() {
   const proyPct = Math.round((proyeccion / meta100) * 100);
   const proyColor = proyeccion >= meta120?'#16a34a':proyeccion>=meta100?'#2563eb':proyeccion>=meta80?'#d97706':'#ef4444';
   let comProyPct = proyeccion>=meta120?0.04:proyeccion>=meta100?0.02:proyeccion>=meta80?0.015:0;
+  const comProySinMult = proyeccion * comProyPct;
+  const comProyConMult = comProySinMult * 1.2;
 
   document.getElementById('calc-proy-content').innerHTML = `
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:12px;">
       <div style="text-align:center;">
         <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Promedio/día</div>
         <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--text);">${fmt(nrDiario3)}</div>
@@ -1916,14 +1960,29 @@ function calcComision() {
         <div style="font-size:10px; color:${proyColor}; font-weight:600;">${proyPct}% de la meta</div>
       </div>
       <div style="text-align:center;">
-        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Comisión proy.</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:${proyColor};">${comProyPct>0?fmt(proyeccion*comProyPct):'$0'}</div>
-        <div style="font-size:10px; color:var(--muted);">${comProyPct>0?(comProyPct*100).toFixed(1)+'% del NR':'Sin comisión aún'}</div>
+        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Nivel proyectado</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:${proyColor};">${comProyPct>0?(comProyPct*100).toFixed(1)+'%':'—'}</div>
+        <div style="font-size:10px; color:var(--muted);">${comProyPct>0?'sobre el NR':'Sin nivel aún'}</div>
       </div>
     </div>
-    ${diasLeft3 > 1 ? `<div style="margin-top:12px; padding:9px 12px; background:var(--bg); border-radius:8px; font-size:12px; color:var(--muted);">
+
+    <!-- Comisión proyectada con/sin multiplicador -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+      <div style="text-align:center; padding:10px; border-radius:8px; background:#f8fafc;">
+        <div style="font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px;">Comisión proyectada</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:${comProyPct>0?'#16a34a':'var(--muted)'};">${comProyPct>0?fmt(comProySinMult):'$0'}</div>
+        <div style="font-size:9px; color:var(--muted);">sin multiplicador</div>
+      </div>
+      <div style="text-align:center; padding:10px; border-radius:8px; background:#faf5ff;">
+        <div style="font-size:9px; color:#7c3aed; text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px;">⚡ Con multiplicador ×1.2</div>
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:${comProyPct>0?'#7c3aed':'var(--muted)'};">${comProyPct>0?fmt(comProyConMult):'$0'}</div>
+        <div style="font-size:9px; color:#7c3aed;">si conversión ≥13%</div>
+      </div>
+    </div>
+
+    ${diasLeft3 > 1 ? `<div style="padding:9px 12px; background:var(--bg); border-radius:8px; font-size:12px; color:var(--muted);">
       Si mantienes ${fmt(nrDiario3)}/día cerrarías en <strong style="color:${proyColor};">${proyPct}%</strong> · ${diasLeft3} día${diasLeft3>1?'s':''} restantes incluyendo hoy
-    </div>` : '<div style="margin-top:10px; font-size:12px; color:var(--muted);">⚡ Hoy cierra la semana (hasta las 10pm) — dale con todo.</div>'}`;
+    </div>` : '<div style="font-size:12px; color:var(--muted);">⚡ Hoy cierra la semana (hasta las 10pm) — dale con todo.</div>'}`;
 
   // ---- COMISIÓN ACTUAL ----
   let comActualPct = 0, comTier = '', comColor2 = '#ef4444', comBg = '#fff1f2', comBorder = '#fca5a5';
@@ -1940,20 +1999,6 @@ function calcComision() {
   document.getElementById('calc-comision-desc').innerHTML = comActualPct > 0
     ? `<span style="color:${comColor2}; font-weight:700;">${comTier}</span> · ${(comActualPct*100).toFixed(1)}% sobre ${fmt(nr)} NR recaudado`
     : `<span style="color:#ef4444; font-weight:700;">${comTier}</span> · Te faltan <strong>${fmt(meta80-nr)}</strong> para el primer nivel`;
-}
-
-// ---- DROPDOWN ----
-function toggleDropdown(e) {
-  e.stopPropagation();
-  const menu = document.getElementById('tools-menu');
-  const arrow = document.getElementById('tools-arrow');
-  const isOpen = menu.style.display === 'block';
-  menu.style.display = isOpen ? 'none' : 'block';
-  arrow.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-}
-function closeDropdown() {
-  document.getElementById('tools-menu').style.display = 'none';
-  document.getElementById('tools-arrow').style.transform = 'rotate(0deg)';
 }
 
 // ---- NAV ----
@@ -2994,6 +3039,176 @@ function buildMonthInsights(data, containerId, monthName) {
   el.innerHTML = cards.slice(0, 3).join('');
 }
 
+// ---- PÁGINA: SEMANA EN CURSO (PROGRESO 80/100/120%) ----
+function getSemanaActualReal(c) {
+  // Determina qué semana está actualmente en curso y devuelve el valor real de esa semana
+  const det = detectSemana();
+  if (!det) return { real: 0, semanaNum: 4, semanaNombre: 'SEM 4', meta: c.s4meta||7700 };
+  const idx = JUNIO_SEMANAS.indexOf(det.semana) + 1; // 1,2,3,4
+  const realKey = 's' + idx + 'real';
+  const metaKey = 's' + idx + 'meta';
+  return {
+    real: c[realKey] || 0,
+    semanaNum: idx,
+    semanaNombre: det.semana.nombre,
+    meta: c[metaKey] || det.semana.meta100
+  };
+}
+
+function buildSemanaActual() {
+  const det = detectSemana();
+  const badgeEl = document.getElementById('sa-week-badge');
+  const rangeEl = document.getElementById('sa-week-range');
+  const listEl = document.getElementById('sa-closers-list');
+  if (!listEl) return;
+
+  let semanaNombre = 'SEM 4', semanaRango = '21 al 30 de junio';
+  if (det) {
+    semanaNombre = det.semana.nombre;
+    semanaRango = `Del ${det.semana.inicio[2]} al ${det.semana.fin[2]} de junio`;
+  }
+  if (badgeEl) badgeEl.textContent = `${semanaNombre.toUpperCase()} · EN CURSO`;
+  if (rangeEl) rangeEl.textContent = semanaRango;
+
+  // Metas fijas de la semana (no se calculan como % de la meta semanal del closer)
+  const META_80 = 6600;
+  const META_100 = 7700;
+  const META_120 = 8800;
+
+  const sorted = [...closersJunio].sort((a, b) => {
+    const ra = getSemanaActualReal(a).real;
+    const rb = getSemanaActualReal(b).real;
+    return rb - ra;
+  });
+
+  listEl.innerHTML = sorted.map((c, i) => {
+    const { real } = getSemanaActualReal(c);
+    const meta80 = META_80, meta100 = META_100, meta120 = META_120;
+    const pctOf120 = meta120 > 0 ? Math.min((real / meta120) * 100, 100) : 0;
+    const falta80  = Math.max(0, meta80 - real);
+    const falta100 = Math.max(0, meta100 - real);
+    const falta120 = Math.max(0, meta120 - real);
+    const alc80 = real >= meta80, alc100 = real >= meta100, alc120 = real >= meta120;
+
+    // Posiciones de los marcadores en % de la barra (relativo a meta120 = 100%)
+    const pos80 = (meta80 / meta120) * 100;
+    const pos100 = (meta100 / meta120) * 100;
+
+    const barColor = alc120 ? '#16a34a' : alc100 ? '#2563eb' : alc80 ? '#d97706' : '#ef4444';
+
+    // ---- Comisión ----
+    let comPct = 0, nivelTxt = 'Sin nivel';
+    if (alc120)      { comPct = 0.04;  nivelTxt = '120%'; }
+    else if (alc100) { comPct = 0.02;  nivelTxt = '100%'; }
+    else if (alc80)   { comPct = 0.015; nivelTxt = '80%'; }
+    const comSinMult = real * comPct;
+    const comConMult = comSinMult * 1.2;
+
+    // Estado resumen para vista compacta
+    let estadoTxt, estadoColor;
+    if (alc120) { estadoTxt = '🏆 120% logrado'; estadoColor = '#16a34a'; }
+    else if (alc100) { estadoTxt = `✅ 100% · faltan $${falta120.toLocaleString('es-CO')} p/120%`; estadoColor = '#2563eb'; }
+    else if (alc80) { estadoTxt = `🟡 80% · faltan $${falta100.toLocaleString('es-CO')} p/100%`; estadoColor = '#d97706'; }
+    else { estadoTxt = `⏳ Faltan $${falta80.toLocaleString('es-CO')} p/80%`; estadoColor = '#ef4444'; }
+
+    // ---- Proyección diaria real (basada en fecha de hoy y fin de semana) ----
+    let diasTransc = 1, diasLeft = 0, ritmoDiario = real;
+    if (det) {
+      const hoyDate = toDateOnly(getColombiaToday());
+      diasTransc = Math.max(1, Math.ceil((hoyDate - det.ini) / (1000*60*60*24)) + 1);
+      diasLeft = diasRestantes(hoyDate, det.fin); // incluye hoy
+      ritmoDiario = real / diasTransc;
+    }
+    const necesarioPorDia = diasLeft > 0 ? falta100 / diasLeft : falta100;
+    const necesarioPorDia80 = diasLeft > 0 ? falta80 / diasLeft : falta80;
+    const necesarioPorDia120 = diasLeft > 0 ? falta120 / diasLeft : falta120;
+
+    const rowId = `sa-row-${i}`;
+
+    return `
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; margin-bottom:10px; box-shadow:0 1px 3px rgba(0,0,0,0.04); overflow:hidden;">
+        <div onclick="document.getElementById('${rowId}').style.display = document.getElementById('${rowId}').style.display==='none' ? 'block' : 'none'; document.getElementById('${rowId}-arrow').style.transform = document.getElementById('${rowId}').style.display==='none' ? 'rotate(0deg)' : 'rotate(180deg)';"
+          style="padding:14px 18px 26px; cursor:pointer; display:flex; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:140px; padding-top:2px;">
+            <div style="font-weight:700; font-size:14px; color:var(--text);">${c.name}${c.nuevo?' <span style="font-size:9px; background:#eff6ff; color:#1d4ed8; padding:2px 6px; border-radius:4px; vertical-align:middle;">NUEVO</span>':''}</div>
+            <div style="font-size:11px; color:${estadoColor}; font-weight:600; margin-top:2px;">${estadoTxt}</div>
+          </div>
+          <div style="flex:2; min-width:180px; position:relative; padding-top:2px;">
+            <div style="position:relative; background:#f1f5f9; border-radius:99px; height:14px; overflow:visible;">
+              <div style="position:absolute; left:0; top:0; height:100%; width:${pctOf120}%; background:${barColor}; border-radius:99px; transition:width .6s ease;"></div>
+              <div style="position:absolute; left:${pos80}%; top:-2px; width:2px; height:18px; background:#dc2626; opacity:0.7;"></div>
+              <div style="position:absolute; left:${pos100}%; top:-2px; width:2px; height:18px; background:#1d4ed8; opacity:0.7;"></div>
+              <div style="position:absolute; left:100%; top:-2px; width:2px; height:18px; background:#16a34a; opacity:0.7;"></div>
+            </div>
+            <!-- Etiquetas de falta debajo de cada marcador -->
+            <div style="position:absolute; left:${pos80}%; top:20px; transform:translateX(-50%); font-size:9px; font-weight:700; color:#dc2626; white-space:nowrap;">${alc80?'✓':'-$'+falta80.toLocaleString('es-CO')}</div>
+            <div style="position:absolute; left:${pos100}%; top:20px; transform:translateX(-50%); font-size:9px; font-weight:700; color:#1d4ed8; white-space:nowrap;">${alc100?'✓':'-$'+falta100.toLocaleString('es-CO')}</div>
+            <div style="position:absolute; left:100%; top:20px; transform:translateX(-50%); font-size:9px; font-weight:700; color:#16a34a; white-space:nowrap;">${alc120?'✓':'-$'+falta120.toLocaleString('es-CO')}</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace; font-size:14px; font-weight:700; color:${barColor}; min-width:80px; text-align:right; padding-top:2px;">$${real.toLocaleString('es-CO')}</div>
+          <span id="${rowId}-arrow" style="font-size:12px; color:var(--muted); transition:transform .2s; flex-shrink:0; padding-top:2px;">▼</span>
+        </div>
+
+        <div id="${rowId}" style="display:none; padding:0 18px 18px;">
+          <!-- Mensaje fijo: cuánto falta para el 100% -->
+          <div style="padding:12px 16px; background:${alc100?'#eff6ff':'#fff1f2'}; border:1px solid ${alc100?'#93c5fd':'#fca5a5'}; border-radius:8px; font-size:14px; color:${alc100?'#1d4ed8':'#991b1b'}; margin-bottom:12px; font-weight:600;">
+            ${alc100 ? `✅ Ya alcanzaste el 100% de la meta ($${meta100.toLocaleString('es-CO')})` : `🎯 Te faltan <strong>$${falta100.toLocaleString('es-CO')}</strong> para llegar al 100% ($${meta100.toLocaleString('es-CO')})`}
+          </div>
+
+          <!-- Detalles 80/100/120 con comisión proyectada -->
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px;">
+            <div style="text-align:center; padding:12px 8px; border-radius:8px; background:${alc80?'#f0fdf4':'#fff1f2'};">
+              <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px;">Meta 80% · $${meta80.toLocaleString('es-CO')}</div>
+              <div style="font-size:14px; font-weight:700; color:${alc80?'#16a34a':'#ef4444'}; margin-bottom:8px;">${alc80?'✓ Lograda':'Faltan $'+falta80.toLocaleString('es-CO')}</div>
+              <div style="border-top:1px solid rgba(0,0,0,0.08); padding-top:8px; font-size:11px; color:var(--muted); font-weight:600;">Ganarías</div>
+              <div style="font-size:16px; font-weight:800; color:#16a34a;">$${Math.round(meta80*0.015).toLocaleString('es-CO')}</div>
+              <div style="font-size:11px; color:#7c3aed; font-weight:700; margin-top:2px; animation: glowTextLow 2s ease-in-out infinite;">⚡ $${Math.round(meta80*0.015*1.2).toLocaleString('es-CO')} con multiplicador</div>
+            </div>
+            <div style="text-align:center; padding:12px 8px; border-radius:8px; background:${alc100?'#eff6ff':'#fff1f2'};">
+              <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px;">Meta 100% · $${meta100.toLocaleString('es-CO')}</div>
+              <div style="font-size:14px; font-weight:700; color:${alc100?'#2563eb':'#ef4444'}; margin-bottom:8px;">${alc100?'✓ Lograda':'Faltan $'+falta100.toLocaleString('es-CO')}</div>
+              <div style="border-top:1px solid rgba(0,0,0,0.08); padding-top:8px; font-size:11px; color:var(--muted); font-weight:600;">Ganarías</div>
+              <div style="font-size:16px; font-weight:800; color:#2563eb;">$${Math.round(meta100*0.02).toLocaleString('es-CO')}</div>
+              <div style="font-size:11px; color:#7c3aed; font-weight:700; margin-top:2px; animation: glowTextMid 2s ease-in-out infinite;">⚡ $${Math.round(meta100*0.02*1.2).toLocaleString('es-CO')} con multiplicador</div>
+            </div>
+            <div style="text-align:center; padding:12px 8px; border-radius:8px; background:${alc120?'#f0fdf4':'#fff7ed'};">
+              <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px;">Meta 120% · $${meta120.toLocaleString('es-CO')}</div>
+              <div style="font-size:14px; font-weight:700; color:${alc120?'#16a34a':'#d97706'}; margin-bottom:8px;">${alc120?'✓ Lograda':'Faltan $'+falta120.toLocaleString('es-CO')}</div>
+              <div style="border-top:1px solid rgba(0,0,0,0.08); padding-top:8px; font-size:11px; color:var(--muted); font-weight:600;">Ganarías</div>
+              <div style="font-size:16px; font-weight:800; color:#16a34a;">$${Math.round(meta120*0.04).toLocaleString('es-CO')}</div>
+              <div style="font-size:11px; color:#7c3aed; font-weight:700; margin-top:2px; animation: glowTextHigh 2s ease-in-out infinite;">⚡ $${Math.round(meta120*0.04*1.2).toLocaleString('es-CO')} con multiplicador</div>
+            </div>
+          </div>
+
+          <!-- Comisión actual real -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; padding-top:12px; border-top:1px solid var(--border); margin-bottom:12px;">
+            <div style="text-align:center; padding:12px; border-radius:8px; background:#f8fafc;">
+              <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; font-weight:600;">Tu comisión actual</div>
+              <div style="font-size:18px; font-weight:800; color:${comPct>0?'#16a34a':'var(--muted)'};">${comPct>0 ? '$'+Math.round(comSinMult).toLocaleString('es-CO') : '—'}</div>
+              <div style="font-size:11px; color:var(--muted); margin-top:2px;">${comPct>0 ? 'Nivel '+nivelTxt+' · '+(comPct*100).toFixed(1)+'%' : 'Sin nivel alcanzado'}</div>
+            </div>
+            <div style="text-align:center; padding:12px; border-radius:8px; background:#faf5ff;">
+              <div style="font-size:11px; color:#7c3aed; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; font-weight:600;">⚡ Con multiplicador ×1.2</div>
+              <div style="font-size:18px; font-weight:800; color:${comPct>0?'#7c3aed':'var(--muted)'};">${comPct>0 ? '$'+Math.round(comConMult).toLocaleString('es-CO') : '—'}</div>
+              <div style="font-size:11px; color:#7c3aed; margin-top:2px;">${comPct>0 ? 'Si conversión ≥13%' : 'Sin nivel alcanzado'}</div>
+            </div>
+          </div>
+
+          <!-- Proyección diaria real -->
+          <div style="padding:14px 16px; background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; font-size:14px; color:#1e3a8a; line-height:1.8;">
+            <div style="font-weight:700; margin-bottom:8px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#1d4ed8;">📅 Proyección — ${diasLeft} día${diasLeft>1?'s':''} restante${diasLeft>1?'s':''} (incluyendo hoy)</div>
+            <div>Ritmo actual: <strong>$${Math.round(ritmoDiario).toLocaleString('es-CO')}/día</strong> (sobre ${diasTransc} día${diasTransc>1?'s':''} transcurridos)</div>
+            ${!alc80 ? `<div>Para el <strong>80%</strong> necesitas <strong style="color:#dc2626;">$${Math.round(necesarioPorDia80).toLocaleString('es-CO')}/día</strong></div>` : ''}
+            ${!alc100 ? `<div>Para el <strong>100%</strong> necesitas <strong style="color:#1d4ed8;">$${Math.round(necesarioPorDia).toLocaleString('es-CO')}/día</strong></div>` : ''}
+            ${!alc120 ? `<div>Para el <strong>120%</strong> necesitas <strong style="color:#16a34a;">$${Math.round(necesarioPorDia120).toLocaleString('es-CO')}/día</strong></div>` : ''}
+            ${alc120 ? `<div style="color:#16a34a; font-weight:600;">🎉 ¡Meta máxima alcanzada! Cualquier venta extra suma directo a tu comisión del 4%.</div>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
 function buildJunioInsights() {
   const el = document.getElementById('junio-insights');
   if (!el) return;
@@ -3028,9 +3243,6 @@ function buildJunioInsights() {
 
 // ---- INIT ----
 document.addEventListener('DOMContentLoaded', function() {
-  // Cerrar dropdown al hacer click fuera
-  document.addEventListener('click', () => closeDropdown());
-
   buildOverviewKPIs();
   buildOverviewLineChart();
   buildJunioLineChart();
@@ -3042,6 +3254,7 @@ document.addEventListener('DOMContentLoaded', function() {
   buildMonthInsights(sortedMayo, 'mayo-insights', 'Mayo');
   buildJunioTable();
   buildJunioInsights();
+  buildSemanaActual();
   initCalc();
 });
 </script>
