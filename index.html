@@ -866,172 +866,68 @@
       <div style="font-size:13px; color:var(--muted); margin-top:4px;" id="calc-today-label"></div>
     </div>
 
-    <!-- TABS -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px;">
-      <button id="tab-proy-btn" onclick="switchCalcTab('proy')"
-        style="padding:16px; border-radius:12px; border:2px solid #2563eb; background:#eff6ff; color:#2563eb; font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px;">
-        📈 PROYECCIÓN
-      </button>
-      <button id="tab-llega-btn" onclick="switchCalcTab('llega')"
-        style="padding:16px; border-radius:12px; border:2px solid var(--border); background:var(--surface); color:var(--muted); font-family:'Bebas Neue',sans-serif; font-size:18px; letter-spacing:1.5px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:8px;">
-        💵 ¿CUÁNTO ME LLEGA?
-      </button>
-    </div>
-
-    <!-- ====== TAB PROYECCIÓN ====== -->
-    <div id="tab-proy">
-
-      <!-- Banner semana activa -->
-      <div id="calc-week-banner" style="border-radius:12px; padding:16px 20px; margin-bottom:20px; border:1px solid; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+    <!-- Inputs ¿Cuánto me llega? -->
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+      <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">Tu semana en números</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
         <div>
-          <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted);">Semana activa detectada</div>
-          <div id="calc-week-name" style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px;"></div>
-          <div id="calc-week-range" style="font-size:12px; color:var(--muted);"></div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Meta 100%</div>
-          <div id="calc-week-meta" style="font-family:'Bebas Neue',sans-serif; font-size:28px;"></div>
-          <div id="calc-week-end" style="font-size:11px; color:var(--muted);"></div>
-        </div>
-      </div>
-
-      <!-- Inputs proyección -->
-      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-        <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">¿Cómo vas esta semana?</div>
-        <div style="display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:16px;">
-          <div>
-            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">NR recaudado esta semana</label>
-            <div style="position:relative;">
-              <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
-              <input id="inp-nr" type="text" inputmode="numeric" placeholder="0"
-                style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
-                onfocus="this.style.borderColor='#2563eb'" onblur="this.style.borderColor='var(--border)'"
-                oninput="formatNR(this,'inp-nr-raw'); calcComision()">
-            </div>
-            <input type="hidden" id="inp-nr-raw" value="0">
-            <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $3.500</div>
-          </div>
-        </div>
-        <div style="border-top:1px solid var(--border); padding-top:16px;">
-          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">
-            🎯 ¿Cuánto quieres meter esta semana? <span style="font-weight:400; text-transform:none; letter-spacing:0;">(opcional)</span>
-          </label>
+          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto NR o cash hiciste?</label>
           <div style="position:relative;">
             <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
-            <input id="inp-objetivo" type="text" inputmode="numeric" placeholder="Tu meta personal · Ej: 6.000"
-              style="width:100%; padding:12px 14px 12px 28px; border:1.5px dashed var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:#fafbff; color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
-              onfocus="this.style.borderColor='#7c3aed'" onblur="this.style.borderColor='var(--border)'"
-              oninput="formatNR(this,'inp-obj-raw'); calcComision()">
+            <input id="llega-nr" type="text" inputmode="numeric" placeholder="0"
+              style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+              onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
+              oninput="formatNR(this,'llega-nr-raw'); calcLlega()">
           </div>
-          <input type="hidden" id="inp-obj-raw" value="0">
+          <input type="hidden" id="llega-nr-raw" value="0">
+          <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $5.500</div>
+        </div>
+        <div>
+          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto es tu meta esta semana?</label>
+          <div style="position:relative;">
+            <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
+            <input id="llega-meta" type="text" inputmode="numeric" placeholder="Ej: 7.700"
+              style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
+              onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
+              oninput="formatNR(this,'llega-meta-raw'); calcLlega()">
+          </div>
+          <input type="hidden" id="llega-meta-raw" value="0">
+          <div style="font-size:10px; color:var(--muted); margin-top:4px;">Tu meta del 100% para esta semana</div>
         </div>
       </div>
-
-      <!-- Resultados proyección -->
-      <div id="calc-results" style="display:none;">
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-            <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px;">Progreso actual</div>
-            <div id="res-pct-label" style="font-family:'Bebas Neue',sans-serif; font-size:26px;"></div>
-          </div>
-          <div style="background:var(--border); border-radius:99px; height:14px; overflow:visible; position:relative; margin-bottom:8px;">
-            <div id="res-bar" style="height:100%; border-radius:99px; transition:width .8s ease; position:relative;">
-              <span id="res-bar-tooltip" style="position:absolute; right:-1px; top:-26px; font-size:10px; font-weight:700; white-space:nowrap;"></span>
-            </div>
-            <div style="position:absolute; left:66.7%; top:-4px; width:2px; height:22px; background:#d97706; border-radius:1px;"></div>
-            <div style="position:absolute; left:83.3%; top:-4px; width:2px; height:22px; background:#2563eb; border-radius:1px;"></div>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--muted);">
-            <span>$0</span><span style="color:#d97706;">▲ 80%</span><span style="color:#2563eb;">▲ 100%</span>
-            <span id="res-bar-meta-label"></span>
-          </div>
+      <div style="display:grid; grid-template-columns:1fr; gap:16px;">
+        <div>
+          <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuántos referidos tuviste? <span style="font-weight:400; text-transform:none;">(opcional)</span></label>
+          <input id="llega-referidos" type="number" min="0" placeholder="Ej: 2"
+            style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
+            onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
+            oninput="calcLlega()">
+          <div style="font-size:10px; color:var(--muted); margin-top:4px;">1er referido: $50 · 2do en adelante: $100 c/u</div>
         </div>
-        <div id="calc-plan-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;"></div>
-        <div id="calc-objetivo-box" style="display:none; margin-bottom:16px;"></div>
-        <div id="calc-proyeccion" style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-          <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">📈 Proyección si mantienes el ritmo</div>
-          <div id="calc-proy-content"></div>
-        </div>
-        <div id="calc-comision-box" style="border-radius:14px; padding:24px; text-align:center; border:2px solid;">
-          <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px;">Tu comisión ahora mismo</div>
-          <div id="calc-comision-val" style="font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px;"></div>
-          <div id="calc-comision-desc" style="font-size:13px; margin-top:6px;"></div>
-        </div>
-      </div>
-
-      <div id="calc-empty" style="text-align:center; padding:40px 20px; color:var(--muted);">
-        <div style="font-size:44px; margin-bottom:12px;">📈</div>
-        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tu NR para ver tu proyección</div>
-        <div style="font-size:13px;">Te mostramos cuánto te falta para el 100% y 120%</div>
       </div>
     </div>
 
-    <!-- ====== TAB ¿CUÁNTO ME LLEGA? ====== -->
-    <div id="tab-llega" style="display:none;">
+    <!-- Resultados ¿Cuánto me llega? -->
+    <div id="llega-results" style="display:none;">
 
-      <!-- Inputs ¿Cuánto me llega? -->
-      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-        <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:18px;">Tu semana en números</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-          <div>
-            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto NR o cash hiciste?</label>
-            <div style="position:relative;">
-              <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
-              <input id="llega-nr" type="text" inputmode="numeric" placeholder="0"
-                style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
-                onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
-                oninput="formatNR(this,'llega-nr-raw'); calcLlega()">
-            </div>
-            <input type="hidden" id="llega-nr-raw" value="0">
-            <div style="font-size:10px; color:var(--muted); margin-top:4px;">En dólares · Ej: $5.500</div>
-          </div>
-          <div>
-            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuánto es tu meta esta semana?</label>
-            <div style="position:relative;">
-              <span style="position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:15px; color:var(--muted); font-weight:600; pointer-events:none;">$</span>
-              <input id="llega-meta" type="text" inputmode="numeric" placeholder="Ej: 7.700"
-                style="width:100%; padding:12px 14px 12px 28px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Mono',monospace; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s; font-weight:600;"
-                onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
-                oninput="formatNR(this,'llega-meta-raw'); calcLlega()">
-            </div>
-            <input type="hidden" id="llega-meta-raw" value="0">
-            <div style="font-size:10px; color:var(--muted); margin-top:4px;">Tu meta del 100% para esta semana</div>
-          </div>
-        </div>
-        <div style="display:grid; grid-template-columns:1fr; gap:16px;">
-          <div>
-            <label style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:6px;">¿Cuántos referidos tuviste? <span style="font-weight:400; text-transform:none;">(opcional)</span></label>
-            <input id="llega-referidos" type="number" min="0" placeholder="Ej: 2"
-              style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:16px; font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); outline:none; transition:border-color .2s;"
-              onfocus="this.style.borderColor='#16a34a'" onblur="this.style.borderColor='var(--border)'"
-              oninput="calcLlega()">
-            <div style="font-size:10px; color:var(--muted); margin-top:4px;">1er referido: $50 · 2do en adelante: $100 c/u</div>
-          </div>
-        </div>
+      <!-- Comisión ganada -->
+      <div id="llega-comision-box" style="border-radius:14px; padding:24px; text-align:center; border:2px solid; margin-bottom:16px;">
+        <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px;">Comisión ganada esta semana</div>
+        <div id="llega-com-val" style="font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px;"></div>
+        <div id="llega-com-nivel" style="font-size:13px; margin-top:4px; font-weight:600;"></div>
       </div>
 
-      <!-- Resultados ¿Cuánto me llega? -->
-      <div id="llega-results" style="display:none;">
-
-        <!-- Comisión ganada -->
-        <div id="llega-comision-box" style="border-radius:14px; padding:24px; text-align:center; border:2px solid; margin-bottom:16px;">
-          <div style="font-size:11px; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:6px;">Comisión ganada esta semana</div>
-          <div id="llega-com-val" style="font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px;"></div>
-          <div id="llega-com-nivel" style="font-size:13px; margin-top:4px; font-weight:600;"></div>
-        </div>
-
-        <!-- Resumen detallado -->
-        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-          <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">📋 Resumen de tu semana</div>
-          <div id="llega-resumen"></div>
-        </div>
+      <!-- Resumen detallado -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="font-size:12px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">📋 Resumen de tu semana</div>
+        <div id="llega-resumen"></div>
       </div>
+    </div>
 
-      <div id="llega-empty" style="text-align:center; padding:40px 20px; color:var(--muted);">
-        <div style="font-size:44px; margin-bottom:12px;">💵</div>
-        <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tu NR y tu meta de la semana</div>
-        <div style="font-size:13px;">Te decimos exactamente cuánto te llega de comisión</div>
-      </div>
+    <div id="llega-empty" style="text-align:center; padding:40px 20px; color:var(--muted);">
+      <div style="font-size:44px; margin-bottom:12px;">💵</div>
+      <div style="font-size:15px; font-weight:600; color:var(--text); margin-bottom:6px;">Ingresa tu NR y tu meta de la semana</div>
+      <div style="font-size:13px;">Te decimos exactamente cuánto te llega de comisión</div>
     </div>
 
   </div>
@@ -1078,8 +974,8 @@
     </div>
     <div class="goal-status missed">
       <div class="gs-label">Cumplimiento</div>
-      <div class="gs-val" style="color:var(--gold);">61,41%</div>
-      <div style="font-size:11px; color:var(--muted);">$135.212 / $220.176 · En curso</div>
+      <div class="gs-val" style="color:var(--gold);">67,39%</div>
+      <div style="font-size:11px; color:var(--muted);">$148.370 / $220.176 · En curso</div>
     </div>
   </div>
 
@@ -1089,13 +985,13 @@
     <div class="kpi-grid" style="grid-template-columns: repeat(2,1fr); margin-bottom:0;">
       <div class="kpi-card highlight">
         <div class="kpi-label">Recaudado</div>
-        <div class="kpi-value gold">$135.212</div>
+        <div class="kpi-value gold">$148.370</div>
         <div class="kpi-sub">Meta: $220.176</div>
-        <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:61.41%; background:var(--gold);"></div></div></div>
+        <div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill" style="width:67.39%; background:var(--gold);"></div></div></div>
       </div>
       <div class="kpi-card red-card">
         <div class="kpi-label">Faltante</div>
-        <div class="kpi-value red">$84.964</div>
+        <div class="kpi-value red">$71.806</div>
         <div class="kpi-sub">Para llegar al 100%</div>
       </div>
       <div class="kpi-card">
@@ -1156,8 +1052,8 @@
     <div class="week-card" style="border-left-color:var(--red);">
       <div class="week-title">SEM 4 · 21–30</div>
       <div class="week-goal">Meta: $81.840</div>
-      <div class="week-actual" style="color:var(--orange);">$28.511</div>
-      <div class="week-pct" style="color:var(--orange);">33,06% · En curso</div>
+      <div class="week-actual" style="color:var(--gold);">$41.669</div>
+      <div class="week-pct" style="color:var(--gold);">48,32% · En curso</div>
     </div>
   </div>
 
@@ -1233,20 +1129,20 @@ const closersMayo = [
 
 // ---- DATA JUNIO ----
 const closersJunio = [
-  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 2240,  s2meta: 5500, s2real: 867,   s3meta: 5500, s3real: 5236, s4meta: 7700, s4real: 9424, refs: 1 },
-  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 6721,  s3meta: 5500, s3real: 6150, s4meta: 7700, s4real: 2968, refs: 2 },
-  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 3182,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 2144, s4meta: 7700, s4real: 1200, refs: 2 },
-  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3020,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4240, s4meta: 7700, s4real: 1500, refs: 1 },
-  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 4428,  s2meta: 5500, s2real: 857,   s3meta: 5500, s3real: 0,    s4meta: 2200, s4real: 0,    refs: 1 },
-  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 3918, s4meta: 7700, s4real: 1824, refs: null },
-  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2192,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4940, s4meta: 7700, s4real: 1947, refs: 1 },
-  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1846,  s2meta: 5500, s2real: 7894,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 3279, refs: 1 },
-  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 694,   s3meta: 5500, s3real: 4266, s4meta: 7700, s4real: 0,    refs: null },
-  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 2542,  s2meta: 5500, s2real: 2235,  s3meta: 5500, s3real: 547,  s4meta: 7700, s4real: 1730, refs: null },
-  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 4311,  s2meta: 5500, s2real: 1056,  s3meta: 5500, s3real: 1275, s4meta: 7700, s4real: 1537, refs: null },
-  { name: "Katrin Muñoz",     meta: 7700,  s1meta: 0,    s1real: null,  s2meta: 0,    s2real: 3126,  s3meta: 0,    s3real: 8161, s4meta: 7700, s4real: 3102, refs: null, nuevo: true },
-  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 1154,  s2meta: 5500, s2real: 6642,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 0,    refs: null },
-  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 7086,  s2meta: 5500, s2real: 1175,  s3meta: 5500, s3real: 2556, s4meta: 7700, s4real: 0,    refs: null },
+  { name: "Laura Salamanca",  meta: 24200, s1meta: 5500, s1real: 2240,  s2meta: 5500, s2real: 867,   s3meta: 5500, s3real: 5236, s4meta: 7700, s4real: 11733, refs: 1 },
+  { name: "Yulie Velasquez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 6721,  s3meta: 5500, s3real: 6150, s4meta: 7700, s4real: 2968,  refs: 2 },
+  { name: "Andres Ortiz",     meta: 24200, s1meta: 5500, s1real: 3182,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 2144, s4meta: 7700, s4real: 4491,  refs: 2 },
+  { name: "Duvan Libreros",   meta: 24200, s1meta: 5500, s1real: 3020,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4240, s4meta: 7700, s4real: 4559,  refs: 1 },
+  { name: "Diana Caicedo",    meta: 18700, s1meta: 5500, s1real: 4428,  s2meta: 5500, s2real: 857,   s3meta: 5500, s3real: 0,    s4meta: 2200, s4real: 0,     refs: 1 },
+  { name: "Karen Quintero",   meta: 18700, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 3918, s4meta: 7700, s4real: 3120,  refs: null },
+  { name: "Alejandra Diaz",   meta: 18700, s1meta: 5500, s1real: 2192,  s2meta: 5500, s2real: 0,     s3meta: 5500, s3real: 4940, s4meta: 7700, s4real: 1947,  refs: 1 },
+  { name: "Sergio Salamanca", meta: 24200, s1meta: 5500, s1real: 1846,  s2meta: 5500, s2real: 7894,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 3279,  refs: 1 },
+  { name: "Leydi Hernandez",  meta: 24200, s1meta: 5500, s1real: 0,     s2meta: 5500, s2real: 694,   s3meta: 5500, s3real: 4266, s4meta: 7700, s4real: 0,     refs: null },
+  { name: "Henry Molina",     meta: 24200, s1meta: 5500, s1real: 2542,  s2meta: 5500, s2real: 2235,  s3meta: 5500, s3real: 547,  s4meta: 7700, s4real: 1730,  refs: null },
+  { name: "Lina Castillo",    meta: 24200, s1meta: 5500, s1real: 4311,  s2meta: 5500, s2real: 1056,  s3meta: 5500, s3real: 1275, s4meta: 7700, s4real: 1537,  refs: null },
+  { name: "Katrin Muñoz",     meta: 7700,  s1meta: 0,    s1real: null,  s2meta: 0,    s2real: 3126,  s3meta: 0,    s3real: 8161, s4meta: 7700, s4real: 3102,  refs: null, nuevo: true },
+  { name: "Deissy Ramirez",   meta: 24200, s1meta: 5500, s1real: 1154,  s2meta: 5500, s2real: 6642,  s3meta: 5500, s3real: 0,    s4meta: 7700, s4real: 3203,  refs: null },
+  { name: "Ingrid Arias",     meta: 24200, s1meta: 5500, s1real: 7086,  s2meta: 5500, s2real: 1175,  s3meta: 5500, s3real: 2556, s4meta: 7700, s4real: 0,     refs: null },
 ];
 
 // ---- DATA ABRIL ----
@@ -1546,22 +1442,6 @@ function buildMayoTable() {
 }
 
 // ---- SWITCH CALC TABS ----
-function switchCalcTab(tab) {
-  const isProy = tab === 'proy';
-  document.getElementById('tab-proy').style.display    = isProy ? 'block' : 'none';
-  document.getElementById('tab-llega').style.display   = isProy ? 'none'  : 'block';
-  const btnProy  = document.getElementById('tab-proy-btn');
-  const btnLlega = document.getElementById('tab-llega-btn');
-  if (isProy) {
-    btnProy.style.cssText  += 'border-color:#2563eb; background:#eff6ff; color:#2563eb;';
-    btnLlega.style.cssText += 'border-color:var(--border); background:var(--surface); color:var(--muted);';
-  } else {
-    btnLlega.style.cssText += 'border-color:#16a34a; background:#f0fdf4; color:#16a34a;';
-    btnProy.style.cssText  += 'border-color:var(--border); background:var(--surface); color:var(--muted);';
-    if (!window._trmCargada) fetchTRM();
-  }
-}
-
 // ---- TRM vía Google Finance ----
 let trmActual = null;
 window._trmCargada = false;
@@ -1776,229 +1656,11 @@ function initCalc() {
   const hoy = getColombiaToday();
   const dias = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
   const meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  document.getElementById('calc-today-label').textContent =
-    `Hoy es ${dias[hoy.getDay()]} ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()} · Colombia`;
-
-  const det = detectSemana();
-  const banner = document.getElementById('calc-week-banner');
-  if (!det) {
-    banner.style.cssText += 'background:#f1f5f9; border-color:#cbd5e1;';
-    document.getElementById('calc-week-name').textContent = 'Fuera del período de Junio';
-    document.getElementById('calc-week-name').style.color = 'var(--muted)';
-    document.getElementById('calc-week-range').textContent = 'Semanas activas: 1 jun – 30 jun 2026';
-    document.getElementById('calc-week-meta').textContent = '—';
-    document.getElementById('calc-week-end').textContent = '';
-    return;
+  const todayLabel = document.getElementById('calc-today-label');
+  if (todayLabel) {
+    todayLabel.textContent =
+      `Hoy es ${dias[hoy.getDay()]} ${hoy.getDate()} de ${meses[hoy.getMonth()]} de ${hoy.getFullYear()} · Colombia`;
   }
-  const { semana, fin } = det;
-  const diasLeft = diasRestantes(toDateOnly(hoy), fin);
-  banner.style.cssText += 'background:#f0fdf4; border-color:#86efac;';
-  document.getElementById('calc-week-name').textContent = semana.nombre;
-  document.getElementById('calc-week-name').style.color = '#16a34a';
-  document.getElementById('calc-week-range').textContent = `Del ${semana.inicio[2]} al ${semana.fin[2]} de junio 2026`;
-  document.getElementById('calc-week-meta').textContent = fmt(semana.meta100);
-  document.getElementById('calc-week-meta').style.color = '#16a34a';
-  document.getElementById('calc-week-end').textContent =
-    diasLeft === 1 ? '⚡ Hoy es el último día (hasta 10pm)' :
-    diasLeft === 2 ? '⏰ Quedan 2 días incluyendo hoy' :
-    `${diasLeft} días incluyendo hoy`;
-}
-
-function calcComision() {
-  const nr = parseInt(document.getElementById('inp-nr-raw').value) || 0;
-  const objetivo = parseInt(document.getElementById('inp-obj-raw').value) || 0;
-
-  const results = document.getElementById('calc-results');
-  const empty   = document.getElementById('calc-empty');
-  if (nr <= 0) { results.style.display='none'; empty.style.display='block'; return; }
-  results.style.display='block'; empty.style.display='none';
-
-  const det = detectSemana();
-  const meta100 = det ? det.semana.meta100 : 5500;
-  const meta80  = meta100 * 0.80;
-  const meta120 = meta100 * 1.20;
-
-  // ---- BARRA PROGRESO ----
-  // La barra representa 0 → meta120, con marcadores en 80% y 100%
-  const barPct = Math.min((nr / meta120) * 100, 100);
-  const pctDeMeta = Math.round((nr / meta100) * 100);
-  const barColor = nr >= meta120 ? '#16a34a' : nr >= meta100 ? '#2563eb' : nr >= meta80 ? '#d97706' : '#ef4444';
-  document.getElementById('res-pct-label').textContent = pctDeMeta + '% de la meta';
-  document.getElementById('res-pct-label').style.color = barColor;
-  document.getElementById('res-bar').style.width = barPct + '%';
-  document.getElementById('res-bar').style.background = barColor;
-  document.getElementById('res-bar-tooltip').textContent = fmt(nr);
-  document.getElementById('res-bar-tooltip').style.color = barColor;
-  document.getElementById('res-bar-meta-label').textContent = `120% · ${fmt(meta120)}`;
-
-  // ---- PLAN 100% Y 120% — FOCO PRINCIPAL ----
-  const planGrid = document.getElementById('calc-plan-grid');
-  planGrid.innerHTML = '';
-
-  const planes = [
-    {
-      nivel: '100%', meta: meta100, comPct: 0.02,
-      color: '#2563eb', bg: '#eff6ff', border: '#93c5fd', emoji: '✅'
-    },
-    {
-      nivel: '120%', meta: meta120, comPct: 0.04,
-      color: '#16a34a', bg: '#f0fdf4', border: '#86efac', emoji: '🏆'
-    },
-  ];
-
-  planes.forEach(p => {
-    const falta = Math.max(0, p.meta - nr);
-    const alcanzado = nr >= p.meta;
-    const comSiLlegas = Math.round(p.meta * p.comPct);
-    const comActual   = alcanzado ? Math.round(nr * p.comPct) : 0;
-
-    // Días restantes para calcular cuánto por día
-    const diasLeft = det ? diasRestantes(toDateOnly(getColombiaToday()), det.fin) : 0;
-    const diasTransc = det ? Math.max(1, Math.ceil((toDateOnly(getColombiaToday()) - det.ini)/(1000*60*60*24))+1) : 1;
-    const nrDiario = nr / diasTransc;
-    const nrPorDiaNeeded = diasLeft > 0 ? falta / diasLeft : falta;
-
-    planGrid.innerHTML += `
-      <div style="background:${p.bg}; border:2px solid ${p.border}; border-radius:14px; padding:20px;">
-        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-          <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:${p.color}; letter-spacing:1px;">${p.emoji} Nivel ${p.nivel}</div>
-          <div style="text-align:right;">
-            <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;">Meta</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:${p.color};">${fmt(p.meta)}</div>
-          </div>
-        </div>
-
-        ${alcanzado ? `
-          <div style="background:${p.color}; color:#fff; border-radius:8px; padding:10px 14px; text-align:center; margin-bottom:12px;">
-            <div style="font-size:11px; letter-spacing:1px; text-transform:uppercase; opacity:.85;">¡Meta alcanzada!</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px;">Comisión: ${fmt(comActual)}</div>
-            <div style="font-size:11px; opacity:.8;">${(p.comPct*100).toFixed(1)}% sobre ${fmt(nr)} NR</div>
-          </div>
-        ` : `
-          <div style="background:rgba(0,0,0,0.04); border-radius:8px; padding:10px 14px; margin-bottom:12px;">
-            <div style="font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">Te faltan</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:28px; color:${p.color};">${fmt(falta)}</div>
-          </div>
-        `}
-
-        <div style="font-size:13px; color:#374151; line-height:2;">
-          ${!alcanzado && diasLeft > 0 ? `<div>📅 Necesitas <strong style="color:${p.color}; font-size:15px;">${fmt(nrPorDiaNeeded)}/día</strong> en ${diasLeft} día${diasLeft>1?'s':''}</div>` : ''}
-          ${!alcanzado && nrDiario > 0 ? `<div>${nrDiario >= nrPorDiaNeeded ? '✓' : '↑'} Ritmo actual: <strong style="font-size:15px;">${fmt(nrDiario)}/día</strong>${nrDiario >= nrPorDiaNeeded ? ' — <strong style="color:#16a34a;">vas a ritmo ✓</strong>' : ` — sube <strong style="color:${p.color}; font-size:15px;">+${fmt(nrPorDiaNeeded - nrDiario)}/día</strong>`}</div>` : ''}
-          <div>💰 Comisión si llegas: <strong style="color:${p.color}; font-size:15px;">${fmt(comSiLlegas)}</strong> (${(p.comPct*100).toFixed(1)}%)</div>
-          ${alcanzado && p.nivel==='100%' ? `<div style="margin-top:6px; color:#16a34a; font-weight:700; font-size:14px;">🎯 ¡Bien! Ahora enfócate en el 120%</div>` : ''}
-        </div>
-      </div>`;
-  });
-
-    const objBox = document.getElementById('calc-objetivo-box');
-  if (objetivo > 0) {
-    objBox.style.display = 'block';
-    const faltaObj = Math.max(0, objetivo - nr);
-    const alcObj = nr >= objetivo;
-    const pctObj = Math.round((nr/objetivo)*100);
-    let comObjPct = objetivo >= meta120 ? 0.04 : objetivo >= meta100 ? 0.02 : objetivo >= meta80 ? 0.015 : 0;
-    const comObj = Math.round(objetivo * comObjPct);
-    const diasLeft2 = det ? diasRestantes(toDateOnly(getColombiaToday()), det.fin) : 0;
-    const diasTransc2 = det ? Math.max(1, Math.ceil((toDateOnly(getColombiaToday()) - det.ini)/(1000*60*60*24))+1) : 1;
-    const nrDiario2 = nr / diasTransc2;
-    const nrPorDia2 = diasLeft2 > 0 ? faltaObj / diasLeft2 : faltaObj;
-    const objColor = '#7c3aed';
-
-    objBox.innerHTML = `
-      <div style="background:linear-gradient(135deg,#faf5ff,#ede9fe); border:2px solid #a78bfa; border-radius:16px; padding:24px;">
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:26px; color:${objColor}; letter-spacing:2px; margin-bottom:18px;">🎯 TU OBJETIVO PERSONAL — ${fmt(objetivo)}</div>
-        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:18px;">
-          <div style="text-align:center; background:rgba(124,58,237,.1); border-radius:10px; padding:16px;">
-            <div style="font-size:11px; color:${objColor}; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Progreso</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:${objColor};">${pctObj}%</div>
-          </div>
-          <div style="text-align:center; background:rgba(124,58,237,.1); border-radius:10px; padding:16px;">
-            <div style="font-size:11px; color:${objColor}; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">${alcObj?'¡Logrado! 🎉':'Te falta'}</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:${objColor};">${alcObj?'✓':fmt(faltaObj)}</div>
-          </div>
-          <div style="text-align:center; background:rgba(124,58,237,.1); border-radius:10px; padding:16px;">
-            <div style="font-size:11px; color:${objColor}; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Comisión si llegas</div>
-            <div style="font-family:'Bebas Neue',sans-serif; font-size:36px; color:${objColor};">${comObjPct>0?fmt(comObj):'—'}</div>
-          </div>
-        </div>
-        ${!alcObj && diasLeft2 > 0 ? `
-          <div style="background:rgba(124,58,237,.08); border-radius:10px; padding:14px 16px; font-size:14px; color:#4c1d95; line-height:1.7;">
-            📅 Para llegar a tu objetivo necesitas <strong style="color:${objColor}; font-size:15px;">${fmt(nrPorDia2)}/día</strong> en los ${diasLeft2} día${diasLeft2>1?'s':''} restantes.
-            Tu ritmo actual es <strong style="font-size:15px;">${fmt(nrDiario2)}/día</strong> —
-            ${nrDiario2 >= nrPorDia2
-              ? `<strong style="color:#16a34a;">¡vas a buen ritmo! ✓</strong>`
-              : `necesitas subir <strong style="color:${objColor}; font-size:15px;">+${fmt(nrPorDia2-nrDiario2)}/día</strong>`}
-          </div>` : alcObj ? `
-          <div style="text-align:center; color:${objColor}; font-weight:700; font-size:16px; padding:10px;">🎉 ¡Superaste tu objetivo personal!</div>` : ''
-        }
-      </div>`;
-  } else {
-    objBox.style.display = 'none';
-  }
-
-  // ---- PROYECCIÓN COMPACTA ----
-  const diasLeft3 = det ? diasRestantes(toDateOnly(getColombiaToday()), det.fin) : 0;
-  const diasTransc3 = det ? Math.max(1, Math.ceil((toDateOnly(getColombiaToday()) - det.ini)/(1000*60*60*24))+1) : 1;
-  const nrDiario3 = nr / diasTransc3;
-  const proyeccion = nr + (nrDiario3 * diasLeft3);
-  const proyPct = Math.round((proyeccion / meta100) * 100);
-  const proyColor = proyeccion >= meta120?'#16a34a':proyeccion>=meta100?'#2563eb':proyeccion>=meta80?'#d97706':'#ef4444';
-  let comProyPct = proyeccion>=meta120?0.04:proyeccion>=meta100?0.02:proyeccion>=meta80?0.015:0;
-  const comProySinMult = proyeccion * comProyPct;
-  const comProyConMult = comProySinMult * 1.2;
-
-  document.getElementById('calc-proy-content').innerHTML = `
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:12px;">
-      <div style="text-align:center;">
-        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Promedio/día</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--text);">${fmt(nrDiario3)}</div>
-        <div style="font-size:10px; color:var(--muted);">en ${diasTransc3} día${diasTransc3>1?'s':''}</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">NR proyectado</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:${proyColor};">${fmt(proyeccion)}</div>
-        <div style="font-size:10px; color:${proyColor}; font-weight:600;">${proyPct}% de la meta</div>
-      </div>
-      <div style="text-align:center;">
-        <div style="font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px;">Nivel proyectado</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:20px; color:${proyColor};">${comProyPct>0?(comProyPct*100).toFixed(1)+'%':'—'}</div>
-        <div style="font-size:10px; color:var(--muted);">${comProyPct>0?'sobre el NR':'Sin nivel aún'}</div>
-      </div>
-    </div>
-
-    <!-- Comisión proyectada con/sin multiplicador -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-      <div style="text-align:center; padding:10px; border-radius:8px; background:#f8fafc;">
-        <div style="font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px;">Comisión proyectada</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:${comProyPct>0?'#16a34a':'var(--muted)'};">${comProyPct>0?fmt(comProySinMult):'$0'}</div>
-        <div style="font-size:9px; color:var(--muted);">sin multiplicador</div>
-      </div>
-      <div style="text-align:center; padding:10px; border-radius:8px; background:#faf5ff;">
-        <div style="font-size:9px; color:#7c3aed; text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px;">⚡ Con multiplicador ×1.2</div>
-        <div style="font-family:'Bebas Neue',sans-serif; font-size:18px; color:${comProyPct>0?'#7c3aed':'var(--muted)'};">${comProyPct>0?fmt(comProyConMult):'$0'}</div>
-        <div style="font-size:9px; color:#7c3aed;">si conversión ≥13%</div>
-      </div>
-    </div>
-
-    ${diasLeft3 > 1 ? `<div style="padding:9px 12px; background:var(--bg); border-radius:8px; font-size:12px; color:var(--muted);">
-      Si mantienes ${fmt(nrDiario3)}/día cerrarías en <strong style="color:${proyColor};">${proyPct}%</strong> · ${diasLeft3} día${diasLeft3>1?'s':''} restantes incluyendo hoy
-    </div>` : '<div style="font-size:12px; color:var(--muted);">⚡ Hoy cierra la semana (hasta las 10pm) — dale con todo.</div>'}`;
-
-  // ---- COMISIÓN ACTUAL ----
-  let comActualPct = 0, comTier = '', comColor2 = '#ef4444', comBg = '#fff1f2', comBorder = '#fca5a5';
-  if (nr >= meta120) { comActualPct=0.04; comTier='🏆 Nivel 120%'; comColor2='#16a34a'; comBg='#f0fdf4'; comBorder='#86efac'; }
-  else if (nr >= meta100) { comActualPct=0.02; comTier='✅ Nivel 100%'; comColor2='#2563eb'; comBg='#eff6ff'; comBorder='#93c5fd'; }
-  else if (nr >= meta80)  { comActualPct=0.015; comTier='🟡 Nivel 80%'; comColor2='#d97706'; comBg='#fffbeb'; comBorder='#fcd34d'; }
-  else { comTier='⏳ Aún no alcanzas el 80%'; }
-
-  const comActualVal = Math.round(nr * comActualPct);
-  const box = document.getElementById('calc-comision-box');
-  box.style.background = comBg; box.style.borderColor = comBorder;
-  document.getElementById('calc-comision-val').textContent = comActualPct > 0 ? fmt(comActualVal) : '$0';
-  document.getElementById('calc-comision-val').style.color = comColor2;
-  document.getElementById('calc-comision-desc').innerHTML = comActualPct > 0
-    ? `<span style="color:${comColor2}; font-weight:700;">${comTier}</span> · ${(comActualPct*100).toFixed(1)}% sobre ${fmt(nr)} NR recaudado`
-    : `<span style="color:#ef4444; font-weight:700;">${comTier}</span> · Te faltan <strong>${fmt(meta80-nr)}</strong> para el primer nivel`;
 }
 
 // ---- NAV ----
